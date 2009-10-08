@@ -29,6 +29,7 @@ I need to clean up the options object. Until I get around to it, the following o
       ** all functions have the this keyword mapped to the element that called .expander()
   */
   onSlice: null, // function() {}
-  beforeExpand: function() {},
-  afterExpand: function() {},
-  onCollapse: function(byUser) {}</pre>
+  beforeExpand: null, // function() {},
+  afterExpand: null, // function() {},
+  onCollapse: null // function(byUser) {}
+</pre>

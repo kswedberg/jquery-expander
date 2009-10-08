@@ -2,6 +2,7 @@
  * jQuery Expander plugin
  * Version 0.5  (October 7, 2009)
  * @requires jQuery v1.1.1+
+ * @author Karl Swedberg
  *
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
@@ -31,14 +32,17 @@
      	}
      	
      	var defined = {};
-     	
+     	$.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
+     	  defined[val] = $.isFunction(o[val]);
+     	});
+    	
      	var endText = allText.slice(startText.length);
      	// create necessary expand/collapse elements if they don't already exist
    	  if (!$('span.details', this).length) {
         // end script if text length isn't long enough.
        	if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
        	// otherwise, continue...
-        if ($.isFunction(o.onSlice)) { o.onSlice.call(thisEl); }
+        if (defined.onSlice) { o.onSlice.call(thisEl); }
        	if (endText.indexOf('</') > -1) {
          	endTags = endText.match(/<(\/)?[^>]*>/g);
           for (var i=0; i < endTags.length; i++) {
@@ -90,15 +94,15 @@
  	      $readMore.hide();
 
  	      if (o.expandEffect === 'show' && !o.expandSpeed) {
-          o.beforeExpand.call(thisEl);
+          if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
  	        $thisDetails.show();
-          o.afterExpand.call(thisEl);
+          if (defined.afterExpand) {o.afterExpand.call(thisEl);}
           delayCollapse(o, $thisDetails, thisEl);
  	      } else {
-          o.beforeExpand.call(thisEl);
+          if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
  	        $thisDetails[o.expandEffect](o.expandSpeed, function() {
             $thisDetails.css({zoom: ''});
-            o.afterExpand.call(thisEl);
+            if (defined.beforeExpand) {o.afterExpand.call(thisEl);}
             delayCollapse(o, $thisDetails, thisEl);
  	        });
  	      }
@@ -112,23 +116,22 @@
           clearTimeout(delayedCollapse);
           var $detailsCollapsed = $(this).parents('span.details');
           reCollapse($detailsCollapsed);
-          o.onCollapse.call(thisEl, true);
+          if (defined.onCollapse) {o.onCollapse.call(thisEl, true);}
           return false;
         });
       }
     });
+    
     function reCollapse(el) {
        el.hide()
         .prev('span.read-more').show();
     }
     function delayCollapse(option, $collapseEl, thisEl) {
       if (option.collapseTimer) {
-
         delayedCollapse = setTimeout(function() {
           reCollapse($collapseEl);
-          option.onCollapse.call(thisEl, false);
-          },
-          option.collapseTimer
+          if ($.isFunction(option.onCollapse)) {option.onCollapse.call(thisEl, false);}
+          }, option.collapseTimer
         );
       }
     }
@@ -158,8 +161,8 @@
         ** all functions have the this keyword mapped to the element that called .expander()
     */
     onSlice: null, // function() {}
-    beforeExpand: function() {},
-    afterExpand: function() {},
-    onCollapse: function(byUser) {}
+    beforeExpand: null, // function() {},
+    afterExpand: null, // function() {},
+    onCollapse: null // function(byUser) {}
   };
 })(jQuery);
