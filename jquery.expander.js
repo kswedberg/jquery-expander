@@ -17,7 +17,7 @@
 
     var opts = $.extend({}, $.fn.expander.defaults, options);
     var delayedCollapse;
-    
+
     return this.each(function() {
       var thisEl = this, $this = $(this);
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
@@ -30,12 +30,12 @@
      	if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
      	  startText = startText.slice(0,startText.lastIndexOf('<'));
      	}
-     	
+
      	var defined = {};
      	$.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
      	  defined[val] = $.isFunction(o[val]);
      	});
-    	
+
      	var endText = allText.slice(startText.length);
      	// create necessary expand/collapse elements if they don't already exist
    	  if (!$('span.details', this).length) {
@@ -85,10 +85,10 @@
      		].join('')
      	  );
       }
-      
+
       var $thisDetails = $('span.details', this),
           $readMore = $('span.read-more', this);
-          
+
    	  $thisDetails.hide();
  	    $readMore.find('a').click(function() {
  	      $readMore.hide();
@@ -121,7 +121,7 @@
         });
       }
     });
-    
+
     function reCollapse(el) {
        el.hide()
         .prev('span.read-more').show();
@@ -156,7 +156,7 @@
     userCollapse:     true, // allow the user to re-collapse the expanded text.
     userCollapseText: '[collapse expanded text]',  // text to use for the link to re-collapse the text
     userCollapsePrefix: ' ',
-    
+
     /* CALLBACK FUNCTIONS
         ** all functions have the this keyword mapped to the element that called .expander()
     */
