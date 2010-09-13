@@ -15,10 +15,11 @@
 
   $.fn.expander = function(options) {
 
-    var opts = $.extend({}, $.fn.expander.defaults, options);
-    var delayedCollapse;
+    var opts = $.extend({}, $.fn.expander.defaults, options),
+        rSlash = /\//,
+        delayedCollapse;
 
-    return this.each(function() {
+    this.each(function() {
       var thisEl = this, $this = $(this);
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
       var cleanedTag, startTags, endTags;
@@ -51,7 +52,7 @@
               var startTag, startTagExists = false;
               for (var j=0; j < i; j++) {
                 startTag = endTags[j].slice(0, endTags[j].indexOf(' ')).replace(/(\w)$/,'$1>');
-                if (startTag == rSlash(endTags[i])) {
+                if (startTag == endTags[i].replace(rSlash,'')) {
                   startTagExists = true;
                 }
               }
@@ -59,7 +60,7 @@
                 startText = startText + endTags[i];
                 var matched = false;
                 for (var s=startTags.length - 1; s >= 0; s--) {
-                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w)$/,'$1>') == rSlash(endTags[i])
+                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w)$/,'$1>') == endTags[i].replace(rSlash,'')
                   && matched == false) {
                     cleanedTag = cleanedTag ? startTags[s] + cleanedTag : startTags[s];
                     matched = true;
@@ -135,9 +136,8 @@
         );
       }
     }
-    function rSlash(rString) {
-      return rString.replace(/\//,'');
-    }
+
+    return this;
   };
     // plugin defaults
   $.fn.expander.defaults = {
