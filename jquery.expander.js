@@ -21,30 +21,30 @@
     return this.each(function() {
       var thisEl = this, $this = $(this);
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-     	var cleanedTag, startTags, endTags;
-     	var allText = $this.html();
-     	var startText = allText.slice(0, o.slicePoint).replace(/\w+$/,'');
-     	startTags = startText.match(/<\w[^>]*>/g);
-   	  if (startTags) {startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/\w+$/,'');}
+      var cleanedTag, startTags, endTags;
+      var allText = $this.html();
+      var startText = allText.slice(0, o.slicePoint).replace(/\w+$/,'');
+      startTags = startText.match(/<\w[^>]*>/g);
+      if (startTags) {startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/\w+$/,'');}
 
-     	if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
-     	  startText = startText.slice(0,startText.lastIndexOf('<'));
-     	}
+      if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
+        startText = startText.slice(0,startText.lastIndexOf('<'));
+      }
 
-     	var defined = {};
-     	$.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
-     	  defined[val] = $.isFunction(o[val]);
-     	});
+      var defined = {};
+      $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
+        defined[val] = $.isFunction(o[val]);
+      });
 
-     	var endText = allText.slice(startText.length);
-     	// create necessary expand/collapse elements if they don't already exist
-   	  if (!$('span.details', this).length) {
+      var endText = allText.slice(startText.length);
+      // create necessary expand/collapse elements if they don't already exist
+      if (!$('span.details', this).length) {
         // end script if text length isn't long enough.
-       	if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
-       	// otherwise, continue...
+        if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
+        // otherwise, continue...
         if (defined.onSlice) { o.onSlice.call(thisEl); }
-       	if (endText.indexOf('</') > -1) {
-         	endTags = endText.match(/<(\/)?[^>]*>/g);
+        if (endText.indexOf('</') > -1) {
+          endTags = endText.match(/<(\/)?[^>]*>/g);
           for (var i=0; i < endTags.length; i++) {
 
             if (endTags[i].indexOf('</') > -1) {
@@ -71,43 +71,43 @@
 
           endText = cleanedTag && cleanedTag + endText || endText;
         }
-     	  $this.html([
-     		startText,
-     		'<span class="read-more">',
-     		  o.expandPrefix,
-       		'<a href="#">',
-       		  o.expandText,
-       		'</a>',
-        '</span>',
-     		'<span class="details">',
-     		  endText,
-     		'</span>'
-     		].join('')
-     	  );
+        $this.html([
+          startText,
+          '<span class="read-more">',
+            o.expandPrefix,
+            '<a href="#">',
+              o.expandText,
+            '</a>',
+          '</span>',
+          '<span class="details">',
+            endText,
+          '</span>'
+          ].join('')
+        );
       }
 
       var $thisDetails = $('span.details', this),
           $readMore = $('span.read-more', this);
 
-   	  $thisDetails.hide();
- 	    $readMore.find('a').click(function() {
- 	      $readMore.hide();
+      $thisDetails.hide();
+      $readMore.find('a').click(function() {
+        $readMore.hide();
 
- 	      if (o.expandEffect === 'show' && !o.expandSpeed) {
+        if (o.expandEffect === 'show' && !o.expandSpeed) {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
- 	        $thisDetails.show();
+          $thisDetails.show();
           if (defined.afterExpand) {o.afterExpand.call(thisEl);}
           delayCollapse(o, $thisDetails, thisEl);
- 	      } else {
+        } else {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
- 	        $thisDetails[o.expandEffect](o.expandSpeed, function() {
+          $thisDetails[o.expandEffect](o.expandSpeed, function() {
             $thisDetails.css({zoom: ''});
             if (defined.beforeExpand) {o.afterExpand.call(thisEl);}
             delayCollapse(o, $thisDetails, thisEl);
- 	        });
- 	      }
+          });
+        }
         return false;
- 	    });
+      });
       if (o.userCollapse) {
         $this
         .find('span.details').append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
