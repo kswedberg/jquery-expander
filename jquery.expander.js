@@ -15,43 +15,44 @@
 
   $.fn.expander = function(options) {
 
-    var opts = $.extend({}, $.fn.expander.defaults, options);
-    var delayedCollapse;
+    var opts = $.extend({}, $.fn.expander.defaults, options),
+        rSlash = /\//,
+        delayedCollapse;
 
-    return this.each(function() {
+    this.each(function() {
       var thisEl = this, $this = $(this);
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
-     	var cleanedTag, startTags, endTags;
-     	var allText = $this.html();
-     	var startText = allText.slice(0, o.slicePoint).replace(/\w+$/,'');
-     	startTags = startText.match(/<\w[^>]*>/g);
-   	  if (startTags) {startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/\w+$/,'');}
+      var cleanedTag, startTags, endTags;
+      var allText = $this.html();
+      var startText = allText.slice(0, o.slicePoint).replace(/\w+$/,'');
+      startTags = startText.match(/<\w[^>]*>/g);
+      if (startTags) {startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/\w+$/,'');}
 
-     	if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
-     	  startText = startText.slice(0,startText.lastIndexOf('<'));
-     	}
+      if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
+        startText = startText.slice(0,startText.lastIndexOf('<'));
+      }
 
-     	var defined = {};
-     	$.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
-     	  defined[val] = $.isFunction(o[val]);
-     	});
+      var defined = {};
+      $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
+        defined[val] = $.isFunction(o[val]);
+      });
 
-     	var endText = allText.slice(startText.length);
-     	// create necessary expand/collapse elements if they don't already exist
-   	  if (!$('span.details', this).length) {
+      var endText = allText.slice(startText.length);
+      // create necessary expand/collapse elements if they don't already exist
+      if (!$('span.details', this).length) {
         // end script if text length isn't long enough.
-       	if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
-       	// otherwise, continue...
+        if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
+        // otherwise, continue...
         if (defined.onSlice) { o.onSlice.call(thisEl); }
-       	if (endText.indexOf('</') > -1) {
-         	endTags = endText.match(/<(\/)?[^>]*>/g);
+        if (endText.indexOf('</') > -1) {
+          endTags = endText.match(/<(\/)?[^>]*>/g);
           for (var i=0; i < endTags.length; i++) {
 
             if (endTags[i].indexOf('</') > -1) {
               var startTag, startTagExists = false;
               for (var j=0; j < i; j++) {
                 startTag = endTags[j].slice(0, endTags[j].indexOf(' ')).replace(/(\w)$/,'$1>');
-                if (startTag == rSlash(endTags[i])) {
+                if (startTag == endTags[i].replace(rSlash,'')) {
                   startTagExists = true;
                 }
               }
@@ -59,7 +60,7 @@
                 startText = startText + endTags[i];
                 var matched = false;
                 for (var s=startTags.length - 1; s >= 0; s--) {
-                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w)$/,'$1>') == rSlash(endTags[i])
+                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w)$/,'$1>') == endTags[i].replace(rSlash,'')
                   && matched == false) {
                     cleanedTag = cleanedTag ? startTags[s] + cleanedTag : startTags[s];
                     matched = true;
@@ -71,43 +72,43 @@
 
           endText = cleanedTag && cleanedTag + endText || endText;
         }
-     	  $this.html([
-     		startText,
-     		'<span class="read-more">',
-     		  o.expandPrefix,
-       		'<a href="#">',
-       		  o.expandText,
-       		'</a>',
-        '</span>',
-     		'<span class="details">',
-     		  endText,
-     		'</span>'
-     		].join('')
-     	  );
+        $this.html([
+          startText,
+          '<span class="read-more">',
+            o.expandPrefix,
+            '<a href="#">',
+              o.expandText,
+            '</a>',
+          '</span>',
+          '<span class="details">',
+            endText,
+          '</span>'
+          ].join('')
+        );
       }
 
       var $thisDetails = $('span.details', this),
           $readMore = $('span.read-more', this);
 
-   	  $thisDetails.hide();
- 	    $readMore.find('a').click(function() {
- 	      $readMore.hide();
+      $thisDetails.hide();
+      $readMore.find('a').click(function() {
+        $readMore.hide();
 
- 	      if (o.expandEffect === 'show' && !o.expandSpeed) {
+        if (o.expandEffect === 'show' && !o.expandSpeed) {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
- 	        $thisDetails.show();
+          $thisDetails.show();
           if (defined.afterExpand) {o.afterExpand.call(thisEl);}
           delayCollapse(o, $thisDetails, thisEl);
- 	      } else {
+        } else {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
- 	        $thisDetails[o.expandEffect](o.expandSpeed, function() {
+          $thisDetails[o.expandEffect](o.expandSpeed, function() {
             $thisDetails.css({zoom: ''});
             if (defined.beforeExpand) {o.afterExpand.call(thisEl);}
             delayCollapse(o, $thisDetails, thisEl);
- 	        });
- 	      }
+          });
+        }
         return false;
- 	    });
+      });
       if (o.userCollapse) {
         $this
         .find('span.details').append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
@@ -135,9 +136,8 @@
         );
       }
     }
-    function rSlash(rString) {
-      return rString.replace(/\//,'');
-    }
+
+    return this;
   };
     // plugin defaults
   $.fn.expander.defaults = {
