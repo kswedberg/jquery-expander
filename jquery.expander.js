@@ -24,9 +24,13 @@
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
       var cleanedTag, startTags, endTags;
       var allText = $this.html();
-      var startText = allText.slice(0, o.slicePoint).replace(/\w+|&[^;]+;$/,'');
+      var startText = allText.slice(0, o.slicePoint).replace(/(&([^;]+;)?|\w+)$/,'');
+
       startTags = startText.match(/<\w[^>]*>/g);
-      if (startTags) {startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/\w+$/,'');}
+      
+      if (startTags) {
+        startText = allText.slice(0,o.slicePoint + startTags.join('').length).replace(/(&([^;]+;)?|\w+)$/,'');
+      }
 
       if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
         startText = startText.slice(0,startText.lastIndexOf('<'));
@@ -51,7 +55,7 @@
             if (endTags[i].indexOf('</') > -1) {
               var startTag, startTagExists = false;
               for (var j=0; j < i; j++) {
-                startTag = endTags[j].slice(0, endTags[j].indexOf(' ')).replace(/(\w|&[^;]+;)$/,'$1>');
+                startTag = endTags[j].slice(0, endTags[j].indexOf(' ')).replace(/\w$/,'$1>');
                 if (startTag == endTags[i].replace(rSlash,'')) {
                   startTagExists = true;
                 }
@@ -60,7 +64,7 @@
                 startText = startText + endTags[i];
                 var matched = false;
                 for (var s=startTags.length - 1; s >= 0; s--) {
-                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w|&[^;]+;)$/,'$1>') == endTags[i].replace(rSlash,'')
+                  if (startTags[s].slice(0, startTags[s].indexOf(' ')).replace(/(\w)$/,'$1>') == endTags[i].replace(rSlash,'')
                   && matched == false) {
                     cleanedTag = cleanedTag ? startTags[s] + cleanedTag : startTags[s];
                     matched = true;
