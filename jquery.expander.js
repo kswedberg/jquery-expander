@@ -100,9 +100,9 @@
       var $thisDetails = $('.details', this),
           $readMore = $('span.read-more', this);
 
-        $thisDetails.hide();
-        $readMore.find('a').click(function() {
-          $readMore.hide();
+      $thisDetails.hide();
+      $readMore.find('a').click(function() {
+        $readMore.hide();
 
         if (o.expandEffect === 'show' && !o.expandSpeed) {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
@@ -123,7 +123,7 @@
         $this.append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
         $this.find('span.re-collapse a').click(function() {
           clearTimeout(delayedCollapse);
-          $para = $(this).parent().parent(); //Get the exapnading element again...
+          $para = $(this).parent().parent(); //Get the expanding element again...
           $para.html($para.data("compressedHTML"));
           $para.trigger("ReBindClicks"); //Because we have the original function to attach events, we simply call that again.
           if (defined.onCollapse) {o.onCollapse.call(thisEl, true);}
