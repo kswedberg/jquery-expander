@@ -125,6 +125,9 @@
           return false;
         });
       }
+      if (o.useTitleText) {
+        $this.attr('title', allText);
+      }
     });
 
     function reCollapse(el) {
@@ -160,6 +163,7 @@
     userCollapse:     true, // allow the user to re-collapse the expanded text.
     userCollapseText: '[collapse expanded text]',  // text to use for the link to re-collapse the text
     userCollapsePrefix: ' ',
+    useTitleText:     false, // display the full next in the title attribute
 
     /* CALLBACK FUNCTIONS
         ** all functions have the this keyword mapped to the element that called .expander()
