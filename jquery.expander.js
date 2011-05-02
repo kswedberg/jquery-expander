@@ -114,7 +114,7 @@
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
           $thisDetails[o.expandEffect](o.expandSpeed, function() {
             $thisDetails.css({zoom: ''});
-            if (defined.beforeExpand) {o.afterExpand.call(thisEl);}
+            if (defined.afterExpand) {o.afterExpand.call(thisEl);}
             delayCollapse(o, $thisDetails, thisEl);
       if (o.userCollapse) {
         //Because we have the variables stored, we have to change the way we deal with these elements slightly.
