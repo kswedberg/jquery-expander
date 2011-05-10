@@ -24,6 +24,7 @@ I need to clean up the options object. Until I get around to it, the following o
   userCollapse:     true, // allow the user to re-collapse the expanded text.
   userCollapseText: '[collapse expanded text]',  // text to use for the link to re-collapse the text
   userCollapsePrefix: ' ',
+  useTitleText:     false, // display the full next in the title attribute
 
   /* CALLBACK FUNCTIONS
       ** all functions have the this keyword mapped to the element that called .expander()
