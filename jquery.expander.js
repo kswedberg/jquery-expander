@@ -45,7 +45,7 @@
       // create necessary expand/collapse elements if they don't already exist
       if (!$('span.details', this).length) {
         // end script if text length isn't long enough.
-        if ( endText.replace(/\s+$/,'').split(' ').length < o.widow ) { return; }
+        if ( endText.replace(/\s+$/,'').split(' ').length < o.widow || allText.length < o.slicePoint ) { return; }
         // otherwise, continue...
         if (defined.onSlice) { o.onSlice.call(thisEl); }
         if (endText.indexOf('</') > -1) {
