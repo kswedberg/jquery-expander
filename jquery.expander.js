@@ -1,8 +1,9 @@
 /*
  * jQuery Expander plugin
- * Version 0.5  (October 7, 2009)
+ * Version 0.5.1 (February 23, 2010)
  * @requires jQuery v1.1.1+
  * @author Karl Swedberg
+ * @author Adam Hall
  *
  * Dual licensed under the MIT and GPL licenses:
  * http://www.opensource.org/licenses/mit-license.php
@@ -76,7 +77,10 @@
 
           endText = cleanedTag && cleanedTag + endText || endText;
         }
-        $this.html([
+        //Firstly I store the original text in the control. This has all the original formatting.
+        $this.data("originalHTML", allText);
+        //Then a store a variable with the compressed text. We can simply switch between these two variables.
+        $this.data("compressedHTML", [
           startText,
           '<span class="read-more">',
             o.expandPrefix,
@@ -84,14 +88,16 @@
               o.expandText,
             '</a>',
           '</span>',
-          '<span class="details">',
+          '<div class="details">', //This needs to be a DIV to honour any block elements (a span will cause faulty HTML)
             endText,
-          '</span>'
+          '</div>'
           ].join('')
         );
-      }
-
-      var $thisDetails = $('span.details', this),
+        //Now apply the compressed text to the container
+        $this.html($this.data("compressedHTML"));
+        //Create a new function that applies the click actions to the "ReadMore" link.
+        $this.bind("ReBindClicks", function() {
+      var $thisDetails = $('.details', this),
           $readMore = $('span.read-more', this);
 
       $thisDetails.hide();
@@ -103,34 +109,41 @@
           $thisDetails.show();
           if (defined.afterExpand) {o.afterExpand.call(thisEl);}
           delayCollapse(o, $thisDetails, thisEl);
+          completedExpand();//here we switch back the elements
         } else {
           if (defined.beforeExpand) {o.beforeExpand.call(thisEl);}
           $thisDetails[o.expandEffect](o.expandSpeed, function() {
             $thisDetails.css({zoom: ''});
             if (defined.beforeExpand) {o.afterExpand.call(thisEl);}
             delayCollapse(o, $thisDetails, thisEl);
-          });
-        }
-        return false;
-      });
+            //NB trying to preserve the original whitespace to make the diff file easier to read.
       if (o.userCollapse) {
-        $this
-        .find('span.details').append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
+        //Because we have the variables stored, we have to change the way we deal with these elements slightly.
+        $this.html($this.data("originalHTML"));
+        $this.append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
         $this.find('span.re-collapse a').click(function() {
-
           clearTimeout(delayedCollapse);
-          var $detailsCollapsed = $(this).parents('span.details');
-          reCollapse($detailsCollapsed);
+          $para = $(this).parent().parent(); //Get the expanding element again...
+          $para.html($para.data("compressedHTML"));
+          $para.trigger("ReBindClicks"); //Because we have the original function to attach events, we simply call that again.
           if (defined.onCollapse) {o.onCollapse.call(thisEl, true);}
           return false;
         });
       }
+          });
+        }
+
+            return false;
+          });
+
+
+        });
+        $this.trigger("ReBindClicks"); //Bind the clicks - actually this one is for the first time.
+      };
+
     });
 
-    function reCollapse(el) {
-       el.hide()
-        .prev('span.read-more').show();
-    }
+//No need for the reCollapse function, this is now found inside the click event
     function delayCollapse(option, $collapseEl, thisEl) {
       if (option.collapseTimer) {
         delayedCollapse = setTimeout(function() {
