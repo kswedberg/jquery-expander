@@ -27,7 +27,7 @@ expandPrefix: '&hellip; ',
 // number of milliseconds after text has been expanded at which to collapse the text again
 collapseTimer: 0,
 expandEffect: 'fadeIn',
-expandSpeed: 0,
+expandSpeed: 250,
 
 // allow the user to re-collapse the expanded text.
 userCollapse: true,
