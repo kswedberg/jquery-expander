@@ -1,18 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html lang="en">
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta charset="utf-8">
 
-	<title>jQuery Expander Plugin</title>
-  <link rel="stylesheet" type="text/css" media="screen" href="../../jq.css" />
-  <link rel="stylesheet" type="text/css" media="screen" href="../../tabs.css" />	
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js" type="text/javascript"></script>
-	<script src="../../chili-1.8.js" type="text/javascript"></script>	
-	<script src="../jquery.expander.js" type="text/javascript"></script>
-	
-<script type="text/javascript">
+  <title>jQuery Expander Plugin</title>
+  <link rel="stylesheet" media="screen" href="../../jq.css" />
+  <link rel="stylesheet" media="screen" href="../../tabs.css" />
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
+
+  <script src="../../chili-1.8.js"></script>
+  <script src="../jquery.expander.js"></script>
+
+<script>
 $(document).ready(function() {
   $('dl.expander dd:eq(0)').expander();
   $('dl.expander dd:gt(0)').expander({
@@ -24,27 +25,24 @@ $(document).ready(function() {
       $(this).parent().parent().append('<div class="success">after expand.</div>');
     },
     onCollapse: function(byUser) {
-      if (byUser === true) {
-        $(this).parent().parent().append('<div class="success">on collapse (by user).</div>');          
-      } else {
-        $(this).parent().parent().append('<div class="success">on collapse (by timer).</div>');
-      }
+      var by = byUser ? 'user' : 'timer';
+      $(this).parent().parent().append('<div class="success">on collapse (' + by + ').</div>');
     }
   });
 });
 
 $(document).ready(function() {
   $('ul.expander li').expander({
-    slicePoint: 50, 
+    slicePoint: 50,
     widow: 2,
-    expandEffect: 'show', 
+    expandSpeed: 0,
     userCollapseText: '[^]'
   });
-  
+
 });
 
 </script>
-<style type="text/css" media="screen">
+<style media="screen">
   .test {
     background: #ffd;
   }
@@ -54,7 +52,7 @@ $(document).ready(function() {
 <body>
   <div><a id="logo" href="http://jquery.com" title="Powered By jQuery"></a></div>
   <h1 id="banner"><a id="backnav" href="..">&lsaquo;&lsaquo; home</a>jQuery Expander Plugin</h1>
-  <div id="main">  
+  <div id="main">
     <ul id="nav" class="anchors">
       <li><a href="../index.html#getting-started">Overview</a></li>
       <li class="tabs-selected"><a href="index.html">Demo</a></li>
@@ -67,7 +65,7 @@ $(document).ready(function() {
           <p>The following definition list has two expanders assigned to it, one for the first answer and one for the other two. The second expander has a number of options set for it, including three "callbacks" which invoke functions at three separate moments. </p>
 <pre><code class="mix">$(document).ready(function() {
   $('dl.expander dd:eq(0)').expander();
-  
+
   $('dl.expander dd:gt(0)').expander({
     collapseTimer: 4000,
     beforeExpand: function() {
@@ -77,11 +75,8 @@ $(document).ready(function() {
       $(this).parent().parent().append('&lt;div class="success"&gt;after expand.&lt;/div&gt;');
     },
     onCollapse: function(byUser) {
-      if (byUser === true) {
-        $(this).parent().parent().append('&lt;div class="success"&gt;on collapse (by user).&lt;/div&gt;');          
-      } else {
-        $(this).parent().parent().append('&lt;div class="success"&gt;on collapse (by timer).&lt;/div&gt;');
-      }
+      var by = byUser ? 'user' : 'timer';
+      $(this).parent().parent().append('&lt;div class="success"&gt;on collapse (' + by + ').&lt;/div&gt;');
     }
   });
 });
@@ -101,17 +96,17 @@ $(document).ready(function() {
           <hr />
           <p>Note that the third answer does not have a "read more" link because it's using the default value of 100 characters and 4 "widow" words as its cut-off. No sense in linking to read more when there isn't much more to read.</p>
         </div>
-        
+
         <div id="example2">
           <h2>Example 2</h2>
           <p>The following list items have a single expander assigned to them with a few custom options set.</p>
 <pre><code class="mix">$('ul.expander li').expander({
-  slicePoint: 50, 
+  slicePoint: 50,
   widow: 2,
-  expandEffect: 'show', 
+  expandEffect: 'show',
   userCollapseText: '[^]'
 });</code></pre>
-        
+
 
           <ul class="expander">
             <li>Run a marathon <span class="read-more"><a href="#">[...]</a></span><span class="details">and qualify for Boston.</span></li>
