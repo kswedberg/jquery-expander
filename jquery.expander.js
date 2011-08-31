@@ -24,6 +24,7 @@
       var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
       var cleanedTag, startTags, endTags;
       var allText = $this.html();
+      var rawText = $this.text();
       var startText = allText.slice(0, o.slicePoint).replace(/(&([^;]+;)?|\w+)$/,'');
 
       startTags = startText.match(/<\w[^>]*>/g);
@@ -126,7 +127,7 @@
         });
       }
       if (o.useTitleText) {
-        $this.attr('title', allText);
+        $this.attr('title', rawText);
       }
     });
 
