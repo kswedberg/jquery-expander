@@ -1,7 +1,7 @@
 /*!
  * jQuery Expander Plugin v0.7
  *
- * Date: Tue Aug 30 22:09:08 2011 EDT
+ * Date: Wed Aug 31 20:53:59 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -114,7 +114,7 @@
         });
       });
 
-      if (o.userCollapse) {
+      if ( o.userCollapse && !$this.find('span.re-collapse').length ) {
         $this
         .find('span.details')
         .append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
