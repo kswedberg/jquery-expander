@@ -15,20 +15,23 @@
 
 <script>
 $(document).ready(function() {
-  $('dl.expander dd:eq(0)').expander();
-  $('dl.expander dd:gt(0)').expander({
-    collapseTimer: 4000,
-    beforeExpand: function() {
-      $(this).parent().parent().append('<div class="success">before expand.</div>');
-    },
-    afterExpand: function() {
-      $(this).parent().parent().append('<div class="success">after expand.</div>');
-    },
-    onCollapse: function(byUser) {
-      var by = byUser ? 'user' : 'timer';
-      $(this).parent().parent().append('<div class="success">on collapse (' + by + ').</div>');
+  var opts = {collapseTimer: 4000};
+
+  $.each(['beforeExpand', 'afterExpand', 'onCollapse'], function(i, callback) {
+    opts[callback] = function(byUser) {
+      var by, msg = '<div class="success">' + callback;
+
+      if (callback == 'onCollapse') {
+        msg += ' (' + (byUser ? 'user' : 'timer') + ')';
+      }
+      msg += '</div>';
+
+      $(this).parent().parent().append(msg)
     }
   });
+
+  $('dl.expander dd').eq(0).expander();
+  $('dl.expander dd').slice(1).expander(opts);
 });
 
 $(document).ready(function() {
