@@ -1,7 +1,7 @@
 /*!
  * jQuery Expander Plugin v1.0pre
  *
- * Date: Wed Aug 31 20:53:59 2011 EDT
+ * Date: Mon Sep 05 20:24:09 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -63,7 +63,7 @@
   $.fn.expander = function(options) {
 
     var opts = $.extend({}, $.expander.defaults, options),
-        rSlash = /\//,
+        rSelfClose = /^<(?:area|br|col|embed|hr|img|input|link|meta|param).*>$/i,
         rAmpWordEnd = /(&(?:[^;]+;)?|\w+)$/,
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
@@ -71,7 +71,7 @@
         delayedCollapse;
 
     this.each(function() {
-      var startTags, startOpens, startCloses, lastCloseTag, endText,
+      var i, l, tmp, startTags, startOpens, startCloses, lastCloseTag, endText,
           $thisDetails, $readMore,
           openTagsForDetails = [],
           closeTagsForStartText = [],
@@ -96,18 +96,39 @@
         defined[val] = $.isFunction(o[val]);
       });
 
+      // all tags, open and close, in the summary
       startTags = startText.match(rOpenCloseTag) || [];
 
+      // add more characters to the summary, one for each character in the tags
       startText = allText.slice(0, o.slicePoint + startTags.join('').length).replace(rAmpWordEnd,'');
+
+      // back up if we're in the middle of a tag
       if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
         startText = startText.slice(0,startText.lastIndexOf('<'));
       }
+
+      // separate open tags from close tags and clean up the lists
       startOpens = startText.match(rOpenTag) || [];
       startCloses = startText.match(rCloseTag) || [];
-      for (var i = 0, l = startCloses.length; i < l; i++) {
+
+      // filter out self-closing tags
+      tmp = [];
+      $.each(startOpens, function(index, val) {
+        if ( !rSelfClose.test(val) ) {
+          tmp.push(val);
+        }
+      });
+      startOpens = tmp;
+
+      // strip close tags to just the tag name
+      l = startCloses.length;
+      for (i = 0; i < l; i++) {
         startCloses[i] = startCloses[i].replace(rCloseTag, '$1');
       }
 
+      // tags that start in summary and end in detail need:
+      // a). close tag at end of summary
+      // b). open tag at beginning of detail
       $.each(startOpens, function(index, val) {
         var thisTagName = val.replace(rOpenTag, '$1');
         var closePosition = $.inArray(thisTagName, startCloses);
@@ -120,6 +141,8 @@
         }
 
       });
+
+      // reverse the order of the close tags for the summary so they line up right
       closeTagsForStartText.reverse();
 
       // create necessary expand/collapse elements if they don't already exist
@@ -151,7 +174,7 @@
         o.summary = startText;
         o.details = endText;
         if (defined.onSlice) {
-          var tmp = o.onSlice.call(thisEl, o);
+          tmp = o.onSlice.call(thisEl, o);
           o = tmp && tmp.details ? tmp : o;
         }
 
