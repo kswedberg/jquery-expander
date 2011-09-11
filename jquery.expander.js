@@ -18,10 +18,11 @@
   $.expander = {
     version: '1.0pre',
     defaults: {
-      // slicePoint: the number of characters at which the contents will be sliced into two parts.
-      // Note: any tag names in the HTML that appear inside the sliced element before
-      // the slicePoint will be counted along with the text characters.
+      // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
+
+      // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
+      preserveWords: true,
 
       // widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
       // If after slicing the contents in two there are fewer words in the second part than
@@ -33,9 +34,13 @@
       expandText: 'read more',
       expandPrefix: '&hellip; ',
 
-      // class names for detail content and read-more link
+      // class names for summary element and detail element
+      summaryClass: 'summary',
       detailClass: 'details',
+
+      // class names for read-more <span> around "read-more" link and "read-less" link
       moreClass: 'read-more',
+      lessClass: 'read-less',
 
       // number of milliseconds after text has been expanded at which to collapse the text again.
       // when 0, no auto-collapsing
@@ -47,7 +52,7 @@
       userCollapse: true,
 
       // text to use for the link to re-collapse the text
-      userCollapseText: '[collapse expanded text]',
+      userCollapseText: 'read less',
       userCollapsePrefix: ' ',
 
 
@@ -68,17 +73,18 @@
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
+        rTagPlus = /^<[^>]+>.?/,
         delayedCollapse;
 
     this.each(function() {
-      var i, l, tmp, startTags, startOpens, startCloses, lastCloseTag, endText,
+      var i, l, tmp, summTagLess, summOpens, summCloses, lastCloseTag, detailText,
           $thisDetails, $readMore,
           openTagsForDetails = [],
-          closeTagsForStartText = [],
+          closeTagsForsummaryText = [],
           defined = {},
           thisEl = this,
           $this = $(this),
-          $startEl = $([]),
+          $summEl = $([]),
           o = $.meta ? $.extend({}, opts, $this.data()) : opts,
           hasBlocks = !!$this.find('*').filter(function() {
             var display = $(this).css('display');
@@ -88,91 +94,102 @@
           detailSelector = el + '.' + o.detailClass,
           moreSelector = 'span.' + o.moreClass,
           expandSpeed = o.expandSpeed || 0,
-          allText = $.trim( $this.html() ),
-          startText = allText.slice(0, o.slicePoint).replace(rAmpWordEnd,'');
+          allHtml = $.trim( $this.html() ),
+          allText = $.trim( $this.text() ),
+          summaryText = allHtml.slice(0, o.slicePoint);
 
+      if (allText.length <= o.slicePoint) {
+        return;
+      }
       // determine which callback functions are defined
       $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
         defined[val] = $.isFunction(o[val]);
       });
 
-      // all tags, open and close, in the summary
-      startTags = startText.match(rOpenCloseTag) || [];
+      summaryText = backup(summaryText);
 
+      // summary text sans tags length
+      summTagless = summaryText.replace(rOpenCloseTag,'').length;
       // add more characters to the summary, one for each character in the tags
-      startText = allText.slice(0, o.slicePoint + startTags.join('').length).replace(rAmpWordEnd,'');
 
-      // back up if we're in the middle of a tag
-      if (startText.lastIndexOf('<') > startText.lastIndexOf('>') ) {
-        startText = startText.slice(0,startText.lastIndexOf('<'));
+      while (summTagless < o.slicePoint) {
+        newChar = allHtml.charAt(summaryText.length);
+        if (newChar == '<') {
+          newChar = allHtml.slice(summaryText.length).match(rTagPlus)[0];
+        }
+        summaryText += newChar;
+        summTagless++;
       }
 
+      // back up if we're in the middle of a tag or word
+      summaryText = backup(summaryText, o.preserveWords);
+
       // separate open tags from close tags and clean up the lists
-      startOpens = startText.match(rOpenTag) || [];
-      startCloses = startText.match(rCloseTag) || [];
+      summOpens = summaryText.match(rOpenTag) || [];
+      summCloses = summaryText.match(rCloseTag) || [];
 
       // filter out self-closing tags
       tmp = [];
-      $.each(startOpens, function(index, val) {
+      $.each(summOpens, function(index, val) {
         if ( !rSelfClose.test(val) ) {
           tmp.push(val);
         }
       });
-      startOpens = tmp;
+      summOpens = tmp;
 
       // strip close tags to just the tag name
-      l = startCloses.length;
+      l = summCloses.length;
       for (i = 0; i < l; i++) {
-        startCloses[i] = startCloses[i].replace(rCloseTag, '$1');
+        summCloses[i] = summCloses[i].replace(rCloseTag, '$1');
       }
 
       // tags that start in summary and end in detail need:
       // a). close tag at end of summary
       // b). open tag at beginning of detail
-      $.each(startOpens, function(index, val) {
+      $.each(summOpens, function(index, val) {
         var thisTagName = val.replace(rOpenTag, '$1');
-        var closePosition = $.inArray(thisTagName, startCloses);
+        var closePosition = $.inArray(thisTagName, summCloses);
         if (closePosition === -1) {
           openTagsForDetails.push(val);
-          closeTagsForStartText.push('</' + thisTagName + '>');
+          closeTagsForsummaryText.push('</' + thisTagName + '>');
 
         } else {
-          startCloses.splice(closePosition, 1);
+          summCloses.splice(closePosition, 1);
         }
 
       });
 
       // reverse the order of the close tags for the summary so they line up right
-      closeTagsForStartText.reverse();
+      closeTagsForsummaryText.reverse();
 
       // create necessary expand/collapse elements if they don't already exist
       if (!$this.find(detailSelector).length) {
 
-        // end script if text length isn't long enough.
-        endText = allText.slice(startText.length);
-        if ( endText.split(/\s+/).length < o.widow || allText.length < o.slicePoint ) {
+        // end script if detail has fewer words than widow option
+        detailText = allHtml.slice(summaryText.length);
+        if ( detailText.split(/\s+/).length < o.widow ) {
           return;
         }
 
         // otherwise, continue...
-        lastCloseTag = closeTagsForStartText.pop() || '';
-        startText += closeTagsForStartText.join('');
-        endText = openTagsForDetails.join('') + endText;
+        lastCloseTag = closeTagsForsummaryText.pop() || '';
+        summaryText += closeTagsForsummaryText.join('');
+        detailText = openTagsForDetails.join('') + detailText;
         o.moreLabel = '<span class="' + o.moreClass + '">' + o.expandPrefix;
         o.moreLabel += '<a href="#">' + o.expandText + '</a></span>';
 
         if (hasBlocks) {
-          startText = '<div class="expander-summary">' + startText + o.moreLabel;
-          startText += lastCloseTag + '</div>';
-          endText = allText;
+          summaryText = '<div class="' + o.summaryClass + '">' + summaryText + o.moreLabel;
+          summaryText += lastCloseTag + '</div>';
+          detailText = allHtml;
           o.expandPrefix = '';
         } else {
-          startText += lastCloseTag;
+          summaryText += lastCloseTag;
         }
 
         // onSlice callback
-        o.summary = startText;
-        o.details = endText;
+        o.summary = summaryText;
+        o.details = detailText;
         if (defined.onSlice) {
           tmp = o.onSlice.call(thisEl, o);
           o = tmp && tmp.details ? tmp : o;
@@ -189,14 +206,15 @@
       $thisDetails.hide();
       $readMore.find('a').bind('click.expander', expand);
 
-      $startEl = $this.find('div.expander-summary');
+      $summEl = $this.find('div.' + o.summaryClass);
 
-      if ( o.userCollapse && !$this.find('span.re-collapse').length ) {
+      if ( o.userCollapse && !$this.find('span.' + o.lessClass).length ) {
         $this
         .find(detailSelector)
-        .append('<span class="re-collapse">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
+        .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
+
         $this
-        .find('span.re-collapse a')
+        .find('span.' + o.lessClass + ' a')
         .bind('click.expander', function(event) {
           event.preventDefault();
           clearTimeout(delayedCollapse);
@@ -211,7 +229,7 @@
       function expand(event) {
         event.preventDefault();
         $readMore.hide();
-        $startEl.hide();
+        $summEl.hide();
         if (defined.beforeExpand) {
           o.beforeExpand.call(thisEl);
         }
@@ -236,11 +254,22 @@
         '</' + el + '>'
         ].join('');
     }
+
+    function backup(txt, preserveWords) {
+      if ( txt.lastIndexOf('<') > txt.lastIndexOf('>') ) {
+        txt = txt.slice( 0, txt.lastIndexOf('<') );
+      }
+      if (preserveWords) {
+        txt = txt.replace(rAmpWordEnd,'');
+      }
+      return txt;
+    }
+
     function reCollapse(o, el) {
       el.hide();
       var prevMore = el.prev('span.' + o.moreClass).show();
       if (!prevMore.length) {
-        el.parent().children('div.expander-summary').show().find('span.' + o.moreClass).show();
+        el.parent().children('div.' + o.summaryClass).show().find('span.' + o.moreClass).show();
       }
 
     }
