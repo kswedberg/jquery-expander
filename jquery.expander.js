@@ -1,7 +1,7 @@
 /*!
  * jQuery Expander Plugin v1.0pre
  *
- * Date: Mon Sep 05 20:24:09 2011 EDT
+ * Date: Sun Sep 11 17:22:10 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
