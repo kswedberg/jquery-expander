@@ -7,7 +7,7 @@
   <title>jQuery Expander Plugin</title>
   <link rel="stylesheet" media="screen" href="../../jq.css" />
   <link rel="stylesheet" media="screen" href="/shared/tabs.css" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
   <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
 
   <script src="/shared/chili-1.8.js"></script>
@@ -32,9 +32,8 @@ $(document).ready(function() {
 
   $('dl.expander dd').eq(0).expander();
   $('dl.expander dd').slice(1).expander(opts);
-});
 
-$(document).ready(function() {
+
   $('ul.expander li').expander({
     slicePoint: 50,
     widow: 2,
@@ -42,6 +41,7 @@ $(document).ready(function() {
     userCollapseText: '[^]'
   });
 
+  $('div.expander').expander();
 });
 
 </script>
@@ -118,6 +118,18 @@ $(document).ready(function() {
           <p>Hey, why is the first <code>&lt;li&gt;</code> collapsed? Well, the first list item is a trick! Rather than let the plugin decide where to truncate the text, I put the links and the span directly in the HTML. It looks like this:</p>
           <pre><code class="xml">&lt;li&gt;Run a marathon &lt;span class="read-more"&gt;&lt;a href="#"&gt;[...]&lt;/a&gt;&lt;/span&gt;&lt;span class="details"&gt;and qualify for Boston.&lt;/span&gt;&lt;/li&gt;</code></pre>
         </div> <!-- end example 2 -->
+
+        <div id="example3">
+          <h2>Example 3</h2>
+          <p>The Expander Plugin now works for block-level elements, too.</p>
+<pre><code class="mix">$('div.expander').expander();</code></pre>
+
+          <div class="expander">
+            <p>Paragraph 1: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. </p>
+            <p>Paragraph 2: Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          </div>
+
+        </div> <!-- end example 3 -->
       </div>
     </div>
 </body>

@@ -73,7 +73,6 @@ test('text and class names', function() {
     moreClass:    'more', //'read-more',
     lessClass:    'less'  //'read-less'
   });
-  
   equal(dd.find('.more').length, 1, 'read more class changed');
   equal(dd.find('.read-more').length, 0, 'read more class changed');
   equal(dd.find('.less').length, 1, 'read less class changed');
@@ -81,7 +80,14 @@ test('text and class names', function() {
   equal(dd.find('.expd').length, 1, 'details class changed');
   equal(dd.find('.details').length, 0, 'details class changed');
   equal(dd.find('.more a').text(), 'foo', 'expandText changed');
-  equal(dd.find('.more').text(), 'foo', 'expandPrefix changed');  
+  equal(dd.find('.more').text(), 'foo', 'expandPrefix changed');
+});
+test('userCollapse false', function() {
+  var dd = this.dds.eq(2).expander({userCollapse: false});
+  equal(dd.find('.details').length, 1, 'has details');
+  equal(dd.find('.read-more').length, 1, 'has "read more"');
+  equal(dd.find('.read-less').length, 0, 'does NOT have user-collapse "read less"');
+
 });
 asyncTest('auto collapse', function() {
   var dd = this.dds.eq(2).expander({collapseTimer: 400});
@@ -93,7 +99,7 @@ asyncTest('auto collapse', function() {
     equal(dd.find('.read-more:visible').length, 1, 'read-more visible again after timer');
     start();
   }, 850);
-  
+
 });
 
 /* EVENT HANDLING */
@@ -108,7 +114,7 @@ test('click events', function() {
   ok(this.dd.find('.read-more a').is(':hidden'), 'read-more link hides after being clicked');
   ok(this.dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
   ok(this.dd.find('.read-less').is(':visible'), 'read-less is shown after clicking read-more link');
-  
+
   this.dd.find('.read-less a').triggerHandler('click');
   equal(this.dd.find('.read-less a:hidden').length, 1, 'read-less link hides after being clicked');
   equal(this.dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
