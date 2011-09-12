@@ -1,7 +1,7 @@
 /*!
- * jQuery Expander Plugin v1.0pre
+ * jQuery Expander Plugin v1.1
  *
- * Date: Sun Sep 11 17:22:10 2011 EDT
+ * Date: Mon Sep 12 11:39:53 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.0pre',
+    version: '1.1',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -38,7 +38,7 @@
       summaryClass: 'summary',
       detailClass: 'details',
 
-      // class names for read-more <span> around "read-more" link and "read-less" link
+      // class names for <span> around "read-more" link and "read-less" link
       moreClass: 'read-more',
       lessClass: 'read-less',
 
@@ -86,6 +86,7 @@
           $this = $(this),
           $summEl = $([]),
           o = $.meta ? $.extend({}, opts, $this.data()) : opts,
+          hasDetails = !!$this.find('.' + o.detailClass).length,
           hasBlocks = !!$this.find('*').filter(function() {
             var display = $(this).css('display');
             return (/^block|table|list/).test(display);
@@ -98,7 +99,7 @@
           allText = $.trim( $this.text() ),
           summaryText = allHtml.slice(0, o.slicePoint);
 
-      if (allText.length <= o.slicePoint) {
+      if (allText.length <= o.slicePoint && !hasDetails) {
         return;
       }
       // determine which callback functions are defined
@@ -106,12 +107,13 @@
         defined[val] = $.isFunction(o[val]);
       });
 
+      // back up if we're in the middle of a tag or word
       summaryText = backup(summaryText);
 
       // summary text sans tags length
       summTagless = summaryText.replace(rOpenCloseTag,'').length;
-      // add more characters to the summary, one for each character in the tags
 
+      // add more characters to the summary, one for each character in the tags
       while (summTagless < o.slicePoint) {
         newChar = allHtml.charAt(summaryText.length);
         if (newChar == '<') {
@@ -121,7 +123,6 @@
         summTagless++;
       }
 
-      // back up if we're in the middle of a tag or word
       summaryText = backup(summaryText, o.preserveWords);
 
       // separate open tags from close tags and clean up the lists
@@ -167,7 +168,7 @@
 
         // end script if detail has fewer words than widow option
         detailText = allHtml.slice(summaryText.length);
-        if ( detailText.split(/\s+/).length < o.widow ) {
+        if ( detailText.split(/\s+/).length < o.widow && !hasDetails ) {
           return;
         }
 
@@ -204,7 +205,7 @@
       $thisDetails = $this.find(detailSelector);
       $readMore = $this.find(moreSelector);
       $thisDetails.hide();
-      $readMore.find('a').bind('click.expander', expand);
+      $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
 
       $summEl = $this.find('div.' + o.summaryClass);
 
@@ -212,9 +213,11 @@
         $this
         .find(detailSelector)
         .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
+      }
 
         $this
         .find('span.' + o.lessClass + ' a')
+        .unbind('click.expander')
         .bind('click.expander', function(event) {
           event.preventDefault();
           clearTimeout(delayedCollapse);
@@ -224,7 +227,6 @@
             o.onCollapse.call(thisEl, true);
           }
         });
-      }
 
       function expand(event) {
         event.preventDefault();
