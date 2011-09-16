@@ -1,5 +1,5 @@
 /*!
- * jQuery Expander Plugin v1.2pre
+ * jQuery Expander Plugin v1.2
  *
  * Date: Fri Sep 16 16:07:08 2011 EDT
  * Requires: jQuery v1.3+
@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.2pre',
+    version: '1.2',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
