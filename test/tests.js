@@ -87,10 +87,10 @@ test('userCollapse false', function() {
   equal(dd.find('.details').length, 1, 'has details');
   equal(dd.find('.read-more').length, 1, 'has "read more"');
   equal(dd.find('.read-less').length, 0, 'does NOT have user-collapse "read less"');
-
 });
+
 asyncTest('auto collapse', function() {
-  var dd = this.dds.eq(2).expander({collapseTimer: 400});
+  var dd = this.dds.eq(2).expander({collapseSpeed: 0, collapseTimer: 400});
   equal(dd.find('.details:visible').length, 0, 'details initially hidden');
   dd.find('.read-more a').trigger('click');
   equal(dd.find('.details:visible').length, 1, 'details visible on click');
@@ -105,20 +105,22 @@ asyncTest('auto collapse', function() {
 /* EVENT HANDLING */
 module('event handling', {
   setup: function() {
-    this.dd = $('dl.expander').find('dd').first().expander();
+    this.dd = $('dl.expander').find('dd').first().expander({collapseSpeed: 0});
   }
 });
 
 test('click events', function() {
-  this.dd.find('.read-more a').triggerHandler('click');
-  ok(this.dd.find('.read-more a').is(':hidden'), 'read-more link hides after being clicked');
-  ok(this.dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
-  ok(this.dd.find('.read-less').is(':visible'), 'read-less is shown after clicking read-more link');
+  var dd = this.dd;
+  dd.find('.read-more a').triggerHandler('click');
+  ok(dd.find('.read-more a').is(':hidden'), 'read-more link hides after being clicked');
+  ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
+  ok(dd.find('.read-less').is(':visible'), 'read-less is shown after clicking read-more link');
 
-  this.dd.find('.read-less a').triggerHandler('click');
-  equal(this.dd.find('.read-less a:hidden').length, 1, 'read-less link hides after being clicked');
-  equal(this.dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
-  equal(this.dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
+  dd.find('.read-less a').triggerHandler('click');
+
+  equal(dd.find('.read-less a:hidden').length, 1, 'read-less link hides after being clicked');
+  equal(dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
+  equal(dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
 });
 
 /* MULTIPLE BLOCKS */

@@ -272,7 +272,7 @@
     }
 
     function reCollapse(o, el) {
-      el[o.collapseEffect](o.collapseSpeed, function() {
+      el.stop(true, true)[o.collapseEffect](o.collapseSpeed, function() {
         var prevMore = el.prev('span.' + o.moreClass).show();
         if (!prevMore.length) {
           el.parent().children('div.' + o.summaryClass).show()
