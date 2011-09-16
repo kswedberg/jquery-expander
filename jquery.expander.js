@@ -1,7 +1,7 @@
 /*!
- * jQuery Expander Plugin v1.1
+ * jQuery Expander Plugin v1.2pre
  *
- * Date: Mon Sep 12 11:39:53 2011 EDT
+ * Date: Fri Sep 16 16:07:08 2011 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.1',
+    version: '1.2pre',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -45,8 +45,12 @@
       // number of milliseconds after text has been expanded at which to collapse the text again.
       // when 0, no auto-collapsing
       collapseTimer: 0,
+
+      // effects for expanding and collapsing
       expandEffect: 'fadeIn',
       expandSpeed: 250,
+      collapseEffect: 'fadeOut',
+      collapseSpeed: 200,
 
       // allow the user to re-collapse the expanded text.
       userCollapse: true,
@@ -236,7 +240,7 @@
           o.beforeExpand.call(thisEl);
         }
 
-        $thisDetails[o.expandEffect](expandSpeed, function() {
+        $thisDetails.stop(false, true)[o.expandEffect](expandSpeed, function() {
           $thisDetails.css({zoom: ''});
           if (defined.afterExpand) {o.afterExpand.call(thisEl);}
           delayCollapse(o, $thisDetails, thisEl);
@@ -268,11 +272,14 @@
     }
 
     function reCollapse(o, el) {
-      el.hide();
-      var prevMore = el.prev('span.' + o.moreClass).show();
-      if (!prevMore.length) {
-        el.parent().children('div.' + o.summaryClass).show().find('span.' + o.moreClass).show();
-      }
+      el[o.collapseEffect](o.collapseSpeed, function() {
+        var prevMore = el.prev('span.' + o.moreClass).show();
+        if (!prevMore.length) {
+          el.parent().children('div.' + o.summaryClass).show()
+            .find('span.' + o.moreClass).show();
+        }
+
+      });
 
     }
 
