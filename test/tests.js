@@ -167,3 +167,34 @@ test('ampersands and line breaks', function() {
   summ = $.trim( this.ampbr.text() );
   equal(summ.slice(-4), 'Test', 'splits successfully on ampersands');
 });
+
+module('Preset Elements', {
+  setup: function() {
+    this.li = $('#presets').children().expander();
+  }
+});
+
+test('shorter than slicePoint but more/less/detail preset', function() {
+  var li = this.li.eq(0);
+  equal(li.find('span.details').length, 1, 'kept one detail');
+
+  equal(li.find('span.read-more').length, 1, 'kept one read-more');
+  ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
+
+  equal(li.find('span.read-less').length, 1, 'created one read-less');
+  ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
+
+});
+
+test('multi-block with only detail preset', function() {
+  var li = this.li.eq(1);
+  equal(li.find('.details').length, 1, 'kept one detail');
+  equal(li.find('div.summary').length, 1, 'created one summary');
+
+  equal(li.find('span.read-more').length, 1, 'created one read-more');
+  ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
+
+  equal(li.find('span.read-less').length, 1, 'created one read-less');
+  ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
+
+});

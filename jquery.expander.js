@@ -103,9 +103,12 @@
           allText = $.trim( $this.text() ),
           summaryText = allHtml.slice(0, o.slicePoint);
 
-      if (allText.length <= o.slicePoint && !hasDetails) {
+      // bail out if we've already set up the expander on this element
+      if ( $.data(this, 'expander') ) {
         return;
       }
+      $.data(this, 'expander', true);
+
       // determine which callback functions are defined
       $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
         defined[val] = $.isFunction(o[val]);
@@ -161,14 +164,13 @@
         } else {
           summCloses.splice(closePosition, 1);
         }
-
       });
 
       // reverse the order of the close tags for the summary so they line up right
       closeTagsForsummaryText.reverse();
 
-      // create necessary expand/collapse elements if they don't already exist
-      if (!$this.find(detailSelector).length) {
+      // create necessary summary and detail elements if they don't already exist
+      if ( !hasDetails ) {
 
         // end script if detail has fewer words than widow option
         detailText = allHtml.slice(summaryText.length);
@@ -180,30 +182,48 @@
         lastCloseTag = closeTagsForsummaryText.pop() || '';
         summaryText += closeTagsForsummaryText.join('');
         detailText = openTagsForDetails.join('') + detailText;
-        o.moreLabel = '<span class="' + o.moreClass + '">' + o.expandPrefix;
-        o.moreLabel += '<a href="#">' + o.expandText + '</a></span>';
 
-        if (hasBlocks) {
-          summaryText = '<div class="' + o.summaryClass + '">' + summaryText + o.moreLabel;
-          summaryText += lastCloseTag + '</div>';
-          detailText = allHtml;
-          o.expandPrefix = '';
-        } else {
-          summaryText += lastCloseTag;
-        }
+      } else {
+        // assume that even if there are details, we still need readMore/readLess/summary elements
+        // (we already bailed out earlier when readMore el was found)
+        // but we need to create els differently
 
-        // onSlice callback
-        o.summary = summaryText;
-        o.details = detailText;
-        if (defined.onSlice) {
-          tmp = o.onSlice.call(thisEl, o);
-          o = tmp && tmp.details ? tmp : o;
-        }
+        // remove the detail from the rest of the content
+        detailText = $this.find(detailSelector).remove().html();
 
-        // build the html with summary and detail and use it to replace old contents
-        var html = buildHTML(o, hasBlocks);
-        $this.html( html );
+        // The summary is what's left
+        summaryText = $this.html();
+
+        // allHtml is the summary and detail combined (this is needed when content has block-level elements)
+        allHtml = summaryText + detailText;
+
+        lastCloseTag = '';
       }
+      o.moreLabel = $this.find(moreSelector).length ? '' : buildMoreLabel(o);
+
+      if (hasBlocks) {
+        detailText = allHtml;
+      }
+      summaryText += lastCloseTag;
+
+      // onSlice callback
+      o.summary = summaryText;
+      o.details = detailText;
+      o.lastCloseTag = lastCloseTag;
+
+      if (defined.onSlice) {
+        // user can choose to return a modified options object
+        // one last chance for user to change the options. sneaky, huh?
+        // but could be tricky so use at your own risk.
+        tmp = o.onSlice.call(thisEl, o);
+
+      // so, if the returned value from the onSlice function is an object with a details property, we'll use that!
+        o = tmp && tmp.details ? tmp : o;
+      }
+
+      // build the html with summary and detail and use it to replace old contents
+      var html = buildHTML(o, hasBlocks);
+      $this.html( html );
 
       // set up details and summary for expanding/collapsing
       $thisDetails = $this.find(detailSelector);
@@ -219,18 +239,18 @@
         .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
       }
 
-        $this
-        .find('span.' + o.lessClass + ' a')
-        .unbind('click.expander')
-        .bind('click.expander', function(event) {
-          event.preventDefault();
-          clearTimeout(delayedCollapse);
-          var $detailsCollapsed = $(this).closest(detailSelector);
-          reCollapse(o, $detailsCollapsed);
-          if (defined.onCollapse) {
-            o.onCollapse.call(thisEl, true);
-          }
-        });
+      $this
+      .find('span.' + o.lessClass + ' a')
+      .unbind('click.expander')
+      .bind('click.expander', function(event) {
+        event.preventDefault();
+        clearTimeout(delayedCollapse);
+        var $detailsCollapsed = $(this).closest(detailSelector);
+        reCollapse(o, $detailsCollapsed);
+        if (defined.onCollapse) {
+          o.onCollapse.call(thisEl, true);
+        }
+      });
 
       function expand(event) {
         event.preventDefault();
@@ -248,17 +268,37 @@
       }
 
     }); // this.each
+    // summaryText = '<div class="' + o.summaryClass + '">' + summaryText + o.moreLabel;
+    // summaryText += lastCloseTag + '</div>';
 
     function buildHTML(o, blocks) {
-      var el = blocks ? 'div' : 'span';
+      var el = 'span',
+          summary = o.summary;
+      if ( blocks ) {
+        el = 'div';
+        // tuck the moreLabel inside the last close tag
+        summary = summary.replace(/(<\/[^>]+>)\s*$/, o.moreLabel + '$1');
+
+        // and wrap it in a div
+        summary = '<div class="' + o.summaryClass + '">' + summary + '</div>';
+      } else {
+        summary += o.moreLabel;
+      }
+
       return [
-        o.summary,
-        blocks ? '' : o.moreLabel,
-        '<' + el,
-          ' class="' + o.detailClass + '">',
+        summary,
+        '<',
+          el + ' class="' + o.detailClass + '"',
+        '>',
           o.details,
         '</' + el + '>'
         ].join('');
+    }
+
+    function buildMoreLabel(o) {
+      var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
+      ret += '<a href="#">' + o.expandText + '</a></span>';
+      return ret;
     }
 
     function backup(txt, preserveWords) {
@@ -278,9 +318,7 @@
           el.parent().children('div.' + o.summaryClass).show()
             .find('span.' + o.moreClass).show();
         }
-
       });
-
     }
 
     function delayCollapse(option, $collapseEl, thisEl) {
