@@ -43,8 +43,12 @@ lessClass: 'read-less',
 // number of milliseconds after text has been expanded at which to collapse the text again.
 // when 0, no auto-collapsing
 collapseTimer: 0,
+
+// effects for expanding and collapsing
 expandEffect: 'fadeIn',
 expandSpeed: 250,
+collapseEffect: 'fadeOut',
+collapseSpeed: 200,
 
 // allow the user to re-collapse the expanded text.
 userCollapse: true,

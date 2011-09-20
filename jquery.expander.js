@@ -268,8 +268,6 @@
       }
 
     }); // this.each
-    // summaryText = '<div class="' + o.summaryClass + '">' + summaryText + o.moreLabel;
-    // summaryText += lastCloseTag + '</div>';
 
     function buildHTML(o, blocks) {
       var el = 'span',
