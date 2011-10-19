@@ -21,6 +21,9 @@
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
 
+      // stop before slicePoint if this value is found. Useful for slicing at line breaks.
+      sliceEarlierAt: null,
+
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
 
@@ -101,7 +104,14 @@
           expandSpeed = o.expandSpeed || 0,
           allHtml = $.trim( $this.html() ),
           allText = $.trim( $this.text() ),
-          summaryText = allHtml.slice(0, o.slicePoint);
+          realSlicePoint = o.slicePoint;
+          if (o.sliceEarlierAt) {
+            var sliceEarlierAtIndex = allHtml.indexOf(o.sliceEarlierAt);
+            if (sliceEarlierAtIndex != -1 && sliceEarlierAtIndex < realSlicePoint) {
+              realSlicePoint = sliceEarlierAtIndex;
+            }
+          }
+          summaryText = allHtml.slice(0, realSlicePoint);
 
       // bail out if we've already set up the expander on this element
       if ( $.data(this, 'expander') ) {
@@ -117,17 +127,19 @@
       // back up if we're in the middle of a tag or word
       summaryText = backup(summaryText);
 
-      // summary text sans tags length
-      summTagless = summaryText.replace(rOpenCloseTag,'').length;
+      if (!o.sliceEarlierAt) {
+        // summary text sans tags length
+        summTagless = summaryText.replace(rOpenCloseTag,'').length;
 
-      // add more characters to the summary, one for each character in the tags
-      while (summTagless < o.slicePoint) {
-        newChar = allHtml.charAt(summaryText.length);
-        if (newChar == '<') {
-          newChar = allHtml.slice(summaryText.length).match(rTagPlus)[0];
+        // add more characters to the summary, one for each character in the tags
+        while (summTagless < realSlicePoint) {
+          newChar = allHtml.charAt(summaryText.length);
+          if (newChar == '<') {
+            newChar = allHtml.slice(summaryText.length).match(rTagPlus)[0];
+          }
+          summaryText += newChar;
+          summTagless++;
         }
-        summaryText += newChar;
-        summTagless++;
       }
 
       summaryText = backup(summaryText, o.preserveWords);
