@@ -146,7 +146,7 @@ test('text slicing with word boundaries', function() {
 /* ODD HTML */
 module('odd html', {
   setup: function() {
-    this.zzz = $('#zzz').expander({widow: 0});
+    this.zzz = $('#zzz').expander({widow: 0, preserveWords: false});
     this.endinghr = $('.long-description').expander({
       userCollapseText: '&and; view less &and;',
       expandText: 'continue reading',
@@ -159,6 +159,8 @@ module('odd html', {
 
 test('single long string, no child elements', function() {
   equal(this.zzz.find('.details').length, 1, 'created detail');
+  this.zzz.find('.read-more, .details').remove();
+  equal(this.zzz.text().length, 100, 'split at 100 characters');
 });
 
 test('summary ends with hr element', function() {
