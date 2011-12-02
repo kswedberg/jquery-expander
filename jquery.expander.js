@@ -77,6 +77,7 @@
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
+        rLastCloseTag = /(<\/[^>]+>)\s*$/,
         rTagPlus = /^<[^>]+>.?/,
         delayedCollapse;
 
@@ -223,6 +224,7 @@
 
       // build the html with summary and detail and use it to replace old contents
       var html = buildHTML(o, hasBlocks);
+
       $this.html( html );
 
       // set up details and summary for expanding/collapsing
@@ -274,8 +276,14 @@
           summary = o.summary;
       if ( blocks ) {
         el = 'div';
-        // tuck the moreLabel inside the last close tag
-        summary = summary.replace(/(<\/[^>]+>)\s*$/, o.moreLabel + '$1');
+        // if summary ends with a close tag, tuck the moreLabel inside it
+        if ( rLastCloseTag.test(summary) ) {
+          summary = summary.replace(rLastCloseTag, o.moreLabel + '$1');
+        } else {
+        // otherwise (e.g. if ends with self-closing tag) just add moreLabel after summary
+        // fixes #19
+          summary += o.moreLabel;
+        }
 
         // and wrap it in a div
         summary = '<div class="' + o.summaryClass + '">' + summary + '</div>';

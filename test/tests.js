@@ -146,12 +146,31 @@ test('text slicing with word boundaries', function() {
 /* ODD HTML */
 module('odd html', {
   setup: function() {
+    this.zzz = $('#zzz').expander({widow: 0});
+    this.endinghr = $('.long-description').expander({
+      userCollapseText: '&and; view less &and;',
+      expandText: 'continue reading',
+      slicePoint: $('.long-description').data("slice-point")
+    });
     this.st = $('#sametag').expander();
     this.ampbr = $('#ampbr').expander();
   }
 });
 
+test('single long string, no child elements', function() {
+  equal(this.zzz.find('.details').length, 1, 'created detail');
+});
+
+test('summary ends with hr element', function() {
+  expect(3);
+  var hr = this.endinghr.find('.read-more').prev()[0];
+  equal(this.endinghr.find('.summary').length, 1, 'summary is inserted');
+  equal(this.endinghr.find('.read-more').length, 1, 'more link is inserted');
+  equal(hr && hr.nodeName, 'HR', 'more link is inserted directly after self-closing tag');
+});
+
 test('same tag', function() {
+  expect(2);
   equal(this.st.find('b').length, 2, 'retains correct total &lt;b&gt;');
   equal(this.st.find('.details').find('b').length, 1, 'details have correct total &lt;b&gt;');
 });
