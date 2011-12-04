@@ -1,0 +1,35 @@
+{
+  "name": "expander",
+  "title": "jQuery Expander Plugin",
+  "description": "Expand and collapse HTML content",
+  "version": "1.3.1",
+  "keywords": [
+    "text",
+    "truncate",
+    "summary",
+    "details",
+    "expand",
+    "collapse"
+  ],
+  "homepage": "http://plugins.learningjquery.com/expander/",
+  "author": {
+    "name": "Karl Swedberg",
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/mit-license.php"
+    }
+  ],
+  "files": [
+    "jquery.expander.js"
+  ],
+  "main": "jquery.expander.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kswedberg/jquery-expander.git"
+  },
+  "dependencies": {
+    "jquery": ">=1.3"
+  }
+}

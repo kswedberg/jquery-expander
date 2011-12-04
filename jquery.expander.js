@@ -1,7 +1,7 @@
 /*!
- * jQuery Expander Plugin v1.3
+ * jQuery Expander Plugin v1.3.1
  *
- * Date: Sat Sep 17 00:37:34 2011 EDT
+ * Date: Sat Dec 03 23:22:55 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.3',
+    version: '1.3.1',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -24,7 +24,7 @@
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
 
-      // widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
+      // a threshold of sorts for whether to initially hide/collapse part of the element's contents.
       // If after slicing the contents in two there are fewer words in the second part than
       // the value set by widow, we won't bother hiding/collapsing anything.
       widow: 4,

@@ -22,7 +22,7 @@ slicePoint: 100,
 // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
 preserveWords: true,
 
-// widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
+// a threshold of sorts for whether to initially hide/collapse part of the element's contents.
 // If after slicing the contents in two there are fewer words in the second part than
 // the value set by widow, we won't bother hiding/collapsing anything.
 widow: 4,
