@@ -34,6 +34,8 @@
       expandText: 'read more',
       expandPrefix: '&hellip; ',
 
+      expandAfterSummary: false,
+      
       // class names for summary element and detail element
       summaryClass: 'summary',
       detailClass: 'details',
@@ -277,7 +279,7 @@
       if ( blocks ) {
         el = 'div';
         // if summary ends with a close tag, tuck the moreLabel inside it
-        if ( rLastCloseTag.test(summary) ) {
+        if ( rLastCloseTag.test(summary) && !o.expandAfterSummary) {
           summary = summary.replace(rLastCloseTag, o.moreLabel + '$1');
         } else {
         // otherwise (e.g. if ends with self-closing tag) just add moreLabel after summary
