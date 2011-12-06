@@ -1,7 +1,7 @@
 /*!
  * jQuery Expander Plugin v1.3.1
  *
- * Date: Sun Dec 04 21:42:51 2011 EST
+ * Date: Tue Dec 06 00:02:41 2011 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -35,7 +35,7 @@
       expandPrefix: '&hellip; ',
 
       expandAfterSummary: false,
-      
+
       // class names for summary element and detail element
       summaryClass: 'summary',
       detailClass: 'details',
@@ -121,7 +121,7 @@
       summaryText = backup(summaryText);
 
       // summary text sans tags length
-      summTagless = summaryText.replace(rOpenCloseTag,'').length;
+      summTagless = summaryText.replace(rOpenCloseTag, '').length;
 
       // add more characters to the summary, one for each character in the tags
       while (summTagless < o.slicePoint) {
@@ -175,9 +175,10 @@
       // create necessary summary and detail elements if they don't already exist
       if ( !hasDetails ) {
 
-        // end script if detail has fewer words than widow option
+        // end script if there is no detail text or if detail has fewer words than widow option
         detailText = allHtml.slice(summaryText.length);
-        if ( detailText.split(/\s+/).length < o.widow && !hasDetails ) {
+
+        if ( detailText === '' || detailText.split(/\s+/).length < o.widow ) {
           return;
         }
 

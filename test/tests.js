@@ -54,14 +54,19 @@ module('options', {
   setup: function() {
     this.ex = $('dl.options');
     this.dds = this.ex.find('dd');
+    this.nowidow = $('#nowidow');
   }
 });
 
 test('widow', function() {
   this.dds.expander({widow: 5});
+  this.nowidow.expander({widow: 0, slicePoint: 300});
   equal(this.dds.first().find('.details').length, 0, 'first dd ignored due to widow');
   equal(this.dds.eq(1).find('.details').length, 1, '2nd dd widow long enough');
   equal(this.dds.eq(1).find('.details').text().split(/\s+/).length, 6, '2nd dd has 6 words');
+
+  equal(this.nowidow.find('.read-more').length, 0, 'no read-more, even with widow: 0; fixes #17');
+  equal(this.nowidow.find('.details').length, 0, 'no details, even with widow: 0; fixes #17');
 
 });
 test('text and class names', function() {
