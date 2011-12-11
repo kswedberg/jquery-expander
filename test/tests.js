@@ -127,6 +127,16 @@ test('click events', function() {
   equal(dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
   equal(dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
 });
+test('destroy expander', function() {
+  expect(5);
+  var dd = this.dd;
+  dd.expander('destroy');
+  equal(dd.find('.read-more').length, 0, 'read-more element removed');
+  equal(dd.find('.read-less').length, 0, 'read-less element removed');
+  equal(dd.find('.details').length, 0, 'details tag removed');
+  ok( (/^\s*Beatrice's Answer/).test(dd.text()), 'summary text preserved' );
+  ok( (/Much Ado About Nothing/).test(dd.text()), 'detail text preserved' );
+});
 
 /* MULTIPLE BLOCKS */
 module('multiple blocks', {
@@ -146,6 +156,17 @@ test('text slicing with word boundaries', function() {
   var txt = $.trim( this.ex.find('div.summary').text() );
 
   equal(txt.length, 97, 'sliced summary text to proper length');
+});
+
+test('destroy expander', function() {
+  expect(6);
+  this.ex.expander('destroy');
+  equal(this.ex.find('.read-more').length, 0, 'read-more element removed');
+  equal(this.ex.find('.read-less').length, 0, 'read-less element removed');
+  equal(this.ex.find('.details').length, 0, 'details tag removed');
+  equal(this.ex.find('.summary').length, 0, 'summary element removed');
+  ok( (/^\s*Beatrice's Answer/).test(this.ex.text()), 'summary text preserved' );
+  ok( (/Much Ado About Nothing/).test(this.ex.text()), 'detail text preserved' );
 });
 
 /* ODD HTML */
