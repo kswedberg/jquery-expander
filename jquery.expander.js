@@ -350,7 +350,7 @@
       if (preserveWords) {
         txt = txt.replace(rAmpWordEnd,'');
       }
-      return txt;
+      return $.trim(txt);
     }
 
     function reCollapse(o, el) {
