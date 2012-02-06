@@ -1,3 +1,5 @@
+/*global module:false, test:false, equal:false, ok:false, asyncTest:false,start:false, expect: false */
+
 /* SINGLE BLOCK BASICS */
 module('single block', {
   setup: function() {
@@ -182,7 +184,15 @@ module('odd html', {
     this.ampbr = $('#ampbr').expander();
   }
 });
+test('non-English characters', function() {
+  var nonEng = $('#non-eng').expander();
+  nonEng.find('.read-more').remove();
+  nonEng.find('.details').remove();
+  var txtLength = $.trim(nonEng.text()).length;
 
+  equal(txtLength, 97, 'sliced summary text to proper length, even with non-English characters');
+
+});
 test('single long string, no child elements', function() {
   equal(this.zzz.find('.details').length, 1, 'created detail');
   this.zzz.find('.read-more, .details').remove();

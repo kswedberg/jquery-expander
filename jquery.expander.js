@@ -1,7 +1,7 @@
 /*!
- * jQuery Expander Plugin v1.4
+ * jQuery Expander Plugin v1.4.1
  *
- * Date: Sun Dec 11 15:08:42 2011 EST
+ * Date: Mon Feb 06 14:25:11 2012 EST
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.4',
+    version: '1.4.1',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -81,7 +81,7 @@
 
     var opts = $.extend({}, $.expander.defaults, options),
         rSelfClose = /^<(?:area|br|col|embed|hr|img|input|link|meta|param).*>$/i,
-        rAmpWordEnd = /(&(?:[^;]+;)?|\w+)$/,
+        rAmpWordEnd = opts.wordEnd || /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+)$/,
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
@@ -92,7 +92,8 @@
     var methods = {
       init: function() {
         this.each(function() {
-          var i, l, tmp, summTagLess, summOpens, summCloses, lastCloseTag, detailText,
+          var i, l, tmp, newChar, summTagless, summOpens, summCloses,
+              lastCloseTag, detailText,
               $thisDetails, $readMore,
               openTagsForDetails = [],
               closeTagsForsummaryText = [],
