@@ -1,0 +1,22 @@
+; This file is for unifying the coding style for different editors and IDEs.
+; More information at http://EditorConfig.org
+
+root = true
+
+[*]
+end_of_line = LF
+
+[*.js]
+indent_style = space
+indent_size = 2
+
+[demo/*.html]
+indent_style = space
+indent_size = 2
+
+[*.json]
+indent_style = space
+indent_size = 2
+
+[/test/qunit/*]
+indent_style = tab
