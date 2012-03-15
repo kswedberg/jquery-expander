@@ -42,6 +42,19 @@ test('text slicing with word boundaries', function() {
   });
 });
 
+test('slicePoint 200, without preserving word boundaries', function() {
+  var dds = this.dd;
+  dds.expander({slicePoint: 200, preserveWords: false});
+  this.ex.find('.details').remove();
+  this.ex.find('.read-more').remove();
+  dds.each(function(index) {
+    var txtLength = $.trim($(this).text()).length,
+        slicePoint = index == dds.length-1 ? 92 : 200;
+
+    equal(txtLength, slicePoint, 'sliced summary text to proper length');
+  });
+});
+
 test('hides the right elements', function() {
   var dd = this.dd.eq(1);
   dd.expander();
