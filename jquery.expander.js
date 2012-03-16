@@ -186,8 +186,8 @@
           if ( !hasDetails ) {
 
             // end script if there is no detail text or if detail has fewer words than widow option
-            detailText = allHtml.slice(summaryText.length).replace(rOpenCloseTag, '');
-            detailTagless = $.trim(detailText);
+            detailText = allHtml.slice(summaryText.length);
+            detailTagless = $.trim( detailText.replace(rOpenCloseTag, '') );
 
             if ( detailTagless === '' || detailTagless.split(/\s+/).length < o.widow ) {
               return;
