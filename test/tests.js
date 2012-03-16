@@ -76,9 +76,15 @@ module('options', {
 test('widow', function() {
   this.dds.expander({widow: 5});
   this.nowidow.expander({widow: 0, slicePoint: 300});
+  var secondDetails = this.dds.eq(1).find('.details');
+  // remove the  "read-less" element before checking word length of details element
+  secondDetails.find('.read-less').remove();
+  // trim the detail text (because we do so in the plugin) before counting the words
+  var secondDetailText = $.trim(secondDetails.text());
+
   equal(this.dds.first().find('.details').length, 0, 'first dd ignored due to widow');
   equal(this.dds.eq(1).find('.details').length, 1, '2nd dd widow long enough');
-  equal(this.dds.eq(1).find('.details').text().split(/\s+/).length, 6, '2nd dd has 6 words');
+  equal(secondDetailText.split(/\s+/).length, 6, '2nd dd has 6 words');
 
   equal(this.nowidow.find('.read-more').length, 0, 'no read-more, even with widow: 0; fixes #17');
   equal(this.nowidow.find('.details').length, 0, 'no details, even with widow: 0; fixes #17');

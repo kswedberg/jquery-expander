@@ -93,7 +93,7 @@
       init: function() {
         this.each(function() {
           var i, l, tmp, newChar, summTagless, summOpens, summCloses,
-              lastCloseTag, detailText,
+              lastCloseTag, detailText, detailTagless,
               $thisDetails, $readMore,
               openTagsForDetails = [],
               closeTagsForsummaryText = [],
@@ -119,6 +119,7 @@
           if ( $.data(this, 'expander') ) {
             return;
           }
+
           $.data(this, 'expander', true);
 
           // determine which callback functions are defined
@@ -185,12 +186,12 @@
           if ( !hasDetails ) {
 
             // end script if there is no detail text or if detail has fewer words than widow option
-            detailText = allHtml.slice(summaryText.length);
+            detailText = allHtml.slice(summaryText.length).replace(rOpenCloseTag, '');
+            detailTagless = $.trim(detailText);
 
-            if ( detailText === '' || detailText.split(/\s+/).length < o.widow ) {
+            if ( detailTagless === '' || detailTagless.split(/\s+/).length < o.widow ) {
               return;
             }
-
             // otherwise, continue...
             lastCloseTag = closeTagsForsummaryText.pop() || '';
             summaryText += closeTagsForsummaryText.join('');
@@ -351,6 +352,7 @@
       if (preserveWords) {
         txt = txt.replace(rAmpWordEnd,'');
       }
+
       return $.trim(txt);
     }
 
