@@ -1,7 +1,7 @@
 /*!
  * jQuery Expander Plugin v1.4.2
  *
- * Date: Fri Mar 16 14:29:56 2012 EDT
+ * Date: Sat Mar 31 20:51:48 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
@@ -49,9 +49,9 @@
       collapseTimer: 0,
 
       // effects for expanding and collapsing
-      expandEffect: 'fadeIn',
+      expandEffect: 'slideDown',
       expandSpeed: 250,
-      collapseEffect: 'fadeOut',
+      collapseEffect: 'slideUp',
       collapseSpeed: 200,
 
       // allow the user to re-collapse the expanded text.
