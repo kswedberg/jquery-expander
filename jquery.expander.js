@@ -77,7 +77,8 @@
     if (typeof options == 'string') {
       meth = options;
       options = {};
-    }
+    } else if (typeof options == 'undefined')
+      options = {};
 
     var opts = $.extend({}, $.expander.defaults, options),
         rSelfClose = /^<(?:area|br|col|embed|hr|img|input|link|meta|param).*>$/i,
@@ -87,6 +88,7 @@
         rCloseTag = /<\/(\w+)>/g,
         rLastCloseTag = /(<\/[^>]+>)\s*$/,
         rTagPlus = /^<[^>]+>.?/,
+        defaultSlicePointValue = (options.slicePoint == undefined),
         delayedCollapse;
 
     var methods = {
@@ -101,7 +103,9 @@
               thisEl = this,
               $this = $(this),
               $summEl = $([]),
-              o = $.meta ? $.extend({}, opts, $this.data()) : opts,
+              $data = {};
+          $.each($this.data(), function(key, value){$data[$.camelCase(key)]=value;});
+          var o = Object.keys($data).length > 0 ? $.extend({}, opts, $data) : opts,
               hasDetails = !!$this.find('.' + o.detailClass).length,
               hasBlocks = !!$this.find('*').filter(function() {
                 var display = $(this).css('display');
@@ -116,9 +120,8 @@
               summaryText = allHtml.slice(0, o.slicePoint);
 
           // bail out if we've already set up the expander on this element
-          if ( $.data(this, 'expander') ) {
+          if ( $.data(this, 'expander') )
             return;
-          }
 
           $.data(this, 'expander', true);
 

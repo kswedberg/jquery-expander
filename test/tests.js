@@ -5,15 +5,14 @@ module('single block', {
   setup: function() {
     this.ex = $('dl.expander');
     this.dd = this.ex.find('dd');
-
   }
 });
+
 test('basic element creation', function() {
   this.dd.expander({preserveWords: false});
   equal(this.ex.find('.summary').length, 0, 'no summary containers for content with no block elements');
   equal(this.dd.length - this.ex.find('.details').length, 1, 'all but one dd get expander treatment');
   equal(this.dd.length - this.ex.find('.read-more').length, 1, 'all but one dd get read-more link');
-
 });
 
 test('text slicing without preserving word boundaries', function() {
@@ -90,6 +89,7 @@ test('widow', function() {
   equal(this.nowidow.find('.details').length, 0, 'no details, even with widow: 0; fixes #17');
 
 });
+
 test('text and class names', function() {
   var dd = this.dds.first().expander({
     slicePoint: 80,
@@ -115,6 +115,22 @@ test('userCollapse false', function() {
   equal(dd.find('.read-less').length, 0, 'does NOT have user-collapse "read less"');
 });
 
+test('without slicePoint in options, slicePoint got from data attribute', function() {
+  this.ex = $('dl.options_slice');
+  this.dds = this.ex.find('dd');
+  var dds = this.dds;
+  dds.expander({preserveWords: false});
+  this.ex.find('.details').remove();
+  this.ex.find('.read-more').remove();
+
+  dds.each(function(index) {
+    var txtLength = $.trim($(this).text()).length,
+        slicePoint = 40;
+
+    equal(txtLength, slicePoint, 'sliced summary text to proper length');
+  });
+});
+
 asyncTest('auto collapse', function() {
   var dd = this.dds.eq(2).expander({collapseSpeed: 0, collapseTimer: 400});
   equal(dd.find('.details:visible').length, 0, 'details initially hidden');
@@ -127,6 +143,7 @@ asyncTest('auto collapse', function() {
   }, 850);
 
 });
+
 
 /* EVENT HANDLING */
 module('event handling', {
