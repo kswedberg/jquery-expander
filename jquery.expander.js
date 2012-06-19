@@ -243,7 +243,7 @@
           // set up details and summary for expanding/collapsing
           $thisDetails = $this.find(detailSelector);
           $readMore = $this.find(moreSelector);
-          $thisDetails.hide();
+          $thisDetails[o.collapseEffect](0);
           $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
 
           $summEl = $this.find('div.' + o.summaryClass);
