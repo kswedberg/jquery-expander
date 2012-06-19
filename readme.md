@@ -68,29 +68,7 @@ onCollapse: null // function(byUser) {}
 
 ## Known Issue
 
-A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that after repeatedly expanding and collapsing some text the plugin appears to cause IE9 (and possibly older IEs) to crash. Since the plugin itself doesn't do much when expanding/collapsing, my hunch (confirmed by one of the reporters) is that the crash has to do with animating the opacity of elements. I haven't been able to reproduce the problem on my machine, which leads me to believe that certain graphics settings in Windows must also be contributing to the bug.
-
-I'm not sure what the long-term fix will be, but if you need an immediate fix, you'll need to set options for `expandEffect` and `collapseEffect`, as well as, possibly, `expandSpeed` and `collapseSpeed`.
-
-**Workaround 1**: use these options in your call to `.expander()`, along with any others you might want, to make the text expand and collapse with no transition:
-
-```javascript
-{
-  expandEffect: 'show',
-  expandSpeed: 0,
-  collapseEffect: 'hide',
-  collapseSpeed: 0
-}
-```
-
-**Workaround 2**: use a "sliding" transition with these options in your call to `.expander()`, along with any others you might want:
-
-```javascript
-{
-  expandEffect: 'slideDown',
-  collapseEffect: 'slideUp'
-}
-```
+A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that if you use `fadeIn` and `fadeOut` for the `expandEffect` and `collapseEffect` options, the plugin appears to cause IE9 (and possibly older IEs) to crash after repeatedly expanding and collapsing some text. Since the plugin itself doesn't do much when expanding/collapsing, my hunch (confirmed by one of the reporters) is that the crash has to do with animating the opacity of elements. I haven't been able to reproduce the problem on my machine, which leads me to believe that certain graphics settings in Windows must also be contributing to the bug. In any case, if this is a concern for you, avoid using fades for those effects options.
 
 
 ## Demo
