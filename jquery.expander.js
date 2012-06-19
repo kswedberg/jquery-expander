@@ -101,7 +101,7 @@
               thisEl = this,
               $this = $(this),
               $summEl = $([]),
-              o = $.meta ? $.extend({}, opts, $this.data()) : opts,
+              o = $.extend({}, opts, $this.data('expander') || $.meta && $this.data() || {}),
               hasDetails = !!$this.find('.' + o.detailClass).length,
               hasBlocks = !!$this.find('*').filter(function() {
                 var display = $(this).css('display');
@@ -116,11 +116,11 @@
               summaryText = allHtml.slice(0, o.slicePoint);
 
           // bail out if we've already set up the expander on this element
-          if ( $.data(this, 'expander') ) {
+          if ( $.data(this, 'expanderInit') ) {
             return;
           }
 
-          $.data(this, 'expander', true);
+          $.data(this, 'expanderInit', true);
 
           // determine which callback functions are defined
           $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
