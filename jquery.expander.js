@@ -114,6 +114,16 @@
               allHtml = $.trim( $this.html() ),
               allText = $.trim( $this.text() ),
               summaryText = allHtml.slice(0, o.slicePoint);
+          
+          o.moreSelector = moreSelector;
+          
+          // allow multiple classes for more links
+          if ( o.moreClass.split(' ').length > 1 ){
+            o.moreSelector = 'span';
+            $.each( o.moreClass.split(' '), function(i, moreClass){
+              o.moreSelector += ( '.' + moreClass );
+            } );
+          }
 
           // bail out if we've already set up the expander on this element
           if ( $.data(this, 'expanderInit') ) {
@@ -242,7 +252,7 @@
 
           // set up details and summary for expanding/collapsing
           $thisDetails = $this.find(detailSelector);
-          $readMore = $this.find(moreSelector);
+          $readMore = $this.find(o.moreSelector);
           $thisDetails[o.collapseEffect](0);
           $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
 
@@ -254,8 +264,18 @@
             .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
           }
 
+          var lessSelector = 'span.' + o.lessClass + ' a';
+
+          // allow multiple classes for Less links
+          if ( o.lessClass.split(' ').length > 1 ){
+            lessSelector = 'span';
+            $.each( o.lessClass.split(' '), function(i, lessClass){
+              lessSelector += ( '.' + lessClass );
+            } );
+          }
+
           $this
-          .find('span.' + o.lessClass + ' a')
+          .find(lessSelector)
           .unbind('click.expander')
           .bind('click.expander', function(event) {
             event.preventDefault();
@@ -358,10 +378,10 @@
 
     function reCollapse(o, el) {
       el.stop(true, true)[o.collapseEffect](o.collapseSpeed, function() {
-        var prevMore = el.prev('span.' + o.moreClass).show();
+        var prevMore = el.prev(o.moreSelector).show();
         if (!prevMore.length) {
           el.parent().children('div.' + o.summaryClass).show()
-            .find('span.' + o.moreClass).show();
+            .find(o.moreSelector).show();
         }
       });
     }
