@@ -285,14 +285,20 @@
         }); // this.each
       },
       destroy: function() {
-        if ( !this.data('expander') ) {
-          return;
-        }
-        this.removeData('expander');
+
         this.each(function() {
-          var $this = $(this),
-              o = $.meta ? $.extend({}, opts, $this.data()) : opts,
-              details = $this.find('.' + o.detailClass).contents();
+          var o, details,
+              $this = $(this);
+
+          if ( !$this.data('expanderInit') ) {
+            return;
+          }
+
+          o = $.extend({}, opts, $this.data('expander') || $.meta && $this.data() || {}),
+          details = $this.find('.' + o.detailClass).contents();
+
+          $this.removeData('expanderInit');
+          $this.removeData('expander');
 
           $this.find('.' + o.moreClass).remove();
           $this.find('.' + o.summaryClass).remove();
