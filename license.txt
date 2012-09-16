@@ -1,8 +1,5 @@
 Copyright 2011, Karl Swedberg
-Dual licensed under the MIT and GPL licenses (just like jQuery):
-
-GNU General Public License v3.0
-http://www.gnu.org/licenses/gpl.html
+Licensed under the MIT license:
 
 ~~~~~~~~~~~~~~~~~~
 The MIT License
