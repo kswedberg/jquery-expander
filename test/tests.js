@@ -108,6 +108,22 @@ test('text and class names', function() {
   equal(dd.find('.more a').text(), 'foo', 'expandText changed');
   equal(dd.find('.more').text(), 'foo', 'expandPrefix changed');
 });
+
+test('multiple class names', function() {
+  var dd = this.dds.first().expander({
+    moreClass:    'm1 m2', //'read-more',
+    lessClass:    'l1 l2'  //'read-less'
+  });
+  equal(dd.find('.m1')[0].className, 'm1 m2', 'read more class changed');
+  equal(dd.find('.l1')[0].className, 'l1 l2', 'read more class changed');
+
+  dd.find('.m1 a').triggerHandler('click');
+
+  ok(dd.find('.m1.m2 a').is(':hidden'), 'multi-read-more link hides after being clicked');
+  ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
+  ok(dd.find('.l1.l2').is(':visible'), 'multi-read-less class is shown after clicking read-more link');
+
+});
 test('userCollapse false', function() {
   var dd = this.dds.eq(2).expander({userCollapse: false});
   equal(dd.find('.details').length, 1, 'has details');
@@ -148,6 +164,7 @@ test('click events', function() {
   equal(dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
   equal(dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
 });
+
 test('destroy expander', function() {
   expect(5);
   var dd = this.dd;
