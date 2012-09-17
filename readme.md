@@ -36,7 +36,8 @@ expandPrefix: '&hellip; ',
 summaryClass: 'summary',
 detailClass: 'details',
 
-// class names for <span> around "read-more" link and "read-less" link
+// one or more space-separated class names for <span> around 
+// "read-more" link and "read-less" link
 moreClass: 'read-more',
 lessClass: 'read-less',
 

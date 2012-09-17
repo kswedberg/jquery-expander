@@ -1,13 +1,13 @@
 /*!
  * jQuery Expander Plugin v1.4.4
  *
- * Date: Tue Jun 19 11:54:00 2012 EDT
+ * Date: Sun Sep 16 21:07:05 2012 EDT
  * Requires: jQuery v1.3+
  *
  * Copyright 2011, Karl Swedberg
  * Dual licensed under the MIT and GPL licenses (just like jQuery):
  * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
+ *
  *
  *
  *
