@@ -16,7 +16,7 @@
 
 (function($) {
   $.expander = {
-    version: '1.4.4',
+    version: '1.4.5',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
