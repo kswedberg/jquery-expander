@@ -82,7 +82,7 @@ effects options.
 
 ## Demo
 
-A demo is provided in the repo's `demo` directory. Feel free to take the plugin for a spin at [plugins.learningjquery.com/expander/demo/][4]
+A demo is provided in the repo's `demo` directory. Feel free to take the plugin for a spin at [plugins.learningjquery.com/expander/demo/][3]
 
 ## Tests
 
@@ -90,9 +90,8 @@ The Expander Plugin comes with a set of unit tests to ensure that it is working 
 
 ## License
 
-This plugin is free of charge and licensed under the [MIT][2] license. As a courtesy to GPL-licensed projects that may wish to include the plugin, it is also licensed under the [GPL][3] license.
+This plugin is free of charge and licensed under the [MIT][2] license.
 
 [1]: http://plugins.learningjquery.com/expander/test/
 [2]: http://www.opensource.org/licenses/mit-license.php
-[3]: http://www.gnu.org/licenses/gpl.html
-[4]: http://plugins.learningjquery.com/expander/demo/
+[3]: http://plugins.learningjquery.com/expander/demo/
