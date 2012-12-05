@@ -229,15 +229,25 @@ module('odd html', {
     $('#hidden-container').children('p').expander('destroy');
   }
 });
+
 test('non-English characters', function() {
   var nonEng = $('#non-eng').expander();
   nonEng.find('.read-more').remove();
   nonEng.find('.details').remove();
   var txtLength = $.trim(nonEng.text()).length;
 
-  equal(txtLength, 97, 'sliced summary text to proper length, even with non-English characters');
+  var chinese = $('#chinese').expander({
+    preserveWords: false,
+    widow: 0
+  });
+  chinese.find('.read-more').remove();
+  chinese.find('.details').remove();
+  var chineseLength = $.trim(chinese.text()).length;
 
+  equal(txtLength, 97, 'sliced summary text to proper length, even with non-English characters');
+  equal(chineseLength, 100, 'sliced summary text to proper length with Chinese characters');
 });
+
 test('single long string, no child elements', function() {
   equal(this.zzz.find('.details').length, 1, 'created detail');
   this.zzz.find('.read-more, .details').remove();
