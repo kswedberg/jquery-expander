@@ -67,7 +67,8 @@
       onSlice: null, // function() {}
       beforeExpand: null, // function() {},
       afterExpand: null, // function() {},
-      onCollapse: null // function(byUser) {}
+      onCollapse: null, // function(byUser) {}
+      afterCollapse: null // function() {}
     }
   };
 
@@ -127,7 +128,7 @@
           $.data(this, 'expanderInit', true);
           $.data(this, 'expander', o);
           // determine which callback functions are defined
-          $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse'], function(index, val) {
+          $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
             defined[val] = $.isFunction(o[val]);
           });
 
@@ -385,6 +386,7 @@
           el.parent().children('div.' + o.summaryClass).show()
             .find('span.' + o.moreClass).show();
         }
+        if (o.afterCollapse) {o.afterCollapse.call(el);}
       });
     }
 
