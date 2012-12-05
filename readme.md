@@ -36,7 +36,7 @@ expandPrefix: '&hellip; ',
 summaryClass: 'summary',
 detailClass: 'details',
 
-// one or more space-separated class names for <span> around 
+// one or more space-separated class names for <span> around
 // "read-more" link and "read-less" link
 moreClass: 'read-more',
 lessClass: 'read-less',
@@ -67,10 +67,18 @@ afterExpand: null, // function() {},
 onCollapse: null // function(byUser) {}
 ```
 
-## Known Issue
+## Known Issues
 
-A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that if you use `fadeIn` and `fadeOut` for the `expandEffect` and `collapseEffect` options, the plugin appears to cause IE9 (and possibly older IEs) to crash after repeatedly expanding and collapsing some text. Since the plugin itself doesn't do much when expanding/collapsing, my hunch (confirmed by one of the reporters) is that the crash has to do with animating the opacity of elements. I haven't been able to reproduce the problem on my machine, which leads me to believe that certain graphics settings in Windows must also be contributing to the bug. In any case, if this is a concern for you, avoid using fades for those effects options.
-
+* A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that if you use `fadeIn` and
+`fadeOut` for the `expandEffect` and `collapseEffect` options, the plugin
+appears to cause IE9 (and possibly older IEs) to crash after repeatedly
+expanding and collapsing some text. Since the plugin itself doesn't do much
+when expanding/collapsing, my hunch (confirmed by one of the reporters) is
+that the crash has to do with animating the opacity of elements. I haven't
+been able to reproduce the problem on my machine, which leads me to believe
+that certain graphics settings in Windows must also be contributing to the
+bug. In any case, if this is a concern for you, avoid using fades for those
+effects options.
 
 ## Demo
 

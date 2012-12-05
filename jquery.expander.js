@@ -93,7 +93,7 @@
       init: function() {
         this.each(function() {
           var i, l, tmp, newChar, summTagless, summOpens, summCloses,
-              lastCloseTag, detailText, detailTagless,
+              lastCloseTag, detailText, detailTagless, html, expand,
               $thisDetails, $readMore,
               openTagsForDetails = [],
               closeTagsForsummaryText = [],
@@ -240,17 +240,44 @@
           }
 
           // build the html with summary and detail and use it to replace old contents
-          var html = buildHTML(o, hasBlocks);
+          html = buildHTML(o, hasBlocks);
 
           $this.html( html );
 
           // set up details and summary for expanding/collapsing
           $thisDetails = $this.find(detailSelector);
           $readMore = $this.find(o.moreSelector);
-          $thisDetails[o.collapseEffect](0);
-          $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
+
+          // Hide details span using collapseEffect unless
+          // expandEffect is NOT slideDown and collapseEffect IS slideUp.
+          // The slideUp effect sets span's "default" display to
+          // inline-block. This is necessary for slideDown, but
+          // problematic for other "showing" animations.
+          // Fixes #46
+          if (o.collapseEffect === 'slideUp' && o.expandEffect !== 'slideDown') {
+            $thisDetails.hide();
+          } else {
+            $thisDetails[o.collapseEffect](0);
+          }
 
           $summEl = $this.find('div.' + o.summaryClass);
+
+          expand = function(event) {
+            event.preventDefault();
+            $readMore.hide();
+            $summEl.hide();
+            if (defined.beforeExpand) {
+              o.beforeExpand.call(thisEl);
+            }
+
+            $thisDetails.stop(false, true)[o.expandEffect](expandSpeed, function() {
+              $thisDetails.css({zoom: ''});
+              if (defined.afterExpand) {o.afterExpand.call(thisEl);}
+              delayCollapse(o, $thisDetails, thisEl);
+            });
+          };
+
+          $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
 
           if ( o.userCollapse && !$this.find(o.lessSelector).length ) {
             $this
@@ -270,21 +297,6 @@
               o.onCollapse.call(thisEl, true);
             }
           });
-
-          function expand(event) {
-            event.preventDefault();
-            $readMore.hide();
-            $summEl.hide();
-            if (defined.beforeExpand) {
-              o.beforeExpand.call(thisEl);
-            }
-
-            $thisDetails.stop(false, true)[o.expandEffect](expandSpeed, function() {
-              $thisDetails.css({zoom: ''});
-              if (defined.afterExpand) {o.afterExpand.call(thisEl);}
-              delayCollapse(o, $thisDetails, thisEl);
-            });
-          }
 
         }); // this.each
       },
