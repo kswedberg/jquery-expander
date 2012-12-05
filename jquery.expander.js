@@ -254,8 +254,8 @@
           // inline-block. This is necessary for slideDown, but
           // problematic for other "showing" animations.
           // Fixes #46
-          if (o.collapseEffect === 'slideUp' && o.expandEffect !== 'slideDown') {
-            $thisDetails.hide();
+          if (o.collapseEffect === 'slideUp' && o.expandEffect !== 'slideDown' || $this.is(':hidden')) {
+            $thisDetails.css({display: 'none'});
           } else {
             $thisDetails[o.collapseEffect](0);
           }
