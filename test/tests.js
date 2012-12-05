@@ -218,6 +218,15 @@ module('odd html', {
     });
     this.st = $('#sametag').expander();
     this.ampbr = $('#ampbr').expander();
+
+    $('#hidden-container').children('p').expander();
+    this.hiddenContainer = $('#hidden-container');
+  },
+  teardown: function() {
+    this.endinghr.expander('destroy');
+    this.st.expander('destroy');
+    this.ampbr.expander('destroy');
+    $('#hidden-container').children('p').expander('destroy');
   }
 });
 test('non-English characters', function() {
@@ -261,9 +270,19 @@ test('ampersands and line breaks', function() {
   equal(summ.slice(-4), 'Test', 'splits successfully on ampersands');
 });
 
+test('hidden container', function() {
+  this.hiddenContainer.css({display: 'block'});
+
+});
+
+
+/* PRESET ELEMENTS */
 module('Preset Elements', {
   setup: function() {
     this.li = $('#presets').children().expander();
+  },
+  teardown: function() {
+    this.li.expander('destroy');
   }
 });
 
