@@ -2,7 +2,7 @@
   "name": "expander",
   "title": "jQuery Expander Plugin",
   "description": "Expand and collapse HTML content",
-  "version": "1.4.4",
+  "version": "1.4.6",
   "keywords": [
     "text",
     "truncate",
