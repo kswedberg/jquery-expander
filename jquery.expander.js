@@ -1,10 +1,10 @@
 /*!
  * jQuery Expander Plugin v1.4.5
  *
- * Date: Wed Dec 05 10:33:01 2012 EST
+ * Date: Mon Jan 14 14:44:48 2013 EST
  * Requires: jQuery v1.3+
  *
- * Copyright 2012, Karl Swedberg
+ * Copyright 2013, Karl Swedberg
  * Licensed under the MIT License:
  * http://www.opensource.org/licenses/mit-license.php
  *
@@ -87,7 +87,7 @@
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
         rLastCloseTag = /(<\/[^>]+>)\s*$/,
-        rTagPlus = /^<[^>]+>.?/,
+        rTagPlus = /^(<[^>]+>)+.?/,
         delayedCollapse;
 
     var methods = {
