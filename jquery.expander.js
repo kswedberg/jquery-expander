@@ -1,18 +1,9 @@
 /*!
- * jQuery Expander Plugin v1.4.5
- *
- * Date: Mon Jan 14 14:44:48 2013 EST
- * Requires: jQuery v1.3+
- *
- * Copyright 2013, Karl Swedberg
- * Licensed under the MIT License:
- * http://www.opensource.org/licenses/mit-license.php
- *
- *
- *
- *
- *
-*/
+ * Expander - v1.4.5 - 2013-03-24
+ * http://plugins.learningjquery.com/expander/
+ * Copyright (c) 2013 Karl Swedberg
+ * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
+ */
 
 (function($) {
   $.expander = {
@@ -75,7 +66,7 @@
   $.fn.expander = function(options) {
     var meth = 'init';
 
-    if (typeof options == 'string') {
+    if (typeof options === 'string') {
       meth = options;
       options = {};
     }
@@ -141,7 +132,7 @@
           // add more characters to the summary, one for each character in the tags
           while (summTagless < o.slicePoint) {
             newChar = allHtml.charAt(summaryText.length);
-            if (newChar == '<') {
+            if (newChar === '<') {
               newChar = allHtml.slice(summaryText.length).match(rTagPlus)[0];
             }
             summaryText += newChar;

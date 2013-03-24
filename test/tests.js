@@ -23,7 +23,7 @@ test('text slicing without preserving word boundaries', function() {
   this.ex.find('.read-more').remove();
   dds.each(function(index) {
     var txtLength = $.trim($(this).text()).length,
-        slicePoint = index == dds.length-1 ? 92 : 100;
+        slicePoint = index === dds.length - 1 ? 92 : 100;
 
     equal(txtLength, slicePoint, 'sliced summary text to proper length');
   });
@@ -36,7 +36,7 @@ test('text slicing with word boundaries', function() {
   this.ex.find('.read-more').remove();
   dds.each(function(index) {
     var txtLength = $.trim($(this).text()).length,
-        slicePoint = index == dds.length-1 ? 92 : 97;
+        slicePoint = index === dds.length - 1 ? 92 : 97;
 
     equal(txtLength, slicePoint, 'sliced summary text to proper length');
   });
@@ -49,7 +49,7 @@ test('slicePoint 200, without preserving word boundaries', function() {
   this.ex.find('.read-more').remove();
   dds.each(function(index) {
     var txtLength = $.trim($(this).text()).length,
-        slicePoint = index == dds.length-1 ? 92 : 200;
+        slicePoint = index === dds.length - 1 ? 92 : 200;
 
     equal(txtLength, slicePoint, 'sliced summary text to proper length');
   });
@@ -280,10 +280,10 @@ test('ampersands and line breaks', function() {
   equal(summ.slice(-4), 'Test', 'splits successfully on ampersands');
 });
 
-test('hidden container', function() {
-  this.hiddenContainer.css({display: 'block'});
+// test('hidden container', function() {
+//   this.hiddenContainer.css({display: 'block'});
 
-});
+// });
 
 
 /* PRESET ELEMENTS */

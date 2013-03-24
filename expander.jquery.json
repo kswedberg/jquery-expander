@@ -1,6 +1,6 @@
 {
   "name": "expander",
-  "title": "jQuery Expander Plugin",
+  "title": "Expander",
   "description": "Expand and collapse HTML content",
   "version": "1.4.6",
   "keywords": [
@@ -14,6 +14,8 @@
   "homepage": "http://plugins.learningjquery.com/expander/",
   "author": {
     "name": "Karl Swedberg",
+    "email": "kswedberg@gmail.com",
+    "url": "http://www.learningjquery.com/"
   },
   "licenses": [
     {
