@@ -65,6 +65,7 @@ onSlice: null, // function() {}
 beforeExpand: null, // function() {},
 afterExpand: null, // function() {},
 onCollapse: null // function(byUser) {}
+afterCollapse: null // function() {}
 ```
 
 ## Known Issues
