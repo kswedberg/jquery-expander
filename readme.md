@@ -61,10 +61,11 @@ userCollapsePrefix: ' ',
 
 // all callback functions have the this keyword mapped to the element in the jQuery set when .expander() is called
 
-onSlice: null, // function() {}
+onSlice: null, // function() {},
 beforeExpand: null, // function() {},
 afterExpand: null, // function() {},
-onCollapse: null // function(byUser) {}
+onCollapse: null // function(byUser) {},
+afterCollapse: null // function() {}
 ```
 
 ## Known Issues
