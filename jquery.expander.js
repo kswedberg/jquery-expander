@@ -263,7 +263,7 @@
             }
 
             $thisDetails.stop(false, true)[o.expandEffect](expandSpeed, function() {
-              $thisDetails.css({zoom: ''});
+              $thisDetails.css({display: 'inline'});
               if (defined.afterExpand) {o.afterExpand.call(thisEl);}
               delayCollapse(o, $thisDetails, thisEl);
             });
