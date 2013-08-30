@@ -6,7 +6,7 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('expander.jquery.json'),
-    component: './component.json',
+    bowerjson: './bower.json',
     meta: {
       banner: '/*!<%= "\\n" %>' +
           ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
@@ -107,10 +107,10 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('build', ['jshint', 'qunit', 'concat', 'version:same', 'component', 'uglify']);
+  grunt.registerTask('build', ['jshint', 'qunit', 'concat', 'version:same', 'bowerjson', 'uglify']);
 
-  grunt.registerTask( 'component', 'update component.json', function() {
-    var comp = grunt.config('component'),
+  grunt.registerTask( 'bowerjson', 'update bower.json', function() {
+    var comp = grunt.config('bowerjson'),
         pkg = grunt.config("pkg"),
         json = {};
 
