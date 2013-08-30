@@ -1,6 +1,6 @@
 {
   "name": "expander",
-  "version": "1.4.6",
+  "version": "1.4.7",
   "dependencies": {},
   "devDependencies": {
     "grunt-contrib-watch": "~0.2.0",

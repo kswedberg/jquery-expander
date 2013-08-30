@@ -251,7 +251,7 @@ test('non-English characters', function() {
 test('single long string, no child elements', function() {
   equal(this.zzz.find('.details').length, 1, 'created detail');
   this.zzz.find('.read-more, .details').remove();
-  equal(this.zzz.text().length, 100, 'split at 100 characters');
+  equal( $.trim(this.zzz.text()).length, 100, 'split at 100 characters');
 });
 
 test('summary ends with hr element', function() {
