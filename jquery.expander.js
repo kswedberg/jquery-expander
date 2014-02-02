@@ -79,7 +79,12 @@
         rCloseTag = /<\/(\w+)>/g,
         rLastCloseTag = /(<\/[^>]+>)\s*$/,
         rTagPlus = /^(<[^>]+>)+.?/,
+        rMultiSpace = /\s\s+/g,
         delayedCollapse;
+
+    var removeSpaces = function(str) {
+      return $.trim( str || '' ).replace(rMultiSpace, ' ');
+    };
 
     var methods = {
       init: function() {
@@ -104,8 +109,8 @@
               moreClass = o.moreClass + '',
               lessClass = o.lessClass + '',
               expandSpeed = o.expandSpeed || 0,
-              allHtml = $.trim( $this.html() ),
-              allText = $.trim( $this.text() ),
+              allHtml = removeSpaces( $this.html() ),
+              allText = removeSpaces( $this.text() ),
               summaryText = allHtml.slice(0, o.slicePoint);
 
           // allow multiple classes for more/less links
