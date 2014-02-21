@@ -97,12 +97,19 @@ test('text and class names', function() {
     expandPrefix: '', //'&hellip; ',
     detailClass:  'expd',   //'details',
     moreClass:    'more', //'read-more',
-    lessClass:    'less'  //'read-less'
+    lessClass:    'less',  //'read-less',
+    moreLinkClass: 'linkMore', //'more-link'
+    lessLinkClass: 'linkLess' //'less-link'
+
   });
   equal(dd.find('.more').length, 1, 'read more class changed');
   equal(dd.find('.read-more').length, 0, 'read more class changed');
   equal(dd.find('.less').length, 1, 'read less class changed');
   equal(dd.find('.read-less').length, 0, 'read less class changed');
+  equal(dd.find('.linkMore').length, 1, 'more link class changed');
+  equal(dd.find('.more-link').length, 0, 'more link class changed');
+  equal(dd.find('.linkLess').length, 1, 'less link class changed');
+  equal(dd.find('.less-link').length, 0, 'less link class changed');
   equal(dd.find('.expd').length, 1, 'details class changed');
   equal(dd.find('.details').length, 0, 'details class changed');
   equal(dd.find('.more a').text(), 'foo', 'expandText changed');
