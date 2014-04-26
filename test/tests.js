@@ -6,6 +6,14 @@ module('single block', {
     this.ex = $('dl.expander');
     this.dd = this.ex.find('dd');
 
+    var ddLengths = this.dd.map(function() {
+      return $.trim( $(this).text() ).length;
+    }).get();
+
+    this.msg = function(index, actual, pre) {
+      pre = pre || 'sliced summary text to proper length: ';
+      return pre + ddLengths[index] + ' -> ' + actual;
+    };
   }
 });
 test('basic element creation', function() {
@@ -17,20 +25,25 @@ test('basic element creation', function() {
 });
 
 test('text slicing without preserving word boundaries', function() {
-  var dds = this.dd;
+  var dds = this.dd,
+      msg = this.msg;
+
   dds.expander({preserveWords: false});
   this.ex.find('.details').remove();
   this.ex.find('.read-more').remove();
+
   dds.each(function(index) {
     var txtLength = $.trim($(this).text()).length,
         slicePoint = index === dds.length - 1 ? 92 : 100;
 
-    equal(txtLength, slicePoint, 'sliced summary text to proper length');
+    equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
 test('text slicing with word boundaries', function() {
-  var dds = this.dd;
+  var dds = this.dd,
+      msg = this.msg;
+
   dds.expander();
   this.ex.find('.details').remove();
   this.ex.find('.read-more').remove();
@@ -38,12 +51,13 @@ test('text slicing with word boundaries', function() {
     var txtLength = $.trim($(this).text()).length,
         slicePoint = index === dds.length - 1 ? 92 : 97;
 
-    equal(txtLength, slicePoint, 'sliced summary text to proper length');
+    equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
 test('slicePoint 200, without preserving word boundaries', function() {
-  var dds = this.dd;
+  var dds = this.dd,
+      msg = this.msg;
   dds.expander({slicePoint: 200, preserveWords: false});
   this.ex.find('.details').remove();
   this.ex.find('.read-more').remove();
@@ -51,7 +65,21 @@ test('slicePoint 200, without preserving word boundaries', function() {
     var txtLength = $.trim($(this).text()).length,
         slicePoint = index === dds.length - 1 ? 92 : 200;
 
-    equal(txtLength, slicePoint, 'sliced summary text to proper length');
+    equal(txtLength, slicePoint, msg(index, txtLength));
+  });
+});
+
+test('slicePoint 50, without preserving word boundaries', function() {
+  var dds = this.dd,
+      msg = this.msg;
+  dds.expander({slicePoint: 50, preserveWords: false});
+  this.ex.find('.details').remove();
+  this.ex.find('.read-more').remove();
+  dds.each(function(index) {
+    var txtLength = $.trim($(this).text()).length,
+        slicePoint = 50;
+
+    equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
@@ -214,9 +242,10 @@ module('odd html', {
     this.endinghr = $('.long-description').expander({
       userCollapseText: '&and; view less &and;',
       expandText: 'continue reading',
-      slicePoint: $('.long-description').data("slice-point")
+      slicePoint: $('.long-description').data('slice-point')
     });
-    this.st = $('#sametag').expander();
+
+    this.sametag = $('#sametag').expander();
     this.ampbr = $('#ampbr').expander();
 
     $('#hidden-container').children('p').expander();
@@ -224,7 +253,7 @@ module('odd html', {
   },
   teardown: function() {
     this.endinghr.expander('destroy');
-    this.st.expander('destroy');
+    this.sametag.expander('destroy');
     this.ampbr.expander('destroy');
     $('#hidden-container').children('p').expander('destroy');
   }
@@ -254,18 +283,10 @@ test('single long string, no child elements', function() {
   equal( $.trim(this.zzz.text()).length, 100, 'split at 100 characters');
 });
 
-test('summary ends with hr element', function() {
-  expect(3);
-  var hr = this.endinghr.find('.read-more').prev()[0];
-  equal(this.endinghr.find('.summary').length, 1, 'summary is inserted');
-  equal(this.endinghr.find('.read-more').length, 1, 'more link is inserted');
-  equal(hr && hr.nodeName, 'HR', 'more link is inserted directly after self-closing tag');
-});
-
 test('same tag', function() {
   expect(2);
-  equal(this.st.find('b').length, 2, 'retains correct total &lt;b&gt;');
-  equal(this.st.find('.details').find('b').length, 1, 'details have correct total &lt;b&gt;');
+  equal(this.sametag.find('b').length, 2, 'retains correct total &lt;b&gt;');
+  equal(this.sametag.find('.details').find('b').length, 1, 'details have correct total &lt;b&gt;');
 });
 
 test('ampersands and line breaks', function() {
