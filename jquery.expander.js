@@ -35,6 +35,10 @@
       moreClass: 'read-more',
       lessClass: 'read-less',
 
+      // class names for <a> around "read-more" link and "read-less" link
+      moreLinkClass: 'more-link',
+      lessLinkClass: 'less-link',
+        
       // number of milliseconds after text has been expanded at which to collapse the text again.
       // when 0, no auto-collapsing
       collapseTimer: 0,
@@ -108,6 +112,8 @@
               detailSelector = el + '.' + o.detailClass,
               moreClass = o.moreClass + '',
               lessClass = o.lessClass + '',
+              moreLinkClass = o.moreLinkClass + '',
+              lessLinkClass = o.lessLinkClass + '',
               expandSpeed = o.expandSpeed || 0,
               allHtml = removeSpaces( $this.html() ),
               allText = removeSpaces( $this.text() ),
@@ -279,7 +285,7 @@
           if ( o.userCollapse && !$this.find(o.lessSelector).length ) {
             $this
             .find(detailSelector)
-            .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#">' + o.userCollapseText + '</a></span>');
+            .append('<span class="' + o.lessClass + '">' + o.userCollapsePrefix + '<a href="#" class="'+ o.lessLinkClass +'">' + o.userCollapseText + '</a></span>');
           }
 
           $this
@@ -360,7 +366,7 @@
 
     function buildMoreLabel(o) {
       var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
-      ret += '<a href="#">' + o.expandText + '</a></span>';
+      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + '</a></span>';
       return ret;
     }
 
