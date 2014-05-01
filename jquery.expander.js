@@ -1,13 +1,13 @@
 /*!
- * Expander - v1.4.7 - 2013-08-30
+ * Expander - v1.4.8 - 2014-05-01
  * http://plugins.learningjquery.com/expander/
- * Copyright (c) 2013 Karl Swedberg
+ * Copyright (c) 2014 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
 (function($) {
   $.expander = {
-    version: '1.4.7',
+    version: '1.4.8',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
