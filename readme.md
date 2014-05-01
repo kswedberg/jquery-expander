@@ -46,9 +46,9 @@ lessClass: 'read-less',
 collapseTimer: 0,
 
 // effects for expanding and collapsing
-expandEffect: 'fadeIn',
+expandEffect: 'slideDown',
 expandSpeed: 250,
-collapseEffect: 'fadeOut',
+collapseEffect: 'slideUp',
 collapseSpeed: 200,
 
 // allow the user to re-collapse the expanded text.
@@ -70,8 +70,9 @@ afterCollapse: null // function() {}
 
 ## Known Issues
 
-* A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that if you use `fadeIn` and
-`fadeOut` for the `expandEffect` and `collapseEffect` options, the plugin
+* If you use the default `'slideDown'` for the `expandEffect` option, the detail element's style will always get either `display: block` or `display: inline-block` when expanded. These `display` properties, in turn, will start the detail text on a new line, which might not be what you expect. You can usually avoid this problem by setting the `expandEffect` option to `'fadeIn'` instead.
+* A couple people have reported (in [issue #24](https://github.com/kswedberg/jquery-expander/issues/24)) that if you use `'fadeIn'` and
+`'fadeOut'` for the `expandEffect` and `collapseEffect` options, the plugin
 appears to cause IE9 (and possibly older IEs) to crash after repeatedly
 expanding and collapsing some text. Since the plugin itself doesn't do much
 when expanding/collapsing, my hunch (confirmed by one of the reporters) is
