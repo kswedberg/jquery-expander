@@ -215,6 +215,7 @@ test('destroy expander', function() {
 module('multiple blocks', {
   setup: function() {
     this.ex = $('#hello').expander();
+    this.anchor = $('#anchor-test').expander();
   }
 });
 
@@ -231,6 +232,15 @@ test('text slicing with word boundaries', function() {
   equal(txt.length, 97, 'sliced summary text to proper length');
 });
 
+test('Read more link not nested in closing link', function() {
+
+  if ($('.read-more .more-link').length === 1) {
+    ok(false);
+  } else {
+    ok(true);
+  }
+});
+
 test('destroy expander', function() {
   expect(6);
   this.ex.expander('destroy');
@@ -241,6 +251,7 @@ test('destroy expander', function() {
   ok( (/^\s*Beatrice's Answer/).test(this.ex.text()), 'summary text preserved' );
   ok( (/Much Ado About Nothing/).test(this.ex.text()), 'detail text preserved' );
 });
+
 
 /* ODD HTML */
 module('odd html', {

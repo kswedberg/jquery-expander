@@ -1,3 +1,4 @@
+
 /*!
  * Expander - v1.4.8 - 2014-05-01
  * http://plugins.learningjquery.com/expander/
@@ -81,7 +82,7 @@
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
-        rLastCloseTag = /(<\/[^>]+>)\s*$/,
+        rLastCloseTag = /(<\/([^>]+)>)\s*$/,
         rTagPlus = /^(<[^>]+>)+.?/,
         rMultiSpace = /\s\s+/g,
         delayedCollapse;
@@ -336,11 +337,15 @@
     // utility functions
     function buildHTML(o, blocks) {
       var el = 'span',
-          summary = o.summary;
+          summary = o.summary,
+          closingTagParts = rLastCloseTag.exec(summary),
+          closingTag = closingTagParts ? closingTagParts[2].toLowerCase() : '';
       if ( blocks ) {
         el = 'div';
         // if summary ends with a close tag, tuck the moreLabel inside it
-        if ( rLastCloseTag.test(summary) && !o.expandAfterSummary) {
+
+        if ( closingTagParts && closingTag !== 'a' && !o.expandAfterSummary) {
+
           summary = summary.replace(rLastCloseTag, o.moreLabel + '$1');
         } else {
         // otherwise (e.g. if ends with self-closing tag) just add moreLabel after summary
