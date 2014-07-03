@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Expander Plugin Tests</title>
+  <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
+
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
+
+  <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+  <script src="../jquery.expander.js"></script>
+  <script src="tests.js"></script>
+</head>
+<body>
+  <h1 id="qunit-header">Expander Plugin Tests</h1>
+  <h2 id="qunit-banner"></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <ol id="qunit-tests"></ol>
+  <div id="qunit-fixture">
+    <div id="zzz">zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz</div>
+<div id="nowidow">Music video by Ellie Goulding performing Lights. (C) 2011 Polydor Ltd. (UK)</div>
+  <div class="span-14 long-description" data-slice-point="250" itemprop="description">
+<p>
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad sasdddd, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
+</p>
+  <h3>title</h3>
+  <hr>
+  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                </div>
+
+    <dl class="expander">
+      <dd><strong>Beatrice's Answer</strong>: Why, <i>he</i> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+      <dd>
+        <strong>Beatrice's Answer</strong>: Why, <code><i>he</i></code> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+      <dd>Beatrice's Answer: Why, he is the prince's jester: a very dull fool; only his gift is in devising impossible slanders: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+
+      <dt><strong>Karl's Question</strong>: Why aren't you using another question from <i>Much Ado About Nothing</i> here?</dt>
+      <dd><strong>Karl's Answer</strong>: Because I'm lazy. And besides, this demo is getting a little too pretentious.</dd>
+    </dl>
+
+    <dl class="options">
+      <dd><strong>Beatrice's Answer</strong>: Why, <i>he</i> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders: none but</i>
+      </dd>
+      <dd><strong>Beatrice's Answer</strong>: Why, <i>he</i> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders: none but but libertines</i>
+      </dd>
+
+      <dd>
+        <strong>Beatrice's Answer</strong>: Why, <code><i>he</i></code> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+      <dd>Beatrice's Answer: Why, he is the prince's jester: a very dull fool; only his gift is in devising impossible slanders: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+    </dl>
+
+      <div id="sametag">ALL BOLD: (Same tag repeated before and after threshold) <b>Lorem ipsum</b> dolor sit amet, consectetur adipiscing elit. Donec vitae risus ac nisl consequat eleifend. Pellentesque placerat, nulla et egestas sollicitudin, elit libero tincidunt neque, in lacinia dolor lorem ut felis. Nam cursus magna eu enim egestas sit amet pharetra lacus pharetra. <b>Morbi semper sodales</b> faucibus. Integer scelerisque venenatis lacus eget dapibus. Aliquam a dignissim sem. In nibh urna, dapibus a tincidunt sit amet, vehicula ut odio. Curabitur eu vehicula nibh.</div>
+      <p id="ampbr"><br><br><br>& Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test &<br /> Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test & Test</p>
+    <div id="hello">
+      <p><strong>Beatrice's Answer</strong>: <br />Why, <code><i>he</i></code> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <ul>
+        <li>one</li>
+        <li>two</li>
+        <li>three</li>
+      </ul>
+    </div>
+
+    <dl>
+      <dd id="non-eng"><strong>Beatrice's Answer</strong>: Why, <i>he</i> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devis&ouml;&ouml;&ouml; &ouml;mpossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)
+      </dd>
+      <dd id="chinese">
+        这首歌的名字是《大家好我叫小莫》；私はあなたのために何ができるか教えてください？这首歌的名字是《大家好我叫小莫》；私はあなたのために何ができるか教えてください？这首歌的名字是《大家好我叫小莫》；私はあなたのために何ができるか教えてください？这首歌的名字是《大家好我叫小莫》；私はあなたのために何ができるか教えてください？
+      </dd>
+    </dl>
+
+    <ul id="presets">
+      <li>Run a marathon <span class="read-more"><a href="#">[...]</a></span><span class="details">and qualify for Boston.</span></li>
+      <li>
+        <p><strong>Beatrice's Answer</strong>: Why, <code><i>he</i></code> is the prince's jester: <b><i class="test">a very dull fool; only <a href="#" class="foo">his</a> gift is in devising impossible slanders</i>: none but libertines delight in him</b>; and the commendation is not in his wit, but in his villany; for he both pleases men and angers them, and then they laugh at him and beat him. I am sure he is in the fleet: I would he had boarded me. (<a href="http://shakespeare.mit.edu/much_ado/much_ado.2.1.html"><i>Much Ado About Nothing</i>, II.1</a>)</p>
+        <div class="details">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+          <ul>
+            <li>one</li>
+            <li>two</li>
+            <li>three</li>
+          </ul>
+        </div>
+      </li>
+    </ul>
+    <div id="hidden-container" style="display:none;">
+      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+      consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+      cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+      proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+    </div>
+    <div id="textblock_d2643e6" class="expandabletext">
+            <div>asd fas kdf ajs dfa s
+      aslkfjl asjd
+      a a zweite Zeile.....
+      asaklfjasdf
+      pageheaderfasfasfasf
+      fsdgf
+              </div>
+          </div>
+    <div class="events-info" id="events-infoTEST">
+      <h1><small>Event 227</small></h1>
+      <div class="event-short expandable-event" style="overflow:hidden;">
+        <ul>
+          <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut a quam sapien. Fusce pretium pulvinar lorem ac aliquam. In vel diam non velit scelerisque facilisis vel eget ipsum. Proin ornare purus et nisl pharetra sit amet aliquam neque congue. Nam mollis, felis a porta rutrum, augue urna lobortis magna, eu interdum erat dolor sit amet nibh. Integer sit amet tincidunt ipsum. Praesent varius erat at velit adipiscing imperdiet. Vivamus et diam vel nibh bibendum hendrerit non vel sem. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Morbi ut felis quis urna volutpat euismod. Nulla ut fringilla urna. Duis eleifend hendrerit dictum.<br />
+            Suspendisse in ullamcorper mi. Vivamus eget eleifend metus. Praesent vulputate neque sit amet libero viverra bibendum. Mauris cursus facilisis cursus. Sed ac erat nec eros vestibulum sollicitudin a quis tellus. Etiam aliquet, justo ac rutrum scelerisque, libero magna ornare felis, vitae luctus neque nunc in orci. Vestibulum eu elit a purus sagittis imperdiet ac ut ligula. Lorem ipsum dolor sit amet, consectetur adipiscing elit.<br />
+            Nam blandit consectetur vehicula. Mauris sapien purus, pellentesque vel tempus vel, porta ornare sapien. Curabitur cursus, justo adipiscing commodo laoreet, urna dui mollis massa, volutpat molestie odio diam in urna. Vestibulum lobortis pellentesque auctor. Vivamus enim ligula, faucibus eget porttitor at, hendrerit sit amet velit. Nullam vel nibh quis nisl porta mattis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Sed sit amet elit ac magna ultricies accumsan. Vestibulum ullamcorper urna at tellus dictum at hendrerit orci bibendum. Nam nec nisi et neque pellentesque ultrices. Integer gravida diam adipiscing massa tempus pulvinar. Nam auctor magna venenatis justo sagittis et aliquet felis lacinia. Donec tincidunt faucibus ipsum, quis rhoncus libero fringilla ac.<br />
+            Duis aliquet euismod ipsum sed faucibus. Aliquam erat volutpat. Ut odio augue, accumsan at hendrerit id, sagittis vitae felis. Morbi ut tortor in metus consectetur tempus in sit amet lacus. Etiam iaculis auctor leo eget ullamcorper. Phasellus accumsan, sem ut aliquam accumsan, nisl felis lobortis magna, et pellentesque lectus libero nec tellus. Donec vehicula, dui sed adipiscing egestas, quam nisi eleifend urna, vitae lobortis libero leo ac magna. Cras nec tortor nisl, et congue diam. Morbi odio massa, mattis eleifend cursus venenatis, gravida vitae tortor. Ut egestas convallis dolor nec vehicula. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.<br />
+            Vivamus vehicula, tellus eu vestibulum malesuada, augue est aliquet nunc, vel laoreet quam purus non urna. Donec vel risus vel erat pellentesque adipiscing. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin vitae nisi nec elit viverra iaculis. Etiam eu tortor a augue ultrices condimentum quis ac sapien. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Cras pharetra luctus augue a faucibus. Cras tempus dolor non nibh dapibus cursus. Cras mollis mattis ante facilisis aliquam. Etiam sodales vulputate luctus. Phasellus et quam elit, et varius mauris. Donec quis massa tortor, eu rutrum est. In justo ante, adipiscing non pharetra suscipit, pellentesque non ante. Quisque sit amet pretium nisl. Praesent auctor congue augue, ut iaculis ligula congue vel. Suspendisse imperdiet justo vitae sem ultrices quis tristique tortor mattis.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
