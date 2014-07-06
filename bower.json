@@ -1,6 +1,6 @@
 {
   "name": "jquery.expander",
-  "version": "1.4.8",
+  "version": "1.4.9",
   "dependencies": {
     "jquery": ">=1.3"
   },
