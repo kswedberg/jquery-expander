@@ -184,6 +184,7 @@
           $.each(summOpens, function(index, val) {
             var thisTagName = val.replace(rOpenTag, '$1');
             var closePosition = $.inArray(thisTagName, summCloses);
+            var strayChars = '';
             if (closePosition === -1) {
               openTagsForDetails.push(val);
               closeTagsForsummaryText.push('</' + thisTagName + '>');
@@ -231,6 +232,13 @@
 
           if (hasBlocks) {
             detailText = allHtml;
+            //Fixes issue #89; Tested by 'split html escapes'
+          } else if (summaryText.charAt(summaryText.length-1) == '&') {
+            strayChars = /^[#\w\d\\]+;/.exec(detailText);
+            if (strayChars) {
+              detailText = detailText.slice(strayChars[0].length);
+              summaryText += strayChars[0];
+            }
           }
           summaryText += lastCloseTag;
 
