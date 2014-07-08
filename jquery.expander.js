@@ -16,6 +16,12 @@
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
 
+      // whether to count and display the number of words inside the collapsed text
+      showWordCount: false,
+
+      // What to display around the counted number of words, set to '{{count}}' to show only the number
+      countWordsText: ' ({{count}} words)',
+
       // a threshold of sorts for whether to initially hide/collapse part of the element's contents.
       // If after slicing the contents in two there are fewer words in the second part than
       // the value set by widow, we won't bother hiding/collapsing anything.
@@ -39,7 +45,7 @@
       // class names for <a> around "read-more" link and "read-less" link
       moreLinkClass: 'more-link',
       lessLinkClass: 'less-link',
-        
+
       // number of milliseconds after text has been expanded at which to collapse the text again.
       // when 0, no auto-collapsing
       collapseTimer: 0,
@@ -221,7 +227,7 @@
 
             lastCloseTag = '';
           }
-          o.moreLabel = $this.find(o.moreSelector).length ? '' : buildMoreLabel(o);
+          o.moreLabel = $this.find(o.moreSelector).length ? '' : buildMoreLabel(o, detailText);
 
           if (hasBlocks) {
             detailText = allHtml;
@@ -369,9 +375,17 @@
         ].join('');
     }
 
-    function buildMoreLabel(o) {
+    function buildMoreLabel(o, detailText) {
       var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
-      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + '</a></span>';
+
+      if (o.showWordCount) {
+
+        o.countWordsText = o.countWordsText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\S+/g).length);
+
+      }else {
+        o.countWordsText = '';
+      }
+      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + o.countWordsText + '</a></span>';
       return ret;
     }
 
