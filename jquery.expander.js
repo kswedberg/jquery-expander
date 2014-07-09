@@ -20,7 +20,7 @@
       showWordCount: false,
 
       // What to display around the counted number of words, set to '{{count}}' to show only the number
-      countWordsText: ' ({{count}} words)',
+      wordCountText: ' ({{count}} words)',
 
       // a threshold of sorts for whether to initially hide/collapse part of the element's contents.
       // If after slicing the contents in two there are fewer words in the second part than
@@ -388,12 +388,12 @@
 
       if (o.showWordCount) {
 
-        o.countWordsText = o.countWordsText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\S+/g).length);
+        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\S+/g).length);
 
       }else {
-        o.countWordsText = '';
+        o.wordCountText = '';
       }
-      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + o.countWordsText + '</a></span>';
+      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + o.wordCountText + '</a></span>';
       return ret;
     }
 
