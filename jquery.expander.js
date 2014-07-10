@@ -1,3 +1,4 @@
+
 /*!
  * Expander - v1.4.9 - 2014-07-06
  * http://plugins.learningjquery.com/expander/
@@ -14,6 +15,12 @@
 
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
+
+      // whether to count and display the number of words inside the collapsed text
+      showWordCount: false,
+
+      // What to display around the counted number of words, set to '{{count}}' to show only the number
+      wordCountText: ' ({{count}} words)',
 
       // a threshold of sorts for whether to initially hide/collapse part of the element's contents.
       // If after slicing the contents in two there are fewer words in the second part than
@@ -38,7 +45,7 @@
       // class names for <a> around "read-more" link and "read-less" link
       moreLinkClass: 'more-link',
       lessLinkClass: 'less-link',
-        
+
       // number of milliseconds after text has been expanded at which to collapse the text again.
       // when 0, no auto-collapsing
       collapseTimer: 0,
@@ -98,6 +105,7 @@
               $thisDetails, $readMore,
               openTagsForDetails = [],
               closeTagsForsummaryText = [],
+              strayChars = '',
               defined = {},
               thisEl = this,
               $this = $(this),
@@ -112,11 +120,8 @@
               detailSelector = el + '.' + o.detailClass,
               moreClass = o.moreClass + '',
               lessClass = o.lessClass + '',
-              moreLinkClass = o.moreLinkClass + '',
-              lessLinkClass = o.lessLinkClass + '',
               expandSpeed = o.expandSpeed || 0,
               allHtml = removeSpaces( $this.html() ),
-              allText = removeSpaces( $this.text() ),
               summaryText = allHtml.slice(0, o.slicePoint);
 
           // allow multiple classes for more/less links
@@ -177,6 +182,7 @@
           $.each(summOpens, function(index, val) {
             var thisTagName = val.replace(rOpenTag, '$1');
             var closePosition = $.inArray(thisTagName, summCloses);
+
             if (closePosition === -1) {
               openTagsForDetails.push(val);
               closeTagsForsummaryText.push('</' + thisTagName + '>');
@@ -220,10 +226,17 @@
 
             lastCloseTag = '';
           }
-          o.moreLabel = $this.find(o.moreSelector).length ? '' : buildMoreLabel(o);
+          o.moreLabel = $this.find(o.moreSelector).length ? '' : buildMoreLabel(o, detailText);
 
           if (hasBlocks) {
             detailText = allHtml;
+            //Fixes issue #89; Tested by 'split html escapes'
+          } else if (summaryText.charAt(summaryText.length-1) === '&') {
+            strayChars = /^[#\w\d\\]+;/.exec(detailText);
+            if (strayChars) {
+              detailText = detailText.slice(strayChars[0].length);
+              summaryText += strayChars[0];
+            }
           }
           summaryText += lastCloseTag;
 
@@ -341,10 +354,9 @@
           closingTag = closingTagParts ? closingTagParts[2].toLowerCase() : '';
       if ( blocks ) {
         el = 'div';
+
         // if summary ends with a close tag, tuck the moreLabel inside it
-
-        if ( closingTagParts && closingTag !== 'a' && !o.expandAfterSummary) {
-
+        if ( closingTagParts && closingTag !== 'a' && !o.expandAfterSummary ) {
           summary = summary.replace(rLastCloseTag, o.moreLabel + '$1');
         } else {
         // otherwise (e.g. if ends with self-closing tag) just add moreLabel after summary
@@ -368,9 +380,17 @@
         ].join('');
     }
 
-    function buildMoreLabel(o) {
+    function buildMoreLabel(o, detailText) {
       var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
-      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + '</a></span>';
+
+      if (o.showWordCount) {
+
+        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
+
+      } else {
+        o.wordCountText = '';
+      }
+      ret += '<a href="#" class="' + o.moreLinkClass + '">' + o.expandText + o.wordCountText + '</a></span>';
       return ret;
     }
 

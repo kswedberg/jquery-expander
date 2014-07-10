@@ -98,6 +98,12 @@ module('options', {
     this.ex = $('dl.options');
     this.dds = this.ex.find('dd');
     this.nowidow = $('#nowidow');
+    this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
+    this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
+  },
+  teardown: function() {
+    this.wordcountesc.expander('destroy');
+    this.wordcountsp.expander('destroy');
   }
 });
 
@@ -177,6 +183,15 @@ asyncTest('auto collapse', function() {
     start();
   }, 850);
 
+});
+
+test('accurate word counting', function() {
+  expect(2);
+  var countIndex = this.wordcountesc.text().search('words');
+  equal( (this.wordcountesc.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores common free-standing html escapes');
+
+  countIndex = this.wordcountsp.text().search('words');
+  equal( (this.wordcountsp.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
 
 /* EVENT HANDLING */
@@ -265,6 +280,7 @@ module('odd html', {
 
     this.sametag = $('#sametag').expander();
     this.ampbr = $('#ampbr').expander();
+    this.htmlescape = $('#htmlescape').expander();
 
     $('#hidden-container').children('p').expander();
     this.hiddenContainer = $('#hidden-container');
@@ -273,6 +289,7 @@ module('odd html', {
     this.endinghr.expander('destroy');
     this.sametag.expander('destroy');
     this.ampbr.expander('destroy');
+    this.htmlescape.expander('destroy');
     $('#hidden-container').children('p').expander('destroy');
   }
 });
@@ -324,6 +341,10 @@ test('ampersands and line breaks', function() {
 
 // });
 
+test('split html escapes', function() {
+  expect(1);
+  equal(( this.htmlescape.text().charAt(97) != '&'), true, 'correctly shifts stray "nbsp;" out of detailText');
+});
 
 /* PRESET ELEMENTS */
 module('Preset Elements', {
