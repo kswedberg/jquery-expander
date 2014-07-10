@@ -98,10 +98,12 @@ module('options', {
     this.ex = $('dl.options');
     this.dds = this.ex.find('dd');
     this.nowidow = $('#nowidow');
-    this.wordcount = $('#htmlescape').expander({showWordCount: true});
+    this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
+    this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
   },
   teardown: function() {
-    this.wordcount.expander('destroy');
+    this.wordcountesc.expander('destroy');
+    this.wordcountsp.expander('destroy');
   }
 });
 
@@ -184,8 +186,12 @@ asyncTest('auto collapse', function() {
 });
 
 test('accurate word counting', function() {
-  expect(1);
-  equal(( this.wordcount.text().charAt(111)), '6', 'accurately counts words in detailText');
+  expect(2);
+  var countIndex = this.wordcountesc.text().search('words');
+  equal( (this.wordcountesc.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores common free-standing html escapes');
+
+  countIndex = this.wordcountsp.text().search('words');
+  equal( (this.wordcountsp.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
 
 /* EVENT HANDLING */
