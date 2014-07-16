@@ -26,10 +26,19 @@
 <div id="wordcountsp">
   They wake up every day dreading the sunrise. Knowing that every time, the gap between us becomes greater  ,   ,   ,   ,   , spaced  ,  ~  , and  .  sparce  ... - every day.
 </div>
-<div id="">
-  They wake up every day dreading the sunrise. Knowing that every time, the gap between us becomes &amp; is too small for &nbsp; -thier- &nbsp; comfort.
+<div id="sliceonbreak">
+ Some short text that I want cut before linebreak !HERE!<br />pew pew pew, foo foo bar, this should only show on expansion, and should not be in the summaryText.
 </div>
-  <div class="span-14 long-description" data-slice-point="250" itemprop="description">
+<div id="sliceonchar">
+  Some short text that I want cut before some arbitrary character ~ pew pew pew, foo foo bar, this should only show on expansion, and should not be in the summaryText.
+</div>
+<div id="sliceabort">
+  Some short text that should not cut in the center of the arb. character because <a href="foo.bar">it's in ~ a link</a> and that would be painful to deal with.
+</div>
+<div id="sliceNOabort">
+  <a href="foo.bar">Some short text that should cut between two links at the set char</a> ! ~ ! <a href="bar.foo"> because everything else is in a link and really it shouldn't cut inside of the links... that's sort of the point.</a>
+</div>
+<div class="span-14 long-description" data-slice-point="250" itemprop="description">
 <p>
 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad sasdddd, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis
 </p>
