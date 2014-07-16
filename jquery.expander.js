@@ -13,6 +13,10 @@
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
 
+      // stop before sliceOn if this value is found. Useful for slicing at line breaks.
+     // to slice at type '<br />'  linebreaks, set to '<br', It can also slice at any arbitrary character/string.
+     sliceOn: null,
+
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
 
@@ -153,6 +157,17 @@
             }
             summaryText += newChar;
             summTagless++;
+          }
+
+          //SliceOn script, Closes #16, resolves #59
+          //Original SliceEarlierAt code (since modfied): Sascha Peilicke @saschpe
+          if (o.sliceOn) {
+            var sliceOnIndex = summaryText.indexOf(o.sliceOn);
+
+            if (sliceOnIndex !== -1 && sliceOnIndex < o.slicePoint) {
+              o.slicePoint = sliceOnIndex;
+              summaryText = allHtml.slice(0, o.slicePoint);
+            }
           }
 
           summaryText = backup(summaryText, o.preserveWords);
