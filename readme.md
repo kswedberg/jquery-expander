@@ -19,6 +19,11 @@ The following options, shown here with their default values, are currently avail
 // the number of characters at which the contents will be sliced into two parts.
 slicePoint: 100,
 
+// a string of characters at which to slice the contents into two parts,
+// but only if the string appears before slicePoint
+// Useful for slicing at the first line break, e.g. {sliceOn: '<br'}
+sliceOn: null,
+
 // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
 preserveWords: true,
 
