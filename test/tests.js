@@ -98,6 +98,10 @@ module('options', {
     this.ex = $('dl.options');
     this.dds = this.ex.find('dd');
     this.nowidow = $('#nowidow');
+    this.sliceonbreak = $('#sliceonbreak').expander({sliceOn: '<br'});
+    this.sliceonchar = $('#sliceonchar').expander({sliceOn: '~'});
+    this.sliceabort = $('#sliceabort').expander({sliceOn: '<br'});
+    this.slicenoabort = $('#sliceNOabort').expander({sliceOn: '~'});
     this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
     this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
   },
@@ -192,6 +196,21 @@ test('accurate word counting', function() {
 
   countIndex = this.wordcountsp.text().search('words');
   equal( (this.wordcountsp.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores double and triple spaces, and non-word characters');
+});
+test('sliceOn', function() {
+  expect(4);
+
+  var sliceIndex = this.sliceonbreak.text().search('read');
+  equal( (this.sliceonbreak.text().slice(0, sliceIndex).length ), '57', 'find and slice before br tag');
+
+  sliceIndex = this.sliceonchar.text().search('read');
+  equal( (this.sliceonchar.text().slice(0, sliceIndex).length ), '65', 'find and slice before arbitrary \'~\'');
+
+  sliceIndex = this.sliceabort.text().search('read');
+  equal( (this.sliceabort.text().slice(0, sliceIndex).length ), '98', 'find and slice long-after br tag nested in anchor tags');
+
+  sliceIndex = $.trim( this.slicenoabort.html() || '' ).indexOf('read');
+  equal( (this.slicenoabort.text().slice(0, sliceIndex).length ), '102', 'adjust slicePoint for presence of html tags in summaryText');
 });
 
 /* EVENT HANDLING */
@@ -343,7 +362,7 @@ test('ampersands and line breaks', function() {
 
 test('split html escapes', function() {
   expect(1);
-  equal(( this.htmlescape.text().charAt(97) != '&'), true, 'correctly shifts stray "nbsp;" out of detailText');
+  equal(( this.htmlescape.text().charAt(97) !== '&'), true, 'correctly shifts stray "nbsp;" out of detailText');
 });
 
 /* PRESET ELEMENTS */
