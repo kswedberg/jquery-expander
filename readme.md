@@ -87,9 +87,9 @@ that certain graphics settings in Windows must also be contributing to the
 bug. In any case, if this is a concern for you, avoid using fades for those
 effects options.
 * As noted by a number of people (issue [#56], [#60]), this plugin can cause 
-flickering in it's expandable elements on loading the webpage. It usually happens 
-where multiple other scirpts are present, and the Expander stalls during it's 
-initialization. It is (sadly) an issue that stems directly from it's method of making 
+flickering in its expandable elements on loading the webpage. It usually happens 
+where multiple other scirpts are present, and the Expander stalls during its 
+initialization. It is (sadly) an issue that stems directly from its method of making 
 expandable text, and cannot be fixed without changing what the plugin is, or how 
 it operates compeltely. None the less, the flicker can be prevented by the same semi-hacky fixes normally
 used for other FOUC (flash of unstyled content) issues:
