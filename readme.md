@@ -98,10 +98,10 @@ effects options.
 
 ## Workarounds for inherent issues
 
-* It is not possible to change the text inside an element that has had expander already applied to it, because elements are already split up into detail and summary texts. Almost everything that happens during initialization in expander needs to be repeated on a change in content to properly display the altered content. To do this expander first needs to be destroyed, then reinitialized on the content.
+* It is not possible to change the text inside an element that has had expander already applied to it, because elements are already split up into detail and summary texts. Almost everything that happens during initialization in expander needs to be repeated on a change in content to properly display the altered content. To do this expander first needs to be destroyed, then reinitialized on the content (with settings).
   ```js
   $('#sliceonchar').expander('destroy').html( "<p>The HTML you want to replace the current html with goes here</p>" ).expander(
-    showWordCount: 'true',
+    showWordCount: true,
     preserveWords: false,
     slicePoint: 30
   );
