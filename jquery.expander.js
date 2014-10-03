@@ -88,7 +88,7 @@
 
     var opts = $.extend({}, $.expander.defaults, options),
         rSelfClose = /^<(?:area|br|col|embed|hr|img|input|link|meta|param).*>$/i,
-        rAmpWordEnd = opts.wordEnd || /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+)$/,
+        rAmpWordEnd = opts.wordEnd || /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
