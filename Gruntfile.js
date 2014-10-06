@@ -90,8 +90,7 @@ module.exports = function(grunt) {
           '<%= pkg.name %>.jquery.json',
           'package.json',
           'bower.json',
-          'src/jquery.<%= pkg.name %>.js',
-          '<%= pkg.name %>.js'
+          'jquery.<%= pkg.name %>.js'
         ],
         options: {
           release: 'patch'
@@ -107,6 +106,8 @@ module.exports = function(grunt) {
     }
 
   });
+
+  grunt.registerTask('test', ['jshint', 'qunit']);
 
   grunt.registerTask('build', ['jshint', 'qunit', 'concat', 'version:same', 'bowerjson', 'uglify']);
 
@@ -133,33 +134,6 @@ module.exports = function(grunt) {
     grunt.file.write( comp, JSON.stringify(json, null, 2) );
     grunt.log.writeln( 'File "' + comp + '" updated.' );
   });
-
-
-  grunt.registerMultiTask( 'setshell', 'Set grunt shell commands', function() {
-    var settings, cmd,
-        tgt = this.target,
-        cmdLabel = 'shell.' + tgt + '.command',
-        file = this.data.file,
-        append = this.data.cmdAppend || '';
-
-    if ( !grunt.file.exists(file) ) {
-      grunt.warn('File does not exist: ' + file);
-    }
-
-    settings = grunt.file.readJSON(file);
-    if (!settings[tgt]) {
-      grunt.warn('No ' + tgt + ' property found in ' + file);
-    }
-
-    cmd = settings[tgt] + append;
-    grunt.config(cmdLabel, cmd);
-    grunt.log.writeln( ('Setting ' + cmdLabel + ' to:').cyan );
-
-    grunt.log.writeln(cmd);
-
-  });
-
-  grunt.registerTask( 'deploy', ['setshell:rsync', 'shell:rsync']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');

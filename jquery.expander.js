@@ -38,6 +38,9 @@
 
       expandAfterSummary: false,
 
+      // Possible word endings to test against for when preserveWords: true
+      wordEnd: /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
+
       // class names for summary element and detail element
       summaryClass: 'summary',
       detailClass: 'details',
@@ -88,7 +91,7 @@
 
     var opts = $.extend({}, $.expander.defaults, options),
         rSelfClose = /^<(?:area|br|col|embed|hr|img|input|link|meta|param).*>$/i,
-        rAmpWordEnd = opts.wordEnd || /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
+        rAmpWordEnd = opts.wordEnd,
         rOpenCloseTag = /<\/?(\w+)[^>]*>/g,
         rOpenTag = /<(\w+)[^>]*>/g,
         rCloseTag = /<\/(\w+)>/g,
@@ -170,7 +173,7 @@
             }
           }
 
-          summaryText = backup(summaryText, o.preserveWords);
+          summaryText = backup(summaryText, o.preserveWords && allHtml.slice(summaryText.length).length);
 
           // separate open tags from close tags and clean up the lists
           summOpens = summaryText.match(rOpenTag) || [];
