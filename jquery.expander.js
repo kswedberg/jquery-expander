@@ -165,11 +165,14 @@
           //SliceOn script, Closes #16, resolves #59
           //Original SliceEarlierAt code (since modfied): Sascha Peilicke @saschpe
           if (o.sliceOn) {
-            var sliceOnIndex = summaryText.indexOf(o.sliceOn);
-
-            if (sliceOnIndex !== -1 && sliceOnIndex < o.slicePoint) {
-              o.slicePoint = sliceOnIndex;
-              summaryText = allHtml.slice(0, o.slicePoint);
+            var sliceOnTemp = 'ExpandMoreHere374216623'; // create placeholder string text
+            var summaryTextClean = summaryText.replace(o.sliceOn,sliceOnTemp); // replace html code with placeholder unaffected by jquery text() cleaning
+            summaryTextClean = $(summaryTextClean).text(); // clean out html markup to get true charcount index
+            var sliceOnIndexClean = summaryTextClean.indexOf(sliceOnTemp); // find true location of slice on placeholder
+            var sliceOnIndex = summaryText.indexOf(o.sliceOn); // store location of html version too
+            if (sliceOnIndexClean !== -1 && sliceOnIndexClean < o.slicePoint) { // base condition off of true sliceOn location
+              o.slicePoint = sliceOnIndex; // do normal slicePoint
+              summaryText = allHtml.slice(0, o.slicePoint); // etc.
             }
           }
 
