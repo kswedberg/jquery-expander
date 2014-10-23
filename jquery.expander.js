@@ -110,6 +110,7 @@
           var i, l, tmp, newChar, summTagless, summOpens, summCloses,
               lastCloseTag, detailText, detailTagless, html, expand,
               $thisDetails, $readMore,
+              slicePointChanged,
               openTagsForDetails = [],
               closeTagsForsummaryText = [],
               strayChars = '',
@@ -162,18 +163,17 @@
             summTagless++;
           }
 
-          //SliceOn script, Closes #16, resolves #59
-          //Original SliceEarlierAt code (since modfied): Sascha Peilicke @saschpe
+          // SliceOn script, Closes #16, resolves #59
+          // Original SliceEarlierAt code (since modfied): Sascha Peilicke @saschpe
           if (o.sliceOn) {
-            var sliceOnTemp = 'ExpandMoreHere374216623'; // create placeholder string text
-            var summaryTextClean = summaryText.replace(o.sliceOn,sliceOnTemp); // replace html code with placeholder unaffected by jquery text() cleaning
-            summaryTextClean = $(summaryTextClean).text(); // clean out html markup to get true charcount index
-            var sliceOnIndexClean = summaryTextClean.indexOf(sliceOnTemp); // find true location of slice on placeholder
-            var sliceOnIndex = summaryText.indexOf(o.sliceOn); // store location of html version too
-            if (sliceOnIndexClean !== -1 && sliceOnIndexClean < o.slicePoint) { // base condition off of true sliceOn location
-              o.slicePoint = sliceOnIndex; // do normal slicePoint
-              summaryText = allHtml.slice(0, o.slicePoint); // etc.
-            }
+            slicePointChanged = changeSlicePoint({
+              sliceOn: o.sliceOn,
+              slicePoint: o.slicePoint,
+              allHtml: allHtml,
+              summaryText: summaryText
+            });
+
+            summaryText = slicePointChanged.summaryText;
           }
 
           summaryText = backup(summaryText, o.preserveWords && allHtml.slice(summaryText.length).length);
@@ -446,6 +446,29 @@
           }
         }, option.collapseTimer);
       }
+    }
+
+    function changeSlicePoint(info) {
+      // Create placeholder string text
+      var sliceOnTemp = 'ExpandMoreHere374216623';
+
+      // Replace sliceOn with placeholder unaffected by .text() cleaning
+      // (in case sliceOn contains html)
+      var summaryTextClean = info.summaryText.replace(info.sliceOn, sliceOnTemp);
+      summaryTextClean = $('<div>' + summaryTextClean + '</div>').text();
+
+      // Find true location of sliceOn placeholder
+      var sliceOnIndexClean = summaryTextClean.indexOf(sliceOnTemp);
+
+      // Store location of html version too
+      var sliceOnIndexHtml = info.summaryText.indexOf(info.sliceOn);
+
+      // Base condition off of true sliceOn location...
+      if (sliceOnIndexClean !== -1 && sliceOnIndexClean < info.slicePoint) {
+        // ...but keep html in summaryText
+        info.summaryText = info.allHtml.slice(0, sliceOnIndexHtml);
+      }
+      return info;
     }
 
     return this;

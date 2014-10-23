@@ -104,6 +104,18 @@ module('options', {
     this.slicenoabort = $('#sliceNOabort').expander({sliceOn: '~'});
     this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
     this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
+    this.sliceonmoreinfo = $('#sliceonmoreinfo').expander({
+      slicePoint: 500,
+      // userCollapse: false,
+      // expandEffect: 'show',
+      // expandSpeed: 0,
+      sliceOn: '<span id="more-',
+      expandText: 'More <span class="chevron-down"></span>',
+      expandPrefix: '',
+      onSlice: function() {
+        $('#sliceonmoreinfo .summary').css({display: 'block'});
+      }
+    });
   },
   teardown: function() {
     this.wordcountesc.expander('destroy');
@@ -198,7 +210,11 @@ test('accurate word counting', function() {
   equal( (this.wordcountsp.text().slice(countIndex-3, countIndex+6) ), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
 test('sliceOn', function() {
-  expect(4);
+  expect(5);
+  this.sliceonmoreinfo.find('.summary').find('.read-more').remove();
+
+  var sliceSummaryText = this.sliceonmoreinfo.find('.summary').text().replace(/\s+$/,'');
+  var expectedSummaryText = 'Welcome to my website. I am a Canadian-born multidisciplinary designer, creative director and full-stack developer based in Dallas Texas, U.S. With over 15 years of experience in visual communications and web development, I have created and maintained numerous projects for various recognizable brands in North America. For a more detailed glimpse of my work history download my resume.';
 
   var sliceIndex = this.sliceonbreak.text().search('read');
   equal( (this.sliceonbreak.text().slice(0, sliceIndex).length ), '57', 'find and slice before br tag');
@@ -210,7 +226,9 @@ test('sliceOn', function() {
   equal( (this.sliceabort.text().slice(0, sliceIndex).length ), '98', 'find and slice long-after br tag nested in anchor tags');
 
   sliceIndex = $.trim( this.slicenoabort.html() || '' ).indexOf('read');
-  equal( (this.slicenoabort.text().slice(0, sliceIndex).length ), '102', 'adjust slicePoint for presence of html tags in summaryText');
+  equal( (this.slicenoabort.text().slice(0, sliceIndex).length ), '102', 'adjust slicePoint for html tags in summaryText');
+
+  equal( sliceSummaryText, expectedSummaryText, 'adjust slicePoint for html tags in summaryText when sliceOn has html');
 });
 
 /* EVENT HANDLING */
