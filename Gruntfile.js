@@ -1,15 +1,15 @@
 /*global module:false*/
-module.exports = function(grunt) {
 
-  var _ = grunt.util._;
+module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    pkg: grunt.file.readJSON('expander.jquery.json'),
-    bowerjson: './bower.json',
+    pluginName: 'expander',
+    bower: './bower.json',
+    pkg: grunt.file.readJSON('package.json'),
     meta: {
       banner: '/*!<%= "\\n" %>' +
-          ' * <%= pkg.title || pkg.name %> - v<%= pkg.version %> - ' +
+          ' * <%= pkg.title %> - v<%= pkg.version %> - ' +
           '<%= grunt.template.today("yyyy-mm-dd")  + "\\n" %>' +
           '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
           ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>' +
@@ -19,53 +19,48 @@ module.exports = function(grunt) {
           '<%= "\\n" %>' + ' */' +
           '<%= "\\n\\n" %>'
     },
-		concat: {
-      options: {
-        stripBanners: {block: true},
-        banner: '<%= meta.banner %>'
-      },
-      all: {
-        src: ['jquery.<%= pkg.name %>.js'],
-        dest: 'jquery.<%= pkg.name %>.js'
-      }
-    },
+    // concat: {
+    //   all: {
+    //     src: ['src/jquery.<%= pluginName %>.js'],
+    //     dest: 'jquery.<%= pluginName %>.js'
+    //   },
+    //   options: {
+    //     stripBanners: true,
+    //     banner: '<%= meta.banner %>',
+    //     process: function(src) {
+    //       var umdHead = grunt.file.read('lib/tmpl/umdhead.tpl'),
+    //           umdFoot = grunt.file.read('lib/tmpl/umdfoot.tpl');
+
+    //       src = src
+    //       .replace('(function($) {', umdHead)
+    //       .replace('})(jQuery);', umdFoot);
+
+    //       return src;
+    //     }
+    //   }
+    // },
     uglify: {
       all: {
         files: {
-          'jquery.<%= pkg.name %>.min.js': ['<%= concat.all.dest %>']
+          'jquery.<%= pluginName %>.min.js': ['jquery.<%= pluginName %>.js']
         },
         options: {
-          preserveComments: false,
-          banner: '<%= meta.banner %>'
+          preserveComments: 'some'
         }
       }
     },
     watch: {
       scripts: {
-        files: '<%= concat.all.src %>',
-        tasks: ['jshint', 'qunit']
-      }
-    },
-    shell: {
-      rsync: {
-        // command gets modified by rsync task.
-        command: 'rsync',
-        stdout: true
-      }
-    },
-    setshell: {
-      rsync: {
-        file: 'gitignore/settings.json',
-        cmdAppend: '<%= pkg.name %>/'
+        files: '<%= jshint.all %>',
+        tasks: ['jshint:all']
       }
     },
     jshint: {
-      grunt: ['Gruntfile.js'],
-      test: ['test/tests.js'],
-      plugin: ['jquery.expander.js'],
+      all: ['Gruntfile.js', 'src/**/*.js'],
       options: {
         curly: true,
         eqeqeq: true,
+        unused: true,
         immed: true,
         latedef: true,
         newcap: true,
@@ -75,71 +70,73 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         browser: true,
-        jquery: true
+        globals: {
+          jQuery: true,
+          require: false
+        }
       }
     },
-    qunit: {
-      all: ['test/*.html']
-    },
     version: {
-      same: {
-        src: ['jquery.expander.js', '*.json']
-      },
       patch: {
         src: [
-          '<%= pkg.name %>.jquery.json',
           'package.json',
+          '<%= pluginName %>.jquery.json',
           'bower.json',
-          'jquery.<%= pkg.name %>.js'
+          'src/jquery.<%= pluginName %>.js',
+          'jquery.<%= pluginName %>.js'
         ],
         options: {
           release: 'patch'
         }
       },
+      same: {
+        src: ['package.json', 'src/jquery.<%= pluginName %>.js', 'jquery.<%= pluginName %>.js']
+      },
       bannerPatch: {
-        src: ['<%= pkg.name %>.js'],
+        src: ['jquery.<%= pluginName %>.js'],
         options: {
-          prefix: 'Expander - v',
+          prefix: '- v',
           release: 'patch'
         }
       }
     }
-
   });
 
-  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask( 'configs', 'Update json configs based on package.json', function() {
+    var pkg = grunt.file.readJSON('package.json'),
+        pkgBasename = grunt.config('pluginName'),
+        bowerFile = grunt.config('bower'),
+        bower = grunt.file.readJSON(bowerFile),
+        jqConfigFile = pkgBasename + '.jquery.json',
+        jqConfig = grunt.file.readJSON(jqConfigFile);
 
-  grunt.registerTask('build', ['jshint', 'qunit', 'concat', 'version:same', 'bowerjson', 'uglify']);
-
-  grunt.registerTask( 'bowerjson', 'update bower.json', function() {
-    var comp = grunt.config('bowerjson'),
-        pkg = grunt.config('pkg'),
-        json = {};
-
-    ['name', 'version', 'dependencies'].forEach(function(el) {
-      json[el] = pkg[el];
+    ['main', 'version', 'dependencies', 'keywords'].forEach(function(el) {
+      bower[el] = pkg[el];
+      jqConfig[el] = pkg[el];
     });
 
-    _.extend(json, {
-      main: grunt.config('concat.all.dest'),
-      ignore: [
-        'demo/',
-        'lib/',
-        'src/',
-        '*.json'
-      ]
+    ['author', 'repository', 'homepage', 'bugs', 'demo', 'licenses'].forEach(function(el) {
+      jqConfig[el] = pkg[el];
     });
-    json.name = 'jquery.' + json.name;
 
-    grunt.file.write( comp, JSON.stringify(json, null, 2) );
-    grunt.log.writeln( 'File "' + comp + '" updated.' );
+    jqConfig.keywords.shift();
+    jqConfig.name = pkgBasename;
+    bower.name = 'jquery.' + pkgBasename;
+
+    grunt.file.write( bowerFile, JSON.stringify(bower, null, 2) + '\n');
+    grunt.log.writeln( 'File "' + bowerFile + '" updated."' );
+
+    grunt.file.write( jqConfigFile, JSON.stringify(jqConfig, null, 2) + '\n');
+    grunt.log.writeln( 'File "' + jqConfigFile + '" updated."' );
   });
+
+  grunt.registerTask('build', ['jshint', 'version:same', 'configs', 'uglify']);
+  grunt.registerTask('patch', ['jshint', 'version:bannerPatch', 'version:patch', 'configs', 'uglify']);
+  grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-shell');
-  grunt.loadNpmTasks('grunt-version');
-  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-version');
 };
