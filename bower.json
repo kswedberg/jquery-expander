@@ -1,6 +1,6 @@
 {
   "name": "jquery.expander",
-  "version": "1.4.12",
+  "version": "1.4.13",
   "dependencies": {
     "jquery": ">=1.3"
   },
@@ -10,5 +10,13 @@
     "lib/",
     "src/",
     "*.json"
+  ],
+  "keywords": [
+    "text",
+    "truncate",
+    "summary",
+    "details",
+    "expand",
+    "collapse"
   ]
 }
