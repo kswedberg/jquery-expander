@@ -76,6 +76,9 @@ module.exports = function(grunt) {
         }
       }
     },
+    qunit: {
+      all: ['test/*.html']
+    },
     version: {
       patch: {
         src: [
@@ -130,13 +133,15 @@ module.exports = function(grunt) {
     grunt.log.writeln( 'File "' + jqConfigFile + '" updated."' );
   });
 
-  grunt.registerTask('build', ['jshint', 'version:same', 'configs', 'uglify']);
-  grunt.registerTask('patch', ['jshint', 'version:bannerPatch', 'version:patch', 'configs', 'uglify']);
+  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('build', ['test', 'version:same', 'configs', 'uglify']);
+  grunt.registerTask('patch', ['test', 'version:bannerPatch', 'version:patch', 'configs', 'uglify']);
   grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-qunit');
   grunt.loadNpmTasks('grunt-version');
 };
