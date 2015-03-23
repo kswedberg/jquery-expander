@@ -140,16 +140,16 @@ effects options.
 
 ## Demo
 
-A demo is provided in the repo's `demo` directory. Feel free to take the plugin for a spin at [plugins.learningjquery.com/expander/demo/][3]
+A demo is provided in the repo's `demo` directory. Feel free to take the plugin for a spin at [kswedberg.github.io/jquery-expander/demo/][3]
 
 ## Tests
 
-The Expander Plugin comes with a set of unit tests to ensure that it is working as expected. You can run these tests online at [plugins.learningjquery.com/expander/test/][1] or locally from the repo's test directory.
+The Expander Plugin comes with a set of unit tests to ensure that it is working as expected. You can run these tests online at [kswedberg.github.io/jquery-expander/test/][1] or locally from the repo's test directory.
 
 ## License
 
 This plugin is free of charge and licensed under the [MIT][2] license.
 
-[1]: http://plugins.learningjquery.com/expander/test/
-[2]: http://www.opensource.org/licenses/mit-license.php
-[3]: http://plugins.learningjquery.com/expander/demo/
+[1]: https://kswedberg.github.io/jquery-expander/test/
+[2]: http://kswedberg.mit-license.org/
+[3]: https://kswedberg.github.io/jquery-expander/demo/
