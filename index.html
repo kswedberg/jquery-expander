@@ -1,0 +1,193 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>jQuery Expander Plugin</title>
+<link rel="stylesheet" media="screen" href="demo/jq.css" />
+<link rel="stylesheet" media="screen" href="demo/tabs.css" />
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+<script src="lib/jquery.tabs.min.js"></script>
+<script src="lib/jquery.history.js"></script>
+<script src="demo/chili-1.8.js"></script>
+
+<script type="text/javascript">
+
+$(function() {
+  // initialize the tabs
+  $('#main').tabs(1);
+  // $('#subdetails').tabs( { selectedClass: 'sample-tab-selected', bookmarkable: false });
+
+});
+
+</script>
+</head>
+<body>
+<div><a id="logo" href="http://jquery.com" title="Powered By jQuery"></a></div>
+<h1 id="banner"><a id="backnav" href="..">&lsaquo;&lsaquo; home</a>jQuery Expander Plugin</h1>
+<div id="main">
+  <ul id="nav" class="anchors">
+    <li><a href="#getting-started">Overview</a></li>
+    <li><a href="/expander/demo/index.html">Demo</a></li>
+    <li><a href="#options">API / Options</a></li>
+    <li><a href="#download">Download &amp; Support</a></li>
+  </ul>
+    <div id="getting-started" class="tabContent">
+        <h1>Overview</h1>
+        <p>The Expander Plugin hides (collapses) a portion of an element's content and adds a "read more" link so that the text can be viewed by the user if he or she wishes. By default, the expanded content is followed by a "read less" link that the user can click to re-collapse it. Expanded content can also be re-collapsed after a specified period of time.</p>
+        <p>This plugin is <strong>free</strong> of charge and licensed under the <a href="http://www.opensource.org/licenses/mit-license.php">MIT</a> license. As a courtesy to GPL-licensed projects that may wish to include the plugin, it is also licensed under the <a href="http://www.gnu.org/licenses/gpl.html" title="The GNU General Public License v3.0">GPL</a> license.
+        </p>
+        <p>If you like the plugin and you're feeling generous, you may want to surprise me with something from my <a href="http://www.amazon.com/gp/registry/wishlist/1NLSYA46XTVG4/" title="Amazon.com: Wish List">amazon.com wish list</a>.</p>
+        <h1>Quick Start Guide</h1>
+        <div class="step-one">Add HTML markup to your page for elements that you want to be expandable. For example:</div>
+<pre><code class="mix">
+  &lt;div class=&quot;expandable&quot;&gt;
+    &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed dot eiusmod tempor
+     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
+     exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor.
+    &lt;/p&gt;
+    &lt;p&gt;Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+    Excepteur sint occaecat cupidatat non proident, sunt inre culpa qui
+    officia deserunt mollit anim id est laborum.
+    &lt;/p&gt;
+  &lt;/div&gt;
+</code></pre>
+        <div class="step-two">Include the <strong>jQuery</strong> core file and the <strong>Expander</strong> plugin in your document. After these scripts are referenced, you can reference a custom script file to modify the expandable elements. You may, of course, name this custom file anything you wish and place it anywhere on your server. It is named <code>custom.js</code> here and placed in the "scripts" directory for demonstration purposes only. </div>
+        <br />
+<pre><code class="html">&lt;script src="jquery.js"&gt;&lt;/script&gt;
+&lt;script src="jquery.expander.js"&gt;&lt;/script&gt;
+
+&lt;script src="/scripts/custom.js"&gt;&lt;/script&gt;
+</code></pre>
+        <div class="step-three">In your custom script, select the elements you want to expand/collapse and call the <code>.expander()</code> method, with or without options.</div>
+<pre><code class="mix">
+// you can override default options globally, so they apply to every .expander() call
+$.expander.defaults.slicePoint = 120;
+
+$(document).ready(function() {
+  // simple example, using all default options unless overridden globally
+  $('div.expandable p').expander();
+
+  // *** OR ***
+
+  // override default options (also overrides global overrides)
+  $('div.expandable p').expander({
+    slicePoint:       80,  // default is 100
+    expandPrefix:     ' ', // default is '... '
+    expandText:       '[...]', // default is 'read more'
+    collapseTimer:    5000, // re-collapses after 5 seconds; default is 0, so no re-collapsing
+    userCollapseText: '[^]'  // default is 'read less'
+  });
+
+});
+</code></pre>
+
+<h2>Known Issue</h2>
+<p>See <a href="#options">API / Options</a> for more ways to customize the behavior and appearance of the expander.</p>
+      <p>A couple people have reported (in <a href="https://github.com/kswedberg/jquery-expander/issues/24">issue #24</a>) that after repeatedly expanding and collapsing some text the plugin appears to cause IE9 (and possibly older IEs) to crash. Since the plugin itself doesn&#8217;t do much when expanding/collapsing, my hunch (confirmed by one of the reporters) is that the crash has to do with animating the opacity of elements. I haven&#8217;t been able to reproduce the problem on my machine, which leads me to believe that certain graphics settings in Windows must also be contributing to the bug.</p>
+
+      <p>I&#8217;m not sure what the long-term fix will be, but if you need an immediate fix, you&#8217;ll need to set options for <code>expandEffect</code> and <code>collapseEffect</code>, as well as, possibly, <code>expandSpeed</code> and <code>collapseSpeed</code>.</p>
+
+      <p><strong>Workaround 1</strong>: use these options in your call to <code>.expander()</code>, along with any others you might want, to make the text expand and collapse with no transition:</p>
+
+<pre><code class="mix">
+{
+  expandEffect: 'show',
+  expandSpeed: 0,
+  collapseEffect: 'hide',
+  collapseSpeed: 0
+}
+</code></pre>
+
+      <p><strong>Workaround 2</strong>: use a &#8220;sliding&#8221; transition with these options in your call to <code>.expander()</code>, along with any others you might want:</p>
+
+<pre><code class="mix">
+{
+  expandEffect: 'slideDown',
+  collapseEffect: 'slideUp'
+}
+</code></pre>
+
+    </div>
+    <div id="demo" class="tabContent"></div>
+    <div id="options" class="tabContent">
+        <h1>Expander Plugin API / Options</h1>
+        <p>The Expander Plugin API provides a single method with a few options.</p>
+        <dl>
+            <dt><code class="method">expander(options)</code></dt>
+            <dd>Truncates an element's visible content at a specified location, collapsing the rest and allowing the user to expand it if he or she wishes. </dd>
+        </dl>
+<pre><code class="mix">$.expander.defaults = {
+  // the number of characters at which the contents will be sliced into two parts.
+  slicePoint: 100,
+
+  // a string of characters at which to slice the contents into two parts,
+  // but only if the string appears before slicePoint
+  // Useful for slicing at the first line break, e.g. {sliceOn: '<br'}
+  sliceOn: null,
+
+  // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
+  preserveWords: true,
+
+  // widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
+  // If after slicing the contents in two there are fewer words in the second part than
+  // the value set by widow, we won't bother hiding/collapsing anything.
+  widow: 4,
+
+  // text displayed in a link instead of the hidden part of the element.
+  // clicking this will expand/show the hidden/collapsed text
+  expandText: 'read more',
+  expandPrefix: '&hellip; ',
+
+  // class names for summary element and detail element
+  summaryClass: 'summary',
+  detailClass: 'details',
+
+  // one or more space-separated class names for span around
+  // "read-more" link and "read-less" link
+  moreClass: 'read-more',
+  lessClass: 'read-less',
+
+  // number of milliseconds after text has been expanded at which to collapse the text again.
+  // when 0, no auto-collapsing
+  collapseTimer: 0,
+
+  // effects for expanding and collapsing
+  expandEffect: 'fadeIn',
+  expandSpeed: 250,
+  collapseEffect: 'fadeOut',
+  collapseSpeed: 200,
+
+  // allow the user to re-collapse the expanded text.
+  userCollapse: true,
+
+  // text to use for the link to re-collapse the text
+  userCollapseText: 'read less',
+  userCollapsePrefix: ' ',
+
+
+  // all callback functions have the this keyword mapped to the element in the jQuery set when .expander() is called
+
+  onSlice: null, // function() {},
+  beforeExpand: null, // function() {},
+  afterExpand: null, // function() {},
+  onCollapse: null // function(byUser) {},
+  afterCollapse: null // function() {}
+};
+</code></pre>
+
+    </div>
+
+    <div id="download" class="tabContent">
+        <h1>Download</h1>
+        <p>The Expander Plugin is available at the GitHub repo: <a class="external" href="https://github.com/kswedberg/jquery-expander">/github.com/kswedberg/jquery-expander</a>.</p>
+        <p>The plugin comes with a <a href="http://plugins.learningjquery.com/expander/test/">set of unit tests</a> to ensure that it is working as expected.
+        </p>
+        <p>Please report bugs on the repo's <a href="https://github.com/kswedberg/jquery-expander/issues">issue tracker</a>.</p>
+
+    </div>
+</div> <!-- main -->
+
+</body></html>
