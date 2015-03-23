@@ -1,0 +1,28 @@
+.anchors { background-color: #eee; border-bottom: 1px solid #ccc; zoom:1 }
+.anchors, .sampleAnchors { list-style: none; margin: 0; padding: 0 0 1px; }
+.anchors:after, .sampleAnchors:after { display: block; clear: both; content: " "; }
+.anchors li { float: left; margin: 0 1px 0 0; }
+.anchors a, .sampleAnchors a {
+    display: block; position: relative; top: 1px; border: 1px solid #ccc;
+    border-bottom: 0; z-index: 2; padding: 2px 9px 1px; color: #444; text-decoration: none;
+}
+.anchors .on a { padding-bottom: 2px; font-weight: bold; }
+.anchors a:focus, .anchors a:active, .sampleAnchors a:focus, .sampleAnchors a:active { outline: none; }
+.anchors .on a, .anchors a:hover, .anchors a:focus, .anchors a:active { background: #fff; }
+.anchors .on a:link, .anchors .on a:visited {  cursor: text; }
+.anchors a:hover, .anchors a:focus, .anchors a:active { cursor: pointer; }
+.on { display: block; }
+.anchors a h2 { padding:0; margin:2px }
+.tabs-selected a { background-color: #fff; color: #000; font-weight: bold; border-bottom: 1px solid #fff; margin-bottom: -1px; overflow: visible }
+
+.tabContent { padding: 10px 25px; clear: left; background-color: #fff; margin: 0; zoom:1}
+.sampleTabContent { padding: 10px 25px; clear: left; background-color: #fff; margin: 0; border: 1px solid #ddd; zoom:1}
+.tabs-hide { display: none; background-color: #fff }
+
+.sampleAnchors a { display: block; }
+.sampleAnchors li { float: left; margin: 0 1px 0 0; }
+.sample-tab-selected a { background-color: #fff; color: #000; font-weight: bold; border-bottom: 1px solid #fff; margin-bottom: -1px; overflow: visible}
+
+.anchors a, .sampleAnchors a { font-family: 'trebuchet ms', verdana, arial }
+
+

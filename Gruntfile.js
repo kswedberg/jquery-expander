@@ -105,13 +105,13 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask( 'configs', 'Update json configs based on package.json', function() {
-    var pkg = grunt.file.readJSON('package.json'),
-        pkgBasename = grunt.config('pluginName'),
-        bowerFile = grunt.config('bower'),
-        bower = grunt.file.readJSON(bowerFile),
-        jqConfigFile = pkgBasename + '.jquery.json',
-        jqConfig = grunt.file.readJSON(jqConfigFile);
+  grunt.registerTask('configs', 'Update json configs based on package.json', function() {
+    var pkg = grunt.file.readJSON('package.json');
+    var pkgBasename = grunt.config('pluginName');
+    var bowerFile = grunt.config('bower');
+    var bower = grunt.file.readJSON(bowerFile);
+    var jqConfigFile = pkgBasename + '.jquery.json';
+    var jqConfig = grunt.file.readJSON(jqConfigFile);
 
     ['main', 'version', 'dependencies', 'keywords'].forEach(function(el) {
       bower[el] = pkg[el];
@@ -126,16 +126,22 @@ module.exports = function(grunt) {
     jqConfig.name = pkgBasename;
     bower.name = 'jquery.' + pkgBasename;
 
-    grunt.file.write( bowerFile, JSON.stringify(bower, null, 2) + '\n');
-    grunt.log.writeln( 'File "' + bowerFile + '" updated."' );
+    grunt.file.write(bowerFile, JSON.stringify(bower, null, 2) + '\n');
+    grunt.log.writeln('File "' + bowerFile + '" updated."');
 
-    grunt.file.write( jqConfigFile, JSON.stringify(jqConfig, null, 2) + '\n');
-    grunt.log.writeln( 'File "' + jqConfigFile + '" updated."' );
+    grunt.file.write(jqConfigFile, JSON.stringify(jqConfig, null, 2) + '\n');
+    grunt.log.writeln('File "' + jqConfigFile + '" updated."');
   });
 
   grunt.registerTask('test', ['jshint', 'qunit']);
   grunt.registerTask('build', ['test', 'version:same', 'configs', 'uglify']);
-  grunt.registerTask('patch', ['test', 'version:bannerPatch', 'version:patch', 'configs', 'uglify']);
+  grunt.registerTask('patch', [
+    'test',
+    'version:bannerPatch',
+    'version:patch',
+    'configs',
+    'uglify'
+  ]);
   grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');

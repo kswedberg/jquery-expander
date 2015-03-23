@@ -5,12 +5,11 @@
   <meta charset="utf-8">
 
   <title>jQuery Expander Plugin</title>
-  <link rel="stylesheet" media="screen" href="../../jq.css" />
-  <link rel="stylesheet" media="screen" href="/shared/tabs.css" />
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6/jquery.min.js"></script>
-  <script>!window.jQuery && document.write(unescape('%3Cscript src="/lib/jquery.js"%3E%3C/script%3E'));</script>
+  <link rel="stylesheet" media="screen" href="jq.css">
+  <link rel="stylesheet" media="screen" href="tabs.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-  <script src="/shared/chili-1.8.js"></script>
+  <script src="chili-1.8.js"></script>
   <script src="../jquery.expander.js"></script>
 
 <script>
@@ -19,20 +18,19 @@ $(document).ready(function() {
 
   $.each(['beforeExpand', 'afterExpand', 'onCollapse'], function(i, callback) {
     opts[callback] = function(byUser) {
-      var by, msg = '<div class="success">' + callback;
+      var msg = '<div class="success">' + callback;
 
-      if (callback == 'onCollapse') {
+      if (callback === 'onCollapse') {
         msg += ' (' + (byUser ? 'user' : 'timer') + ')';
       }
       msg += '</div>';
 
-      $(this).parent().parent().append(msg)
-    }
+      $(this).parent().parent().append(msg);
+    };
   });
 
   $('dl.expander dd').eq(0).expander();
   $('dl.expander dd').slice(1).expander(opts);
-
 
   $('ul.expander li').expander({
     slicePoint: 50,
@@ -43,7 +41,6 @@ $(document).ready(function() {
 
   $('div.expander').expander();
 });
-
 </script>
 <style media="screen">
   .test {
@@ -54,14 +51,8 @@ $(document).ready(function() {
 
 <body>
   <div><a id="logo" href="http://jquery.com" title="Powered By jQuery"></a></div>
-  <h1 id="banner"><a id="backnav" href="..">&lsaquo;&lsaquo; home</a>jQuery Expander Plugin</h1>
+  <h1 id="banner">jQuery Expander Plugin</h1>
   <div id="main">
-    <ul id="nav" class="anchors">
-      <li><a href="../index.html#getting-started">Overview</a></li>
-      <li class="tabs-selected"><a href="index.html">Demo</a></li>
-      <li><a href="../index.html#options">API / Options</a></li>
-      <li><a href="../index.html#download">Download &amp; Support</a></li>
-    </ul>
       <div id="getting-started" class="tabContent">
         <div id="example1">
           <h2>Example 1</h2>

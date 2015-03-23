@@ -1,0 +1,206 @@
+body, div { font-family: 'lucida grande', helvetica, verdana, arial, sans-serif; }
+body { margin: 0; padding: 0; font-size: small; color: #333; }
+h1, h2 { font-family: 'trebuchet ms', verdana, arial; padding: 10px; margin: 0; }
+h1 { font-size: large; }
+h2 { color: #800; padding-left:0; font-size: large; font-weight: normal; }
+table { border-collapse: collapse; }
+form { padding: 15px; background-color: #ffe; border: 1px solid #ddd; }
+td { vertical-align: top; }
+p { margin: 10px 0; }
+dl { margin-top: 0; }
+dt { color: #a00; font-weight: bold; }
+dd { margin: 0 0 1em 0; color: #555; }
+dl.options { margin: 10px 25px; }
+hr { height: 1px; background: #ccc; border: 0; margin: 1em 2em;}
+
+#main { padding: 0 20px 80px; }
+#main h1 { padding: 15px 10px 15px 0; }
+#banner { padding: 15px; background-color: #06b; color: white; font-size: large; border-bottom: 1px solid #ccc;
+    background: url(images/bg.gif) repeat-x; text-align: center; }
+#backnav { color: #fff; font-size: x-small; position: absolute; left: 10px; text-decoration: none; }
+#backnav:hover { color: #fff }
+#logo { background: url(images/jq.png); float: right; margin-top: 10px; margin-right: 10px; display: block; width: 110px; height: 31px; }
+
+#content { padding: 20px; }
+#busy { position: absolute; top: 7px; right: 7px; border: 1px ridge #ccc; background-color: #e95555; color: #eee; padding: 3px; display:none }
+#footer { padding-top: 20px; margin-top: 30px; border-top: 1px solid #ddd; color: #888; }
+
+.success { margin: .5em 0; padding: .25em; background-color: #dfd; border: 1px solid #292;}
+/***************************************
+   =text-children
+-------------------------------------- */
+
+.highlight {
+  background-color: #ff3;
+}
+#nth-pre-result code  {
+  color: #c00;
+  font-weight: bold;
+  font-style: normal;
+  float: left;
+  margin-top: .2em;
+  margin-bottom: .2em;
+  min-width: 300px;
+}
+* html #nth-pre-result code {
+  width: 300px;
+}
+#testform, #nth-query {
+  float: left;
+  width: 45%;
+}
+#nth-view-result {
+  clear: left;
+}
+#testform div {
+  margin-bottom: .5em;
+}
+#testform label {
+  padding-right: 6px;
+  width: 12em;
+  float: left;
+  clear: left;
+}
+#nth-options {
+  margin-top: 1.2em;
+}
+.nth-demo {
+  margin-top: .5em;
+}
+.nth-options {
+  margin-left: 1.5em;
+  clear: left;
+}
+#testform .nth-options label {
+  width: 10.5em;
+}
+.nth-end {
+  clear: left;
+}
+
+#nth-result {
+/*  height: 40px;*/
+  margin: 0 0 1em 0;
+  padding: 1em;
+  background: #ffc;
+  color: #00c;
+  border: 1px solid #ddd;
+  border-left-width: 5px
+}
+#testlist {
+  margin: 0 0 1em 0;
+  padding: 1em 1em 1em 2em;
+  background: #ffc;
+  border: 1px solid #ddd;
+  border-left-width: 5px
+}
+
+/***************************************/
+
+.footnotes {
+  margin-top: 4em;
+  padding-top: 1em;
+  border-top: 1px solid #ddd;
+}
+a.external {
+    background-image: url(images/external.png);
+    background-repeat: no-repeat;
+    background-position: center right;
+    padding-right: 12px;
+}
+
+div.step-one, div.step-two, div.step-three {
+    background-repeat: no-repeat;
+    background-position: center left;
+    margin-top: 20px;
+    min-height:43px;
+/*    vertical-align: middle;*/
+}
+.step-one:before,
+.step-two:before,
+.step-three:before {
+  font-size: 24px;
+  font-family: Helvetica, Arial, Verdana, sans-serif;
+  line-height: 1em;
+  float: left;
+  height: 20px;
+  width: 20px;
+  margin-top: -4px;
+  margin-right: 12px;
+  padding: 0px 0 4px 4px;
+
+  color: #fff;
+  text-shadow: 1px 1px 0 #00003B;
+  -webkit-border-radius: 1em;
+     -moz-border-radius: 1em;
+      -ms-border-radius: 1em;
+          border-radius: 1em;
+  background-color: #66A3DB;
+  border: 1px solid #0069DB;
+  background-image: -moz-linear-gradient(-90deg, #66A3DB , #0069DB );
+  background-image: -webkit-gradient(linear, 0 top, 0 bottom, from( #66A3DB ), to( #0069DB ));
+
+}
+div.step-one:before {
+  content: "1";
+}
+div.step-two:before {   content: "2"; }
+div.step-three:before {   content: "3";}
+
+img.logo { float: right; border:none; margin: 10px 10px 0 0; }
+.expander {
+  margin-left: 1.25em;
+}
+pre, ol {
+  line-height: 1.3em;
+}
+pre { margin-top: 2px; }
+pre { font-size: small; padding: 15px; background-color: #eee; border: 1px solid #ddd; border-left-width: 5px; overflow-x: auto; }
+pre.normal { background-color: transparent; border: none; border-left-width: 0; overflow-x: auto; }
+code { padding: 0; font-size: 108%; font-style: normal; }
+code.method { font-size: 150%; display: block; margin-top: 20px; }
+code.inline { background-color: #ffc; }
+code strong { color: #a00;}
+acronym {cursor: help; }
+
+/* syntax highlighting with Chili */
+.jscom, .mix .htcom , /*{ color: #4040c2; }*/
+.com,
+.comm     { color: gray; }
+.regexp   { color: maroon; }
+.string   { color: teal; }
+.keywords { color: blue; }
+.global   { color: #008; }
+.numbers  { color: #880; }
+
+.doctype,
+.tag      { color: blue; }
+.entity   { color: blue; }
+.string   { color: teal; }
+.aname    { color: maroon; }
+.avalue   { color: maroon; }
+.jquery   { color: #00a; }
+.plugin   { color: red; font-weight: bold;}
+.htcom    { color: green; }
+.php .tag       { color: purple; }
+.php .com       { color: green; }
+.php .const1    { color: maroon; }
+.php .const2    { color: maroon; }
+.php .function  { color: #e17100; }
+.php .global    { color: maroon; }
+.php .keyword   { color: blue; }
+.php .mlcom     { color: gray; }
+.php .name      { color: maroon; }
+.php .number    { color: #880; }
+.php .string1   { color: teal; }
+.php .string2   { color: teal; }
+.php .value     { color: gray; }
+.php .variable  { color: #e15c03; }
+
+.css .mlcom  { color: green; }
+.css .color  { color: black; }
+.css .string { color: teal; }
+.css .attrib { color: blue; }
+.css .value  { color: navy; }
+.css .number { color: #880; }
+
