@@ -38,6 +38,8 @@
 
       expandAfterSummary: false,
 
+      appendExpandPrefixToSummaryText: false,
+
       // Possible word endings to test against for when preserveWords: true
       wordEnd: /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
 
@@ -177,6 +179,10 @@
           }
 
           summaryText = backup(summaryText, o.preserveWords && allHtml.slice(summaryText.length).length);
+
+          if (o.appendExpandPrefixToSummaryText) {
+            summaryText = summaryText + '<span class="expandPrefix">' + o.expandPrefix + '</span>';
+          }
 
           // separate open tags from close tags and clean up the lists
           summOpens = summaryText.match(rOpenTag) || [];
@@ -402,7 +408,12 @@
     }
 
     function buildMoreLabel(o, detailText) {
-      var ret = '<span class="' + o.moreClass + '">' + o.expandPrefix;
+      var ret = '<span class="' + o.moreClass + '">';
+
+      if (!o.appendExpandPrefixToSummaryText) {
+        ret = ret + o.expandPrefix;
+        summaryText = summaryText + '<span class="expandPrefix">' + o.expandPrefix + '</span>';
+      }
 
       if (o.showWordCount) {
 
