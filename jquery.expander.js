@@ -39,7 +39,7 @@
       expandAfterSummary: false,
 
       // Possible word endings to test against for when preserveWords: true
-      wordEnd: /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
+      wordEnd: /(&(?:[^;]+;)?|[0-9a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
 
       // class names for summary element and detail element
       summaryClass: 'summary',
