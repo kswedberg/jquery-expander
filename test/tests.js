@@ -321,12 +321,18 @@ module('odd html', {
 
     $('#hidden-container').children('p').expander();
     this.hiddenContainer = $('#hidden-container');
+    this.preserveNumbers = $('#preserveNumbers').expander({
+      slicePoint: 35,
+      preserveWords: true
+    });
   },
   teardown: function() {
     this.endinghr.expander('destroy');
     this.sametag.expander('destroy');
     this.ampbr.expander('destroy');
     this.htmlescape.expander('destroy');
+    this.preserveNumbers.expander('destroy');
+
     $('#hidden-container').children('p').expander('destroy');
   }
 });
@@ -381,6 +387,12 @@ test('ampersands and line breaks', function() {
 test('split html escapes', function() {
   expect(1);
   equal(( this.htmlescape.text().charAt(97) !== '&'), true, 'correctly shifts stray "nbsp;" out of detailText');
+});
+
+test('preserve numbers as words', function() {
+  equal(this.preserveNumbers.find('.details').length, 1, 'created detail');
+  this.preserveNumbers.find('.read-more, .details').remove();
+  equal( $.trim(this.preserveNumbers.text()).length, 27, 'split at 27 characters, preserving the long number');
 });
 
 /* PRESET ELEMENTS */
