@@ -137,6 +137,19 @@ effects options.
     }
   });
   ```
+  
+## Injecting with CommonJS or AMD
+
+```js
+// CommonJS
+var jQuery = require('jquery');
+require('jquery-expander')(jQuery);
+
+// AMD
+define(['jquery', 'jquery-expander'], function (jQuery, expander) {
+  expander(jQuery)
+})
+```
 
 ## Demo
 
