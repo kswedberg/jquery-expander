@@ -5,7 +5,17 @@
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function($) {
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(function () {
+      return factory;
+    });
+  } else if (typeof module === 'object' && typeof module.exports === 'object') {
+    exports = factory;
+  } else {
+    factory(jQuery);
+  }
+})(function($) {
   $.expander = {
     version: '1.4.14',
     defaults: {
@@ -476,4 +486,4 @@
 
   // plugin defaults
   $.fn.expander.defaults = $.expander.defaults;
-})(jQuery);
+});
