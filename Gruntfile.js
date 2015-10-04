@@ -1,6 +1,10 @@
 /*global module:false*/
 
 module.exports = function(grunt) {
+  var versionedFiles = [
+    'package.json',
+    'jquery.<%= pluginName %>.js'
+  ];
 
   // Project configuration.
   grunt.initConfig({
@@ -81,20 +85,12 @@ module.exports = function(grunt) {
     },
     version: {
       patch: {
-        src: [
-          'package.json',
-          '<%= pluginName %>.jquery.json',
-          'bower.json',
-          'src/jquery.<%= pluginName %>.js',
-          'jquery.<%= pluginName %>.js'
-        ],
+        src: versionedFiles,
         options: {
           release: 'patch'
         }
       },
-      same: {
-        src: ['package.json', 'src/jquery.<%= pluginName %>.js', 'jquery.<%= pluginName %>.js']
-      },
+      same: versionedFiles,
       bannerPatch: {
         src: ['jquery.<%= pluginName %>.js'],
         options: {
@@ -105,41 +101,12 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('configs', 'Update json configs based on package.json', function() {
-    var pkg = grunt.file.readJSON('package.json');
-    var pkgBasename = grunt.config('pluginName');
-    var bowerFile = grunt.config('bower');
-    var bower = grunt.file.readJSON(bowerFile);
-    var jqConfigFile = pkgBasename + '.jquery.json';
-    var jqConfig = grunt.file.readJSON(jqConfigFile);
-
-    ['main', 'version', 'dependencies', 'keywords'].forEach(function(el) {
-      bower[el] = pkg[el];
-      jqConfig[el] = pkg[el];
-    });
-
-    ['author', 'repository', 'homepage', 'bugs', 'demo', 'licenses'].forEach(function(el) {
-      jqConfig[el] = pkg[el];
-    });
-
-    jqConfig.keywords.shift();
-    jqConfig.name = pkgBasename;
-    bower.name = 'jquery.' + pkgBasename;
-
-    grunt.file.write(bowerFile, JSON.stringify(bower, null, 2) + '\n');
-    grunt.log.writeln('File "' + bowerFile + '" updated."');
-
-    grunt.file.write(jqConfigFile, JSON.stringify(jqConfig, null, 2) + '\n');
-    grunt.log.writeln('File "' + jqConfigFile + '" updated."');
-  });
-
   grunt.registerTask('test', ['jshint', 'qunit']);
-  grunt.registerTask('build', ['test', 'version:same', 'configs', 'uglify']);
+  grunt.registerTask('build', ['test', 'version:same', 'uglify']);
   grunt.registerTask('patch', [
     'test',
     'version:bannerPatch',
     'version:patch',
-    'configs',
     'uglify'
   ]);
   grunt.registerTask('default', ['build']);
