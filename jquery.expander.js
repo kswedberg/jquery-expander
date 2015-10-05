@@ -11,7 +11,7 @@
       return factory;
     });
   } else if (typeof module === 'object' && typeof module.exports === 'object') {
-    exports = factory;
+    module.exports = factory;
   } else {
     factory(jQuery);
   }
