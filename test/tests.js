@@ -104,6 +104,7 @@ module('options', {
     this.slicenoabort = $('#sliceNOabort').expander({sliceOn: '~'});
     this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
     this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
+	this.whitespace = $('#preserveWhitespace').expander({normalizeWhitespace: false, slicePoint:20});
     this.sliceonmoreinfo = $('#sliceonmoreinfo').expander({
       slicePoint: 500,
       // userCollapse: false,
@@ -122,6 +123,11 @@ module('options', {
     this.wordcountsp.expander('destroy');
   }
 });
+
+test('no white space normalization', function() {
+	equal((this.whitespace.text().indexOf("\n") > -1), true, 'correctly preserves whitespace');
+});
+
 
 test('widow', function() {
   this.dds.expander({widow: 5});
@@ -394,6 +400,7 @@ test('preserve numbers as words', function() {
   this.preserveNumbers.find('.read-more, .details').remove();
   equal( $.trim(this.preserveNumbers.text()).length, 27, 'split at 27 characters, preserving the long number');
 });
+
 
 /* PRESET ELEMENTS */
 module('Preset Elements', {
