@@ -7,9 +7,7 @@
 
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
-    define(function () {
-      return factory;
-    });
+    define(['jquery'], factory);
   } else if (typeof module === 'object' && typeof module.exports === 'object') {
     module.exports = factory;
   } else {
