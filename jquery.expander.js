@@ -28,6 +28,9 @@
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
 
+      // whether to normalize the whitespace in the data to display (true) or not (false)
+      normalizeWhitespace: true,
+
       // whether to count and display the number of words inside the collapsed text
       showWordCount: false,
 
@@ -109,7 +112,7 @@
         delayedCollapse;
 
     var removeSpaces = function(str) {
-      return $.trim( str || '' ).replace(rMultiSpace, ' ');
+      return opts.normalizeWhitespace ? $.trim( str || '' ).replace(rMultiSpace, ' ') : str;
     };
 
     var methods = {
