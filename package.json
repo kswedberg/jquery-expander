@@ -2,7 +2,7 @@
   "name": "jquery-expander",
   "title": "jQuery Expander Plugin",
   "description": "Expand and collapse HTML content",
-  "version": "1.4.13",
+  "version": "1.5.1",
   "main": "jquery.expander.js",
   "repository": {
     "type": "git",
@@ -12,13 +12,14 @@
     "jquery": ">=1.3"
   },
   "devDependencies": {
-    "grunt-contrib-watch": "~0.2.0",
-    "grunt-contrib-jshint": "~0.1.1",
-    "grunt-contrib-uglify": "~0.1.1",
-    "grunt-contrib-concat": "~0.1.2",
-    "grunt-shell": "~0.2",
-    "grunt-contrib-qunit": "~0.1.1",
-    "grunt-version": "~0.2.1"
+    "grunt": "^0.4.5",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-contrib-qunit": "^0.7.0",
+    "grunt-contrib-uglify": "^0.9.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-shell": "^1.1.2",
+    "grunt-version": "^1.0.0"
   },
   "keywords": [
     "jquery-plugin",
@@ -35,10 +36,5 @@
     "email": "kswedberg@gmail.com",
     "url": "http://www.learningjquery.com/"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "http://www.opensource.org/licenses/mit-license.php"
-    }
-  ]
+  "license": "MIT"
 }

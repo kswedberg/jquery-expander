@@ -1,13 +1,21 @@
 /*!
- * jQuery Expander Plugin - v1.4.13 - 2014-10-05
+ * jQuery Expander Plugin - v1.5.1 - 2014-10-05
  * http://plugins.learningjquery.com/expander/
  * Copyright (c) 2014 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
-(function($) {
+(function (factory) {
+  if (typeof define === 'function' && define.amd) {
+    define(['jquery'], factory);
+  } else if (typeof module === 'object' && typeof module.exports === 'object') {
+    module.exports = factory;
+  } else {
+    factory(jQuery);
+  }
+})(function($) {
   $.expander = {
-    version: '1.4.13',
+    version: '1.5.1',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -19,6 +27,9 @@
 
       // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
       preserveWords: true,
+
+      // whether to normalize the whitespace in the data to display (true) or not (false)
+      normalizeWhitespace: true,
 
       // whether to count and display the number of words inside the collapsed text
       showWordCount: false,
@@ -39,7 +50,7 @@
       expandAfterSummary: false,
 
       // Possible word endings to test against for when preserveWords: true
-      wordEnd: /(&(?:[^;]+;)?|[a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
+      wordEnd: /(&(?:[^;]+;)?|[0-9a-zA-Z\u00C0-\u0100]+|[^\u0000-\u007F]+)$/,
 
       // class names for summary element and detail element
       summaryClass: 'summary',
@@ -101,7 +112,7 @@
         delayedCollapse;
 
     var removeSpaces = function(str) {
-      return $.trim( str || '' ).replace(rMultiSpace, ' ');
+      return opts.normalizeWhitespace ? $.trim( str || '' ).replace(rMultiSpace, ' ') : str;
     };
 
     var methods = {
@@ -476,4 +487,4 @@
 
   // plugin defaults
   $.fn.expander.defaults = $.expander.defaults;
-})(jQuery);
+});

@@ -4,10 +4,10 @@
   <title>Expander Plugin Tests</title>
   <link rel="stylesheet" href="qunit/qunit.css" type="text/css" media="screen">
 
-  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js"></script>
+  <script src="jquery.1.11.3.js"></script>
 
 
-  <script src="http://code.jquery.com/qunit/qunit-1.11.0.js"></script>
+  <script src="qunit/qunit.1.19.0.js"></script>
   <script src="../jquery.expander.js"></script>
   <script src="tests.js"></script>
 </head>
@@ -22,6 +22,16 @@
 <div id="nowidow">Music video by Ellie Goulding performing Lights. (C) 2011 Polydor Ltd. (UK)</div>
 <div id="wordcountesc">
   They wake up every day dreading the sunrise. Knowing every time... the gap between us becomes &amp; is too small for &nbsp; -thier- &nbsp; comfort.
+</div>
+<div id="preserveNumbers">
+Lorem ipsum ....... bla bla 1234567890 dolor sit amet
+</div>
+<div id="preserveWhitespace">
+Lorem ipsum ....... 
+	
+bla bla 1234567890 
+
+dolor sit amet
 </div>
 <div id="wordcountsp">
   They wake up every day dreading the sunrise. Knowing that every time, the gap between us becomes greater  ,   ,   ,   ,   , spaced  ,  ~  , and  .  sparce  ... - every day.
