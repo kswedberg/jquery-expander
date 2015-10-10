@@ -1,5 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
 <title>jQuery Expander Plugin</title>
@@ -8,7 +8,9 @@
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-
+<script>
+  $.browser = {};
+</script>
 <script src="lib/jquery.tabs.min.js"></script>
 <script src="lib/jquery.history.js"></script>
 <script src="demo/chili-1.8.js"></script>
@@ -125,11 +127,14 @@ $(document).ready(function() {
 
   // a string of characters at which to slice the contents into two parts,
   // but only if the string appears before slicePoint
-  // Useful for slicing at the first line break, e.g. {sliceOn: '<br'}
+  // Useful for slicing at the first line break, e.g. {sliceOn: '&lt;br'}
   sliceOn: null,
 
   // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
   preserveWords: true,
+
+  // whether to normalize the whitespace in the content to display (true) or not (false)
+  normalizeWhitespace: true,
 
   // widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
   // If after slicing the contents in two there are fewer words in the second part than

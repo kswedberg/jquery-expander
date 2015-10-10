@@ -28,6 +28,9 @@ sliceOn: null,
 // whether to keep the last word of the summary whole (true) or let it slice in the middle of a word (false)
 preserveWords: true,
 
+// whether to normalize the whitespace in the data to display (true) or not (false)
+normalizeWhitespace: true,
+
 // whether to count and display the number of words inside the collapsed text
 // This will either allow or prevent the word count 
 // (and thus the configurable wordCountText) from showing.
