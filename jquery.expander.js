@@ -288,7 +288,7 @@
           // build the html with summary and detail and use it to replace old contents
           html = buildHTML(o, hasBlocks);
 
-          $this.html( html );
+          $this.empty().append(html);
 
           // set up details and summary for expanding/collapsing
           $thisDetails = $this.find(detailSelector);

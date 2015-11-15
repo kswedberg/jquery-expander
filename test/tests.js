@@ -83,6 +83,21 @@ test('slicePoint 50, without preserving word boundaries', function() {
     equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
+test('slicePoint 10, without preserving word boundaries', function() {
+  var txtLength;
+  var slicePoint = 10;
+  var $div = $('div.kriskoon');
+  $div.expander({
+    slicePoint: slicePoint,
+    widow: 0,
+    preserveWords: false
+  });
+  $div.find('.details').remove();
+  $div.find('.read-more').remove();
+  txtLength = $.trim($div.text()).length;
+
+  equal(txtLength, slicePoint, 'div.kriskoon sliced to proper length: ' + slicePoint);
+});
 
 test('hides the right elements', function() {
   var dd = this.dd.eq(1);
