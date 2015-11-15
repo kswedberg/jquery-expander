@@ -12,6 +12,7 @@ module('single block', {
 
     this.msg = function(index, actual, pre) {
       pre = pre || 'sliced summary text to proper length: ';
+
       return pre + ddLengths[index] + ' -> ' + actual;
     };
   }
@@ -70,14 +71,14 @@ test('slicePoint 200, without preserving word boundaries', function() {
 });
 
 test('slicePoint 50, without preserving word boundaries', function() {
-  var dds = this.dd,
-      msg = this.msg;
-  dds.expander({slicePoint: 50, preserveWords: false});
+  var dds = this.dd;
+  var msg = this.msg;
+  var slicePoint = 50;
+  dds.expander({slicePoint: slicePoint, preserveWords: false});
   this.ex.find('.details').remove();
   this.ex.find('.read-more').remove();
   dds.each(function(index) {
-    var txtLength = $.trim($(this).text()).length,
-        slicePoint = 50;
+    var txtLength = $.trim($(this).text()).length;
 
     equal(txtLength, slicePoint, msg(index, txtLength));
   });
@@ -104,7 +105,8 @@ module('options', {
     this.slicenoabort = $('#sliceNOabort').expander({sliceOn: '~'});
     this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
     this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
-	this.whitespace = $('#preserveWhitespace').expander({normalizeWhitespace: false, slicePoint:20});
+	  this.whitespace = $('#preserveWhitespace').expander({normalizeWhitespace: false, slicePoint:20});
+
     this.sliceonmoreinfo = $('#sliceonmoreinfo').expander({
       slicePoint: 500,
       // userCollapse: false,
@@ -125,7 +127,7 @@ module('options', {
 });
 
 test('no white space normalization', function() {
-	equal((this.whitespace.text().indexOf("\n") > -1), true, 'correctly preserves whitespace');
+	equal((this.whitespace.text().indexOf('\n') > -1), true, 'correctly preserves whitespace');
 });
 
 

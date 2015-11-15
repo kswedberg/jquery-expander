@@ -207,7 +207,6 @@
           for (i = 0; i < l; i++) {
             summCloses[i] = summCloses[i].replace(rCloseTag, '$1');
           }
-
           // tags that start in summary and end in detail need:
           // a). close tag at end of summary
           // b). open tag at beginning of detail
@@ -241,7 +240,6 @@
             lastCloseTag = closeTagsForsummaryText.pop() || '';
             summaryText += closeTagsForsummaryText.join('');
             detailText = openTagsForDetails.join('') + detailText;
-
           } else {
             // assume that even if there are details, we still need readMore/readLess/summary elements
             // (we already bailed out earlier when readMore el was found)
@@ -399,6 +397,9 @@
         // and wrap it in a div
         summary = '<div class="' + o.summaryClass + '">' + summary + '</div>';
       } else {
+        if (!/^\s*</.test(summary)) {
+          // summary = '<span>' + summary + '</span>';
+        }
         summary += o.moreLabel;
       }
 
