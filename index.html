@@ -136,6 +136,17 @@ $(document).ready(function() {
   // whether to normalize the whitespace in the content to display (true) or not (false)
   normalizeWhitespace: true,
 
+  // whether to count and display the number of words inside the collapsed text
+  showWordCount: false,
+
+  // What to display around the counted number of words, set to '{{count}}' to show only the number
+  wordCountText: ' ({{count}} words)',
+
+  // text to include between summary and detail. Default ' ' prevents appearance of
+  // collapsing two words into one.
+  // Was hard-coded in script; now exposed as an option to fix issue #106.
+  detailPrefix: ' ',
+
   // widow: a threshold of sorts for whether to initially hide/collapse part of the element's contents.
   // If after slicing the contents in two there are fewer words in the second part than
   // the value set by widow, we won't bother hiding/collapsing anything.
