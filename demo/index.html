@@ -14,7 +14,11 @@
 
 <script>
 $(document).ready(function() {
-  var opts = {collapseTimer: 4000};
+  var opts = {
+    collapseTimer: 4000,
+    expandEffect: 'fadeIn',
+    collapseEffect: 'fadeOut',
+  };
 
   $.each(['beforeExpand', 'afterExpand', 'onCollapse'], function(i, callback) {
     opts[callback] = function(byUser) {
@@ -46,6 +50,7 @@ $(document).ready(function() {
   .test {
     background: #ffd;
   }
+
 </style>
 </head>
 

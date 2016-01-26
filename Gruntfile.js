@@ -6,6 +6,12 @@ module.exports = function(grunt) {
     'jquery.<%= pluginName %>.js'
   ];
 
+  var lintedFiles = [
+    'Gruntfile.js',
+    'jquery.expander.js',
+    'test/tests.js',
+  ];
+
   // Project configuration.
   grunt.initConfig({
     pluginName: 'expander',
@@ -55,14 +61,15 @@ module.exports = function(grunt) {
     },
     watch: {
       scripts: {
-        files: '<%= jshint.all %>',
-        tasks: ['jshint:all']
+        files: lintedFiles,
+        tasks: ['jshint:all', 'jscs']
       }
     },
     jshint: {
-      all: ['Gruntfile.js', 'src/**/*.js'],
+      all: lintedFiles,
       options: {
         curly: true,
+        node: true,
         eqeqeq: true,
         unused: true,
         immed: true,
@@ -76,8 +83,17 @@ module.exports = function(grunt) {
         browser: true,
         globals: {
           jQuery: true,
-          require: false
+          $: true,
+          define: true,
         }
+      }
+    },
+    jscs: {
+      src: lintedFiles,
+      options: {
+        config: '.jscsrc',
+        verbose: true,
+        fix: true,
       }
     },
     qunit: {
@@ -90,7 +106,9 @@ module.exports = function(grunt) {
           release: 'patch'
         }
       },
-      same: versionedFiles,
+      same: {
+        src: versionedFiles,
+      },
       bannerPatch: {
         src: ['jquery.<%= pluginName %>.js'],
         options: {
@@ -101,7 +119,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('test', ['jshint', 'qunit']);
+  grunt.registerTask('test', ['jshint', 'jscs', 'qunit']);
   grunt.registerTask('build', ['test', 'version:same', 'uglify']);
   grunt.registerTask('patch', [
     'test',
@@ -116,5 +134,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
+  grunt.loadNpmTasks('grunt-jscs');
   grunt.loadNpmTasks('grunt-version');
+
 };
