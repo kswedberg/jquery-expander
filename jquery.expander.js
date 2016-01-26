@@ -34,6 +34,11 @@
       // whether to count and display the number of words inside the collapsed text
       showWordCount: false,
 
+      // text to include between summary and detail. Default ' ' prevents appearance of
+      // collapsing two words into one.
+      // Was hard-coded in script; now exposed as an option to fix issue #106.
+      detailPrefix: ' ',
+
       // What to display around the counted number of words, set to '{{count}}' to show only the number
       wordCountText: ' ({{count}} words)',
 
@@ -410,7 +415,13 @@
 
       return [
         summary,
-        ' <',
+
+        // after summary, add an optional prefix. Default single space prevents last word of summary
+        // and first word of detail from collapsing together into what looks like a single word.
+        // (could also be done with CSS, but this feels more natural)
+        // Prefix made optional to fix issue #106
+        o.detailPrefix || '',
+        '<',
         el + ' class="' + o.detailClass + '"',
         '>',
         o.details,
