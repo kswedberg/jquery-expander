@@ -1,5 +1,5 @@
 /*!
- * jQuery Expander Plugin - v1.6.1 - 2015-11-15
+ * jQuery Expander Plugin - v1.6.2 - 2016-01-26
  * http://plugins.learningjquery.com/expander/
  * Copyright (c) 2015 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -15,7 +15,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '1.6.1',
+    version: '1.6.2',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,

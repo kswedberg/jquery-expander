@@ -32,9 +32,14 @@ preserveWords: true,
 normalizeWhitespace: true,
 
 // whether to count and display the number of words inside the collapsed text
-// This will either allow or prevent the word count 
+// This will either allow or prevent the word count
 // (and thus the configurable wordCountText) from showing.
 showWordCount: false,
+
+// text to include between summary and detail. Default ' ' prevents appearance of
+// collapsing two words into one.
+// Was hard-coded in script; now exposed as an option to fix issue #106.
+detailPrefix: ' ',
 
 // what to display around the counted number of words, set to '{{count}}' to show only the number
 wordCountText: ' ({{count}} words)',
@@ -113,17 +118,17 @@ effects options.
   );
   ```
 
-* As noted by a number of people (issue [#56], [#60]), this plugin can cause 
+* As noted by a number of people (issue [#56], [#60]), this plugin can cause
 "flickering" in its expandable elements on loading the webpage. It usually happens when multiple other scripts are present and the expander stalls during its initialization. It is (sadly) an issue that stems directly from its method of making expandable text, and cannot be fixed without changing what the plugin is, or how it operates. Nonetheless, the flicker can be prevented by the same semi-hacky fixes normally used for other FOUC (flash of unstyled content) issues:
 
-  1. Add a JS script in the head that will add a "js" class to the html element 
-  (see http://www.learningjquery.com/2008/10/1-way-to-avoid-the-flash-of-unstyled-content/). 
+  1. Add a JS script in the head that will add a "js" class to the html element
+  (see http://www.learningjquery.com/2008/10/1-way-to-avoid-the-flash-of-unstyled-content/).
   This is done by JavaScript so that the element will not be hidden for clients with their JavaScript disabled/inoperable.
 
   2. Add the following somewhere in your CSS (using your own class names):
     ```css
-    .js .myexpander.js-myexpander-hidden { 
-      display: none; 
+    .js .myexpander.js-myexpander-hidden {
+      display: none;
     }
     ```
 
@@ -140,7 +145,7 @@ effects options.
     }
   });
   ```
-  
+
 ## Injecting with CommonJS or AMD
 
 ```js
