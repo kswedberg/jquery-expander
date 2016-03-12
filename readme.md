@@ -73,6 +73,9 @@ expandSpeed: 250,
 collapseEffect: 'slideUp',
 collapseSpeed: 200,
 
+// start with the details expanded (and the "read-less" link showing)
+startExpanded: true,
+
 // allow the user to re-collapse the expanded text.
 userCollapse: true,
 
