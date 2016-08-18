@@ -1,7 +1,7 @@
 /* jshint -W003 */
 /*!
  * jQuery Expander Plugin - v1.7.0 - 2016-03-12
- * http://plugins.learningjquery.com/expander/
+ * https://kswedberg.github.io/jquery-expander/
  * Copyright (c) 2016 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
  */
