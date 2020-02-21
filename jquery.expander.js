@@ -1,6 +1,6 @@
 /* jshint -W003 */
 /*!
- * jQuery Expander Plugin - v1.7.0 - 2016-03-12
+ * jQuery Expander Plugin - v2.0.0 - 2020-02-20
  * https://kswedberg.github.io/jquery-expander/
  * Copyright (c) 2016 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
@@ -16,7 +16,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '1.7.0',
+    version: '2.0.0',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
