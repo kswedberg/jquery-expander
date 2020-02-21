@@ -132,6 +132,7 @@ module('options', {
     this.wordcountesc = $('#wordcountesc').expander({showWordCount: true});
     this.wordcountsp = $('#wordcountsp').expander({showWordCount: true});
     this.whitespace = $('#preserveWhitespace').expander({normalizeWhitespace: false, slicePoint: 20});
+    this.startExpanded = $('#startExpanded').expander({startExpanded: true});
 
     this.sliceonmoreinfo = $('#sliceonmoreinfo').expander({
       slicePoint: 500,
@@ -248,6 +249,20 @@ test('accurate word counting', function() {
   countIndex = this.wordcountsp.text().search('words');
   equal((this.wordcountsp.text().slice(countIndex - 3, countIndex + 6)), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
+
+test('startExpanded', function() {
+  expect(4);
+
+  var details = this.startExpanded.find('.details');
+  var readMore = this.startExpanded.find('.read-more');
+  var readLess = this.startExpanded.find('.read-less');
+
+  equal(details.length, 1, 'startExpanded details exist');
+  equal(details.is(':visible'), true, 'startExpanded details are visible');
+  equal(readMore.is(':hidden'), true, 'startExpanded read-more link is hidden');
+  equal(readLess.is(':visible'), true, 'startExpanded read-less link is visible');
+});
+
 test('sliceOn', function() {
   expect(5);
   this.sliceonmoreinfo.find('.summary').find('.read-more').remove();

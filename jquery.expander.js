@@ -1,7 +1,8 @@
+/* jshint -W003 */
 /*!
- * jQuery Expander Plugin - v1.6.2 - 2016-01-26
- * http://plugins.learningjquery.com/expander/
- * Copyright (c) 2015 Karl Swedberg
+ * jQuery Expander Plugin - v2.0.1 - 2020-02-20
+ * https://kswedberg.github.io/jquery-expander/
+ * Copyright (c) 2016 Karl Swedberg
  * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
  */
 
@@ -15,7 +16,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '1.6.2',
+    version: '2.0.1',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -317,6 +318,7 @@
 
           expand = function(event) {
             event.preventDefault();
+            var exSpeed = event.startExpanded ? 0 : expandSpeed;
             $readMore.hide();
             $summEl.hide();
 
@@ -324,7 +326,7 @@
               o.beforeExpand.call(thisEl);
             }
 
-            $thisDetails.stop(false, true)[o.expandEffect](expandSpeed, function() {
+            $thisDetails.stop(false, true)[o.expandEffect](exSpeed, function() {
               $thisDetails.css({zoom: ''});
 
               if (defined.afterExpand) {
@@ -334,7 +336,7 @@
             });
           };
 
-          $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
+          $readMore.find('a').off('click.expander').on('click.expander', expand);
 
           if (o.userCollapse && !$this.find(o.lessSelector).length) {
             $this
@@ -344,8 +346,8 @@
 
           $this
           .find(o.lessSelector + ' a')
-          .unbind('click.expander')
-          .bind('click.expander', function(event) {
+          .off('click.expander')
+          .on('click.expander', function(event) {
             event.preventDefault();
             clearTimeout(delayedCollapse);
             var $detailsCollapsed = $(this).closest(detailSelector);
@@ -355,6 +357,13 @@
               o.onCollapse.call(thisEl, true);
             }
           });
+
+          if (o.startExpanded) {
+            expand({
+              preventDefault: function() {},
+              startExpanded: true
+            });
+          }
 
         }); // this.each
       },

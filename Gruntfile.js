@@ -11,7 +11,28 @@ module.exports = function(grunt) {
     'jquery.expander.js',
     'test/tests.js',
   ];
+  var semv = ['patch', 'minor', 'major'];
+  var versions = {
+    same: {
+      src: versionedFiles,
+    },
+  };
 
+  semv.forEach((v) => {
+    versions[v] = {
+      src: versionedFiles,
+      options: {
+        release: v
+      }
+    };
+    versions[v + 'Banner'] = {
+      src: ['jquery.<%= pluginName %>.js'],
+      options: {
+        prefix: '- v',
+        release: v
+      }
+    }
+  });
   // Project configuration.
   grunt.initConfig({
     pluginName: 'expander',
@@ -99,34 +120,16 @@ module.exports = function(grunt) {
     qunit: {
       all: ['test/*.html']
     },
-    version: {
-      patch: {
-        src: versionedFiles,
-        options: {
-          release: 'patch'
-        }
-      },
-      same: {
-        src: versionedFiles,
-      },
-      bannerPatch: {
-        src: ['jquery.<%= pluginName %>.js'],
-        options: {
-          prefix: '- v',
-          release: 'patch'
-        }
-      }
-    }
+    version: versions
   });
 
   grunt.registerTask('test', ['jshint', 'jscs', 'qunit']);
   grunt.registerTask('build', ['test', 'version:same', 'uglify']);
-  grunt.registerTask('patch', [
-    'test',
-    'version:bannerPatch',
-    'version:patch',
-    'uglify'
-  ]);
+
+  // Register grunt major, grunt minor, and grunt patch
+  semv.forEach((v) => {
+    grunt.registerTask(v, ['version:' + v + 'Banner', 'version:' + v, 'uglify']);
+  })
   grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
