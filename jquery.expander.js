@@ -336,7 +336,7 @@
             });
           };
 
-          $readMore.find('a').unbind('click.expander').bind('click.expander', expand);
+          $readMore.find('a').off('click.expander').on('click.expander', expand);
 
           if (o.userCollapse && !$this.find(o.lessSelector).length) {
             $this
@@ -346,8 +346,8 @@
 
           $this
           .find(o.lessSelector + ' a')
-          .unbind('click.expander')
-          .bind('click.expander', function(event) {
+          .off('click.expander')
+          .on('click.expander', function(event) {
             event.preventDefault();
             clearTimeout(delayedCollapse);
             var $detailsCollapsed = $(this).closest(detailSelector);

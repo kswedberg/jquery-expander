@@ -114,11 +114,11 @@ effects options.
   $('#my-element')
   .expander('destroy')
   .html('<p>The HTML you want to replace the current html with goes here</p>')
-  .expander(
+  .expander({
     showWordCount: true,
     preserveWords: false,
     slicePoint: 30
-  );
+  });
   ```
 
 * As noted by a number of people (issue [#56], [#60]), this plugin can cause
