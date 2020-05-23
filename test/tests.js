@@ -1,4 +1,4 @@
-/*global module:false, test:false, equal:false, ok:false, asyncTest:false,start:false, expect: false */
+/* global test:false, equal:false, ok:false, asyncTest:false,start:false, expect: false */
 
 /* SINGLE BLOCK BASICS */
 module('single block', {
@@ -151,7 +151,7 @@ module('options', {
 });
 
 test('no white space normalization', function() {
-  equal((this.whitespace.text().indexOf('\n') > -1), true, 'correctly preserves whitespace');
+  equal(this.whitespace.text().indexOf('\n') > -1, true, 'correctly preserves whitespace');
 });
 
 test('widow', function() {
@@ -176,11 +176,11 @@ test('widow', function() {
 test('text and class names', function() {
   var dd = this.dds.first().expander({
     slicePoint: 80,
-    expandText:   'foo', // 'read more',
+    expandText: 'foo', // 'read more',
     expandPrefix: '', // '&hellip; ',
-    detailClass:  'expd',   // 'details',
-    moreClass:    'more', // 'read-more',
-    lessClass:    'less',  // 'read-less',
+    detailClass: 'expd', // 'details',
+    moreClass: 'more', // 'read-more',
+    lessClass: 'less', // 'read-less',
     moreLinkClass: 'linkMore', // 'more-link'
     lessLinkClass: 'linkLess' // 'less-link'
   });
@@ -201,8 +201,8 @@ test('text and class names', function() {
 
 test('multiple class names', function() {
   var dd = this.dds.first().expander({
-    moreClass:    'm1 m2', // 'read-more',
-    lessClass:    'l1 l2'  // 'read-less'
+    moreClass: 'm1 m2', // 'read-more',
+    lessClass: 'l1 l2' // 'read-less'
   });
 
   equal(dd.find('.m1')[0].className, 'm1 m2', 'read more class changed');
@@ -244,10 +244,10 @@ test('accurate word counting', function() {
   expect(2);
   var countIndex = this.wordcountesc.text().search('words');
 
-  equal((this.wordcountesc.text().slice(countIndex - 3, countIndex + 6)), '(6 words)', 'ignores common free-standing html escapes');
+  equal(this.wordcountesc.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores common free-standing html escapes');
 
   countIndex = this.wordcountsp.text().search('words');
-  equal((this.wordcountsp.text().slice(countIndex - 3, countIndex + 6)), '(6 words)', 'ignores double and triple spaces, and non-word characters');
+  equal(this.wordcountsp.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
 
 test('startExpanded', function() {
@@ -271,16 +271,17 @@ test('sliceOn', function() {
   var expectedSummaryText = 'Welcome to my website. I am a Canadian-born multidisciplinary designer, creative director and full-stack developer based in Dallas Texas, U.S. With over 15 years of experience in visual communications and web development, I have created and maintained numerous projects for various recognizable brands in North America. For a more detailed glimpse of my work history download my resume.';
 
   var sliceIndex = this.sliceonbreak.text().search('read');
-  equal((this.sliceonbreak.text().slice(0, sliceIndex).length), '57', 'find and slice before br tag');
+
+  equal(this.sliceonbreak.text().slice(0, sliceIndex).length, '57', 'find and slice before br tag');
 
   sliceIndex = this.sliceonchar.text().search('read');
-  equal((this.sliceonchar.text().slice(0, sliceIndex).length), '65', 'find and slice before arbitrary \'~\'');
+  equal(this.sliceonchar.text().slice(0, sliceIndex).length, '65', 'find and slice before arbitrary \'~\'');
 
   sliceIndex = this.sliceabort.text().search('read');
-  equal((this.sliceabort.text().slice(0, sliceIndex).length), '98', 'find and slice long-after br tag nested in anchor tags');
+  equal(this.sliceabort.text().slice(0, sliceIndex).length, '98', 'find and slice long-after br tag nested in anchor tags');
 
   sliceIndex = $.trim(this.slicenoabort.html() || '').indexOf('read');
-  equal((this.slicenoabort.text().slice(0, sliceIndex).length), '102', 'adjust slicePoint for html tags in summaryText');
+  equal(this.slicenoabort.text().slice(0, sliceIndex).length, '102', 'adjust slicePoint for html tags in summaryText');
 
   equal(sliceSummaryText, expectedSummaryText, 'adjust slicePoint for html tags in summaryText when sliceOn has html');
 });
@@ -451,7 +452,7 @@ test('ampersands and line breaks', function() {
 test('split html escapes', function() {
   expect(1);
 
-  equal((this.htmlescape.text().charAt(97) !== '&'), true, 'correctly shifts stray "nbsp;" out of detailText');
+  equal(this.htmlescape.text().charAt(97) !== '&', true, 'correctly shifts stray "nbsp;" out of detailText');
 });
 
 test('preserve numbers as words', function() {

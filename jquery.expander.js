@@ -123,7 +123,7 @@
       init: function() {
         this.each(function() {
           var i, l, tmp, newChar, summTagless, summOpens, summCloses,
-              lastCloseTag, detailText, detailTagless, html, expand;
+            lastCloseTag, detailText, detailTagless, html, expand;
           var $thisDetails, $readMore;
           var slicePointChanged;
           var openTagsForDetails = [];
@@ -159,7 +159,7 @@
           $.data(this, 'expanderInit', true);
           $.data(this, 'expander', o);
           // determine which callback functions are defined
-          $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
+          $.each(['onSlice', 'beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
             defined[val] = $.isFunction(o[val]);
           });
 
@@ -319,6 +319,7 @@
           expand = function(event) {
             event.preventDefault();
             var exSpeed = event.startExpanded ? 0 : expandSpeed;
+
             $readMore.hide();
             $summEl.hide();
 
@@ -351,6 +352,7 @@
             event.preventDefault();
             clearTimeout(delayedCollapse);
             var $detailsCollapsed = $(this).closest(detailSelector);
+
             reCollapse(o, $detailsCollapsed);
 
             if (defined.onCollapse) {
@@ -360,7 +362,7 @@
 
           if (o.startExpanded) {
             expand({
-              preventDefault: function() {},
+              preventDefault: function() {/* empty function */},
               startExpanded: true
             });
           }
@@ -443,7 +445,7 @@
 
       if (o.showWordCount) {
 
-        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
+        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
 
       } else {
         o.wordCountText = '';
@@ -471,7 +473,7 @@
 
         if (!prevMore.length) {
           el.parent().children('div.' + o.summaryClass).show()
-            .find('span.' + o.moreClass).show();
+          .find('span.' + o.moreClass).show();
         }
 
         if (o.afterCollapse) {
@@ -499,6 +501,7 @@
       // Replace sliceOn with placeholder unaffected by .text() cleaning
       // (in case sliceOn contains html)
       var summaryTextClean = info.summaryText.replace(info.sliceOn, sliceOnTemp);
+
       summaryTextClean = $('<div>' + summaryTextClean + '</div>').text();
 
       // Find true location of sliceOn placeholder
