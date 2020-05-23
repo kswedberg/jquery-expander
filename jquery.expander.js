@@ -133,7 +133,7 @@
           var thisEl = this;
           var $this = $(this);
           var $summEl = $([]);
-          var o = $.extend({}, opts, $this.data('expander') || $.meta && $this.data() || {});
+          var o = $.extend({}, opts, $this.data('expander') || {});
           var hasDetails = !!$this.find('.' + o.detailClass).length;
           var hasBlocks = !!$this.find('*').filter(function() {
             var display = $(this).css('display');
