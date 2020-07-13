@@ -16,7 +16,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '2.0.1',
+    version: '2.0.2',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -116,7 +116,7 @@
     var delayedCollapse;
 
     var removeSpaces = function(str) {
-      return opts.normalizeWhitespace ? $.trim(str || '').replace(rMultiSpace, ' ') : str;
+      return opts.normalizeWhitespace ? str.trim().replace(rMultiSpace, ' ') : str;
     };
 
     var methods = {
@@ -238,7 +238,7 @@
 
             // end script if there is no detail text or if detail has fewer words than widow option
             detailText = allHtml.slice(summaryText.length);
-            detailTagless = $.trim(detailText.replace(rOpenCloseTag, ''));
+            detailTagless = (detailText.replace(rOpenCloseTag, '')).trim();
 
             if (detailTagless === '' || detailTagless.split(/\s+/).length < o.widow) {
               return;
@@ -462,7 +462,7 @@
         txt = txt.replace(rAmpWordEnd, '');
       }
 
-      return $.trim(txt);
+      return txt.trim();
     }
 
     function reCollapse(o, el) {
