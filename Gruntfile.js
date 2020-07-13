@@ -31,7 +31,7 @@ module.exports = function(grunt) {
         prefix: '- v',
         release: v
       }
-    }
+    };
   });
   // Project configuration.
   grunt.initConfig({
@@ -102,6 +102,7 @@ module.exports = function(grunt) {
         boss: true,
         eqnull: true,
         browser: true,
+        esversion: 6,
         globals: {
           jQuery: true,
           $: true,
@@ -113,7 +114,6 @@ module.exports = function(grunt) {
       src: lintedFiles,
       options: {
         config: '.jscsrc',
-        verbose: true,
         fix: true,
       }
     },
@@ -129,7 +129,7 @@ module.exports = function(grunt) {
   // Register grunt major, grunt minor, and grunt patch
   semv.forEach((v) => {
     grunt.registerTask(v, ['version:' + v + 'Banner', 'version:' + v, 'uglify']);
-  })
+  });
   grunt.registerTask('default', ['build']);
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
