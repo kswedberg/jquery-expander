@@ -12,15 +12,16 @@
     "jquery": ">=1.7"
   },
   "devDependencies": {
+    "eslint": "^8.7.0",
     "eslint-config-kswedberg": "^4.1.1",
-    "grunt": "^1.1.0",
-    "grunt-contrib-concat": "^1.0.1",
-    "grunt-contrib-qunit": "^3.1.0",
-    "grunt-contrib-uglify": "^4.0.1",
+    "grunt": "^1.4.1",
+    "grunt-contrib-concat": "^2.0.0",
+    "grunt-contrib-qunit": "^5.1.1",
+    "grunt-contrib-uglify": "^5.0.1",
     "grunt-contrib-watch": "^1.1.0",
-    "grunt-eslint": "^23.0.0",
+    "grunt-eslint": "^24.0.0",
     "grunt-shell": "^3.0.1",
-    "grunt-version": "^2.0.0"
+    "grunt-version": "^3.0.0"
   },
   "keywords": [
     "jquery-plugin",
