@@ -109,7 +109,17 @@ effects options.
 
 ## Workarounds for inherent issues
 
+* For ideographic scripts, such as Chinese, the following options should be applied:
+
+  ```js
+  {
+    preserveWords: false,
+    widow: 0
+  }
+  ```
+
 * It is not possible to change the text inside an element that has had expander already applied to it, because elements are already split up into detail and summary texts. Almost everything that happens during initialization in expander needs to be repeated on a change in content to properly display the altered content. To do this, expander first needs to be destroyed, then reinitialized on the content (with settings).
+
   ```js
   $('#my-element')
   .expander('destroy')
@@ -121,33 +131,36 @@ effects options.
   });
   ```
 
-* As noted by a number of people (issue [#56], [#60]), this plugin can cause
+* As noted by a number of people (issues [#56](https://github.com/kswedberg/jquery-expander/issues/56), [#60](https://github.com/kswedberg/jquery-expander/issues/60)) this plugin can cause
 "flickering" in its expandable elements on loading the webpage. It usually happens when multiple other scripts are present and the expander stalls during its initialization. It is (sadly) an issue that stems directly from its method of making expandable text, and cannot be fixed without changing what the plugin is, or how it operates. Nonetheless, the flicker can be prevented by the same semi-hacky fixes normally used for other FOUC (flash of unstyled content) issues:
 
-  1. Add a JS script in the head that will add a "js" class to the html element
+1. Add a JS script in the head that will add a "js" class to the html element
   (see http://www.learningjquery.com/2008/10/1-way-to-avoid-the-flash-of-unstyled-content/).
   This is done by JavaScript so that the element will not be hidden for clients with their JavaScript disabled/inoperable.
 
-  2. Add the following somewhere in your CSS (using your own class names):
+2. Add the following somewhere in your CSS (using your own class names):
+
     ```css
     .js .myexpander.js-myexpander-hidden {
       display: none;
     }
     ```
 
-  3. Add a JS script that will execute later (bottom of body or within `$(document).ready()`):
+3. Add a JS script that will execute later (bottom of body or within `$(document).ready()`):
+
     ```js
     $('.myexpander').expander().removeClass('js-myexpander-hidden');
     ```
 
-  3.5. If you still see a little "flash" of unstyled content, add this script to remove the class in an onSlice callback:
-  ```js
-  $(.myexpander).expander({
-    onSlice: function() {
-      $(this).removeClass('js-myexpander-hidden');
-    }
-  });
-  ```
+    a. If you still see a little "flash" of unstyled content, add this script to remove the class in an onSlice callback:
+
+     ```js
+     $(.myexpander).expander({
+       onSlice: function() {
+         $(this).removeClass('js-myexpander-hidden');
+       }
+     });
+     ```
 
 ## Injecting with CommonJS or AMD
 

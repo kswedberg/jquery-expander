@@ -1,4 +1,4 @@
-Copyright 2012, Karl Swedberg
+Copyright 2022, Karl Swedberg
 Licensed under the MIT license:
 
 ~~~~~~~~~~~~~~~~~~

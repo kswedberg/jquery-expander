@@ -1,5 +1,3 @@
-/*global module:false*/
-
 module.exports = function(grunt) {
   var versionedFiles = [
     'package.json',
@@ -9,16 +7,16 @@ module.exports = function(grunt) {
   var lintedFiles = [
     'Gruntfile.js',
     'jquery.expander.js',
-    'test/tests.js',
+    'test/tests.js'
   ];
   var semv = ['patch', 'minor', 'major'];
   var versions = {
     same: {
-      src: versionedFiles,
-    },
+      src: versionedFiles
+    }
   };
 
-  semv.forEach((v) => {
+  semv.forEach(function(v) {
     versions[v] = {
       src: versionedFiles,
       options: {
@@ -31,7 +29,7 @@ module.exports = function(grunt) {
         prefix: '- v',
         release: v
       }
-    }
+    };
   });
   // Project configuration.
   grunt.initConfig({
@@ -83,39 +81,11 @@ module.exports = function(grunt) {
     watch: {
       scripts: {
         files: lintedFiles,
-        tasks: ['jshint:all', 'jscs']
+        tasks: ['eslint', 'qunit']
       }
     },
-    jshint: {
-      all: lintedFiles,
-      options: {
-        curly: true,
-        node: true,
-        eqeqeq: true,
-        unused: true,
-        immed: true,
-        latedef: true,
-        newcap: true,
-        noarg: true,
-        sub: true,
-        undef: true,
-        boss: true,
-        eqnull: true,
-        browser: true,
-        globals: {
-          jQuery: true,
-          $: true,
-          define: true,
-        }
-      }
-    },
-    jscs: {
-      src: lintedFiles,
-      options: {
-        config: '.jscsrc',
-        verbose: true,
-        fix: true,
-      }
+    eslint: {
+      target: lintedFiles
     },
     qunit: {
       all: ['test/*.html']
@@ -123,21 +93,20 @@ module.exports = function(grunt) {
     version: versions
   });
 
-  grunt.registerTask('test', ['jshint', 'jscs', 'qunit']);
+  grunt.registerTask('test', ['eslint', 'qunit']);
   grunt.registerTask('build', ['test', 'version:same', 'uglify']);
 
   // Register grunt major, grunt minor, and grunt patch
-  semv.forEach((v) => {
+  semv.forEach(function(v) {
     grunt.registerTask(v, ['version:' + v + 'Banner', 'version:' + v, 'uglify']);
-  })
+  });
   grunt.registerTask('default', ['build']);
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-qunit');
-  grunt.loadNpmTasks('grunt-jscs');
+  grunt.loadNpmTasks('grunt-eslint');
   grunt.loadNpmTasks('grunt-version');
 
 };

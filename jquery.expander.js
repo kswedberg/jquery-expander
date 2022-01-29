@@ -1,9 +1,10 @@
+// @ts-nocheck
 /* jshint -W003 */
 /*!
- * jQuery Expander Plugin - v2.0.1 - 2020-02-20
+ * jQuery Expander Plugin - v2.0.2 - 2022-01-29
  * https://kswedberg.github.io/jquery-expander/
- * Copyright (c) 2016 Karl Swedberg
- * Licensed MIT (http://www.opensource.org/licenses/mit-license.php)
+ * Copyright (c) 2022 Karl Swedberg
+ * Licensed MIT (http://kswedberg.mit-license.org/)
  */
 
 (function(factory) {
@@ -16,7 +17,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '2.0.1',
+    version: '2.0.2',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
@@ -112,18 +113,19 @@
     var rCloseTag = /<\/(\w+)>/g;
     var rLastCloseTag = /(<\/([^>]+)>)\s*$/;
     var rTagPlus = /^(<[^>]+>)+.?/;
+    var rTrim = /(?:^\s+|\s+$)/g;
     var rMultiSpace = /\s\s+/g;
     var delayedCollapse;
 
     var removeSpaces = function(str) {
-      return opts.normalizeWhitespace ? $.trim(str || '').replace(rMultiSpace, ' ') : str;
+      return opts.normalizeWhitespace ? (str || '').replace(rTrim, '').replace(rMultiSpace, ' ') : str;
     };
 
     var methods = {
       init: function() {
         this.each(function() {
           var i, l, tmp, newChar, summTagless, summOpens, summCloses,
-              lastCloseTag, detailText, detailTagless, html, expand;
+            lastCloseTag, detailText, detailTagless, html, expand;
           var $thisDetails, $readMore;
           var slicePointChanged;
           var openTagsForDetails = [];
@@ -133,7 +135,7 @@
           var thisEl = this;
           var $this = $(this);
           var $summEl = $([]);
-          var o = $.extend({}, opts, $this.data('expander') || $.meta && $this.data() || {});
+          var o = $.extend({}, opts, $this.data('expander') || {});
           var hasDetails = !!$this.find('.' + o.detailClass).length;
           var hasBlocks = !!$this.find('*').filter(function() {
             var display = $(this).css('display');
@@ -159,7 +161,7 @@
           $.data(this, 'expanderInit', true);
           $.data(this, 'expander', o);
           // determine which callback functions are defined
-          $.each(['onSlice','beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
+          $.each(['onSlice', 'beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
             defined[val] = $.isFunction(o[val]);
           });
 
@@ -238,7 +240,7 @@
 
             // end script if there is no detail text or if detail has fewer words than widow option
             detailText = allHtml.slice(summaryText.length);
-            detailTagless = $.trim(detailText.replace(rOpenCloseTag, ''));
+            detailTagless = detailText.replace(rOpenCloseTag, '').replace(rTrim, '');
 
             if (detailTagless === '' || detailTagless.split(/\s+/).length < o.widow) {
               return;
@@ -319,6 +321,7 @@
           expand = function(event) {
             event.preventDefault();
             var exSpeed = event.startExpanded ? 0 : expandSpeed;
+
             $readMore.hide();
             $summEl.hide();
 
@@ -351,6 +354,7 @@
             event.preventDefault();
             clearTimeout(delayedCollapse);
             var $detailsCollapsed = $(this).closest(detailSelector);
+
             reCollapse(o, $detailsCollapsed);
 
             if (defined.onCollapse) {
@@ -360,7 +364,7 @@
 
           if (o.startExpanded) {
             expand({
-              preventDefault: function() {},
+              preventDefault: function() {/* empty function */},
               startExpanded: true
             });
           }
@@ -443,7 +447,7 @@
 
       if (o.showWordCount) {
 
-        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/\&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
+        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
 
       } else {
         o.wordCountText = '';
@@ -462,7 +466,7 @@
         txt = txt.replace(rAmpWordEnd, '');
       }
 
-      return $.trim(txt);
+      return txt.replace(rTrim, '');
     }
 
     function reCollapse(o, el) {
@@ -471,7 +475,7 @@
 
         if (!prevMore.length) {
           el.parent().children('div.' + o.summaryClass).show()
-            .find('span.' + o.moreClass).show();
+          .find('span.' + o.moreClass).show();
         }
 
         if (o.afterCollapse) {
@@ -499,6 +503,7 @@
       // Replace sliceOn with placeholder unaffected by .text() cleaning
       // (in case sliceOn contains html)
       var summaryTextClean = info.summaryText.replace(info.sliceOn, sliceOnTemp);
+
       summaryTextClean = $('<div>' + summaryTextClean + '</div>').text();
 
       // Find true location of sliceOn placeholder
