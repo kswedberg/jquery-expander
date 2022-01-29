@@ -2,7 +2,7 @@
   "name": "jquery-expander",
   "title": "jQuery Expander Plugin",
   "description": "Expand and collapse HTML content",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "main": "jquery.expander.js",
   "repository": {
     "type": "git",

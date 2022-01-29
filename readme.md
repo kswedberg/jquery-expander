@@ -134,11 +134,11 @@ effects options.
 * As noted by a number of people (issues [#56](https://github.com/kswedberg/jquery-expander/issues/56), [#60](https://github.com/kswedberg/jquery-expander/issues/60)) this plugin can cause
 "flickering" in its expandable elements on loading the webpage. It usually happens when multiple other scripts are present and the expander stalls during its initialization. It is (sadly) an issue that stems directly from its method of making expandable text, and cannot be fixed without changing what the plugin is, or how it operates. Nonetheless, the flicker can be prevented by the same semi-hacky fixes normally used for other FOUC (flash of unstyled content) issues:
 
-  1. Add a JS script in the head that will add a "js" class to the html element
+1. Add a JS script in the head that will add a "js" class to the html element
   (see http://www.learningjquery.com/2008/10/1-way-to-avoid-the-flash-of-unstyled-content/).
   This is done by JavaScript so that the element will not be hidden for clients with their JavaScript disabled/inoperable.
 
-  2. Add the following somewhere in your CSS (using your own class names):
+2. Add the following somewhere in your CSS (using your own class names):
 
     ```css
     .js .myexpander.js-myexpander-hidden {
@@ -146,21 +146,21 @@ effects options.
     }
     ```
 
-  3. Add a JS script that will execute later (bottom of body or within `$(document).ready()`):
+3. Add a JS script that will execute later (bottom of body or within `$(document).ready()`):
 
     ```js
     $('.myexpander').expander().removeClass('js-myexpander-hidden');
     ```
 
-  3.5. If you still see a little "flash" of unstyled content, add this script to remove the class in an onSlice callback:
+    a. If you still see a little "flash" of unstyled content, add this script to remove the class in an onSlice callback:
 
-  ```js
-  $(.myexpander).expander({
-    onSlice: function() {
-      $(this).removeClass('js-myexpander-hidden');
-    }
-  });
-  ```
+     ```js
+     $(.myexpander).expander({
+       onSlice: function() {
+         $(this).removeClass('js-myexpander-hidden');
+       }
+     });
+     ```
 
 ## Injecting with CommonJS or AMD
 
