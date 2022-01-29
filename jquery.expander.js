@@ -112,11 +112,12 @@
     var rCloseTag = /<\/(\w+)>/g;
     var rLastCloseTag = /(<\/([^>]+)>)\s*$/;
     var rTagPlus = /^(<[^>]+>)+.?/;
+    var rTrim = /(?:^\s+|\s+$)/g;
     var rMultiSpace = /\s\s+/g;
     var delayedCollapse;
 
     var removeSpaces = function(str) {
-      return opts.normalizeWhitespace ? $.trim(str || '').replace(rMultiSpace, ' ') : str;
+      return opts.normalizeWhitespace ? (str || '').replace(rTrim, '').replace(rMultiSpace, ' ') : str;
     };
 
     var methods = {
@@ -238,7 +239,7 @@
 
             // end script if there is no detail text or if detail has fewer words than widow option
             detailText = allHtml.slice(summaryText.length);
-            detailTagless = $.trim(detailText.replace(rOpenCloseTag, ''));
+            detailTagless = detailText.replace(rOpenCloseTag, '').replace(rTrim, '');
 
             if (detailTagless === '' || detailTagless.split(/\s+/).length < o.widow) {
               return;
@@ -464,7 +465,7 @@
         txt = txt.replace(rAmpWordEnd, '');
       }
 
-      return $.trim(txt);
+      return txt.replace(rTrim, '');
     }
 
     function reCollapse(o, el) {
