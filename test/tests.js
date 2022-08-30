@@ -1,8 +1,9 @@
-/* global test:false, equal:false, ok:false, asyncTest:false,start:false, expect: false */
+    // @ts-nocheck
+/* global QUnit:false */
 
 /* SINGLE BLOCK BASICS */
-module('single block', {
-  setup: function() {
+QUnit.module('single block', {
+  beforeEach: function() {
     this.ex = $('dl.expander');
     this.dd = this.ex.find('dd');
 
@@ -18,15 +19,15 @@ module('single block', {
   }
 });
 
-test('basic element creation', function() {
+QUnit.test('basic element creation', function(assert) {
   this.dd.expander({preserveWords: false});
 
-  equal(this.ex.find('.summary').length, 0, 'no summary containers for content with no block elements');
-  equal(this.dd.length - this.ex.find('.details').length, 1, 'all but one dd get expander treatment');
-  equal(this.dd.length - this.ex.find('.read-more').length, 1, 'all but one dd get read-more link');
+  assert.equal(this.ex.find('.summary').length, 0, 'no summary containers for content with no block elements');
+  assert.equal(this.dd.length - this.ex.find('.details').length, 1, 'all but one dd get expander treatment');
+  assert.equal(this.dd.length - this.ex.find('.read-more').length, 1, 'all but one dd get read-more link');
 });
 
-test('text slicing without preserving word boundaries', function() {
+QUnit.test('text slicing without preserving word boundaries', function(assert) {
   var dds = this.dd;
   var msg = this.msg;
 
@@ -38,11 +39,11 @@ test('text slicing without preserving word boundaries', function() {
     var txtLength = $.trim($(this).text()).length;
     var slicePoint = index === dds.length - 1 ? 92 : 100;
 
-    equal(txtLength, slicePoint, msg(index, txtLength));
+    assert.equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
-test('text slicing with word boundaries', function() {
+QUnit.test('text slicing with word boundaries', function(assert) {
   var dds = this.dd;
   var msg = this.msg;
 
@@ -54,11 +55,11 @@ test('text slicing with word boundaries', function() {
     var txtLength = $.trim($(this).text()).length;
     var slicePoint = index === dds.length - 1 ? 92 : 97;
 
-    equal(txtLength, slicePoint, msg(index, txtLength));
+    assert.equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
-test('slicePoint 200, without preserving word boundaries', function() {
+QUnit.test('slicePoint 200, without preserving word boundaries', function(assert) {
   var dds = this.dd;
   var msg = this.msg;
 
@@ -70,11 +71,11 @@ test('slicePoint 200, without preserving word boundaries', function() {
     var txtLength = $.trim($(this).text()).length;
     var slicePoint = index === dds.length - 1 ? 92 : 200;
 
-    equal(txtLength, slicePoint, msg(index, txtLength));
+    assert.equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
 
-test('slicePoint 50, without preserving word boundaries', function() {
+QUnit.test('slicePoint 50, without preserving word boundaries', function(assert) {
   var dds = this.dd;
   var msg = this.msg;
   var slicePoint = 50;
@@ -86,10 +87,10 @@ test('slicePoint 50, without preserving word boundaries', function() {
   dds.each(function(index) {
     var txtLength = $.trim($(this).text()).length;
 
-    equal(txtLength, slicePoint, msg(index, txtLength));
+    assert.equal(txtLength, slicePoint, msg(index, txtLength));
   });
 });
-test('slicePoint 10, without preserving word boundaries', function() {
+QUnit.test('slicePoint 10, without preserving word boundaries', function(assert) {
   var txtLength;
   var slicePoint = 10;
   var $div = $('div.kriskoon');
@@ -105,23 +106,23 @@ test('slicePoint 10, without preserving word boundaries', function() {
 
   txtLength = $.trim($div.text()).length;
 
-  equal(txtLength, slicePoint, 'div.kriskoon sliced to proper length: ' + slicePoint);
+  assert.equal(txtLength, slicePoint, 'div.kriskoon sliced to proper length: ' + slicePoint);
 });
 
-test('hides the right elements', function() {
+QUnit.test('hides the right elements', function(assert) {
   var dd = this.dd.eq(1);
 
   dd.expander();
 
-  ok(dd.find('.details').is(':hidden'), 'details div is hidden');
-  ok(dd.find('.read-more a').is(':visible'), 'read-more link is visible');
-  ok(dd.find('.read-less a').is(':hidden'), 'read-less link is hidden');
+  assert.ok(dd.find('.details').is(':hidden'), 'details div is hidden');
+  assert.ok(dd.find('.read-more a').is(':visible'), 'read-more link is visible');
+  assert.ok(dd.find('.read-less a').is(':hidden'), 'read-less link is hidden');
 
 });
 
 /* PLUGIN OPTIONS */
-module('options', {
-  setup: function() {
+QUnit.module('options', {
+  beforeEach: function() {
     this.ex = $('dl.options');
     this.dds = this.ex.find('dd');
     this.nowidow = $('#nowidow');
@@ -144,17 +145,17 @@ module('options', {
       }
     });
   },
-  teardown: function() {
+  afterEach: function() {
     this.wordcountesc.expander('destroy');
     this.wordcountsp.expander('destroy');
   }
 });
 
-test('no white space normalization', function() {
-  equal(this.whitespace.text().indexOf('\n') > -1, true, 'correctly preserves whitespace');
+QUnit.test('no white space normalization', function(assert) {
+  assert.equal(this.whitespace.text().indexOf('\n') > -1, true, 'correctly preserves whitespace');
 });
 
-test('widow', function() {
+QUnit.test('widow', function(assert) {
   this.dds.expander({widow: 5});
   this.nowidow.expander({widow: 0, slicePoint: 300});
   var secondDetails = this.dds.eq(1).find('.details');
@@ -165,15 +166,15 @@ test('widow', function() {
   // trim the detail text (because we do so in the plugin) before counting the words
   var secondDetailText = $.trim(secondDetails.text());
 
-  equal(this.dds.first().find('.details').length, 0, 'first dd ignored due to widow');
-  equal(this.dds.eq(1).find('.details').length, 1, '2nd dd widow long enough');
-  equal(secondDetailText.split(/\s+/).length, 6, '2nd dd has 6 words');
+  assert.equal(this.dds.first().find('.details').length, 0, 'first dd ignored due to widow');
+  assert.equal(this.dds.eq(1).find('.details').length, 1, '2nd dd widow long enough');
+  assert.equal(secondDetailText.split(/\s+/).length, 6, '2nd dd has 6 words');
 
-  equal(this.nowidow.find('.read-more').length, 0, 'no read-more, even with widow: 0; fixes #17');
-  equal(this.nowidow.find('.details').length, 0, 'no details, even with widow: 0; fixes #17');
+  assert.equal(this.nowidow.find('.read-more').length, 0, 'no read-more, even with widow: 0; fixes #17');
+  assert.equal(this.nowidow.find('.details').length, 0, 'no details, even with widow: 0; fixes #17');
 
 });
-test('text and class names', function() {
+QUnit.test('text and class names', function(assert) {
   var dd = this.dds.first().expander({
     slicePoint: 80,
     expandText: 'foo', // 'read more',
@@ -185,86 +186,87 @@ test('text and class names', function() {
     lessLinkClass: 'linkLess' // 'less-link'
   });
 
-  equal(dd.find('.more').length, 1, 'read more class changed');
-  equal(dd.find('.read-more').length, 0, 'read more class changed');
-  equal(dd.find('.less').length, 1, 'read less class changed');
-  equal(dd.find('.read-less').length, 0, 'read less class changed');
-  equal(dd.find('.linkMore').length, 1, 'more link class changed');
-  equal(dd.find('.more-link').length, 0, 'more link class changed');
-  equal(dd.find('.linkLess').length, 1, 'less link class changed');
-  equal(dd.find('.less-link').length, 0, 'less link class changed');
-  equal(dd.find('.expd').length, 1, 'details class changed');
-  equal(dd.find('.details').length, 0, 'details class changed');
-  equal(dd.find('.more a').text(), 'foo', 'expandText changed');
-  equal(dd.find('.more').text(), 'foo', 'expandPrefix changed');
+  assert.equal(dd.find('.more').length, 1, 'read more class changed');
+  assert.equal(dd.find('.read-more').length, 0, 'read more class changed');
+  assert.equal(dd.find('.less').length, 1, 'read less class changed');
+  assert.equal(dd.find('.read-less').length, 0, 'read less class changed');
+  assert.equal(dd.find('.linkMore').length, 1, 'more link class changed');
+  assert.equal(dd.find('.more-link').length, 0, 'more link class changed');
+  assert.equal(dd.find('.linkLess').length, 1, 'less link class changed');
+  assert.equal(dd.find('.less-link').length, 0, 'less link class changed');
+  assert.equal(dd.find('.expd').length, 1, 'details class changed');
+  assert.equal(dd.find('.details').length, 0, 'details class changed');
+  assert.equal(dd.find('.more a').text(), 'foo', 'expandText changed');
+  assert.equal(dd.find('.more').text(), 'foo', 'expandPrefix changed');
 });
 
-test('multiple class names', function() {
+QUnit.test('multiple class names', function(assert) {
   var dd = this.dds.first().expander({
     moreClass: 'm1 m2', // 'read-more',
     lessClass: 'l1 l2' // 'read-less'
   });
 
-  equal(dd.find('.m1')[0].className, 'm1 m2', 'read more class changed');
-  equal(dd.find('.l1')[0].className, 'l1 l2', 'read more class changed');
+  assert.equal(dd.find('.m1')[0].className, 'm1 m2', 'read more class changed');
+  assert.equal(dd.find('.l1')[0].className, 'l1 l2', 'read more class changed');
 
   dd.find('.m1 a').triggerHandler('click');
 
-  ok(dd.find('.m1.m2 a').is(':hidden'), 'multi-read-more link hides after being clicked');
-  ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
-  ok(dd.find('.l1.l2').is(':visible'), 'multi-read-less class is shown after clicking read-more link');
+  assert.ok(dd.find('.m1.m2 a').is(':hidden'), 'multi-read-more link hides after being clicked');
+  assert.ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
+  assert.ok(dd.find('.l1.l2').is(':visible'), 'multi-read-less class is shown after clicking read-more link');
 
 });
-test('userCollapse false', function() {
+QUnit.test('userCollapse false', function(assert) {
   var dd = this.dds.eq(2).expander({userCollapse: false});
 
-  equal(dd.find('.details').length, 1, 'has details');
-  equal(dd.find('.read-more').length, 1, 'has "read more"');
-  equal(dd.find('.read-less').length, 0, 'does NOT have user-collapse "read less"');
+  assert.equal(dd.find('.details').length, 1, 'has details');
+  assert.equal(dd.find('.read-more').length, 1, 'has "read more"');
+  assert.equal(dd.find('.read-less').length, 0, 'does NOT have user-collapse "read less"');
 });
 
-asyncTest('auto collapse', function() {
+QUnit.test('auto collapse', function(assert) {
   var dd = this.dds.eq(2).expander({collapseSpeed: 0, collapseTimer: 400});
+  var done = assert.async();
 
-  equal(dd.find('.details:visible').length, 0, 'details initially hidden');
+  assert.equal(dd.find('.details:visible').length, 0, 'details initially hidden');
 
   dd.find('.read-more a').trigger('click');
 
-  equal(dd.find('.details:visible').length, 1, 'details visible on click');
+  assert.equal(dd.find('.details:visible').length, 1, 'details visible on click');
 
   setTimeout(function() {
-    equal(dd.find('.details:visible').length, 0, 'details hidden again after timer');
-    equal(dd.find('.read-more:visible').length, 1, 'read-more visible again after timer');
-    start();
+    assert.equal(dd.find('.details:visible').length, 0, 'details hidden again after timer');
+    assert.equal(dd.find('.read-more:visible').length, 1, 'read-more visible again after timer');
+    done();
   }, 850);
 
 });
 
-test('accurate word counting', function() {
-  expect(2);
+QUnit.test('accurate word counting', function(assert) {
+  assert.expect(2);
   var countIndex = this.wordcountesc.text().search('words');
 
-  equal(this.wordcountesc.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores common free-standing html escapes');
+  assert.equal(this.wordcountesc.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores common free-standing html escapes');
 
   countIndex = this.wordcountsp.text().search('words');
-  equal(this.wordcountsp.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores double and triple spaces, and non-word characters');
+  assert.equal(this.wordcountsp.text().slice(countIndex - 3, countIndex + 6), '(6 words)', 'ignores double and triple spaces, and non-word characters');
 });
 
-test('startExpanded', function() {
-  expect(4);
+QUnit.test('startExpanded', function(assert) {
+  assert.expect(4);
 
   var details = this.startExpanded.find('.details');
   var readMore = this.startExpanded.find('.read-more');
   var readLess = this.startExpanded.find('.read-less');
 
-  equal(details.length, 1, 'startExpanded details exist');
-  equal(details.is(':visible'), true, 'startExpanded details are visible');
-  equal(readMore.is(':hidden'), true, 'startExpanded read-more link is hidden');
-  equal(readLess.is(':visible'), true, 'startExpanded read-less link is visible');
+  assert.equal(details.length, 1, 'startExpanded details exist');
+  assert.equal(details.is(':visible'), true, 'startExpanded details are visible');
+  assert.equal(readMore.is(':hidden'), true, 'startExpanded read-more link is hidden');
+  assert.equal(readLess.is(':visible'), true, 'startExpanded read-less link is visible');
 });
 
-test('sliceOn', function() {
-  expect(5);
+QUnit.test('sliceOn', function(assert) {
+  assert.expect(5);
   this.sliceonmoreinfo.find('.summary').find('.read-more').remove();
 
   var sliceSummaryText = this.sliceonmoreinfo.find('.summary').text().replace(/\s+$/, '');
@@ -272,100 +274,100 @@ test('sliceOn', function() {
 
   var sliceIndex = this.sliceonbreak.text().search('read');
 
-  equal(this.sliceonbreak.text().slice(0, sliceIndex).length, '57', 'find and slice before br tag');
+  assert.equal(this.sliceonbreak.text().slice(0, sliceIndex).length, '57', 'find and slice before br tag');
 
   sliceIndex = this.sliceonchar.text().search('read');
-  equal(this.sliceonchar.text().slice(0, sliceIndex).length, '65', 'find and slice before arbitrary \'~\'');
+  assert.equal(this.sliceonchar.text().slice(0, sliceIndex).length, '65', 'find and slice before arbitrary \'~\'');
 
   sliceIndex = this.sliceabort.text().search('read');
-  equal(this.sliceabort.text().slice(0, sliceIndex).length, '98', 'find and slice long-after br tag nested in anchor tags');
+  assert.equal(this.sliceabort.text().slice(0, sliceIndex).length, '98', 'find and slice long-after br tag nested in anchor tags');
 
   sliceIndex = $.trim(this.slicenoabort.html() || '').indexOf('read');
-  equal(this.slicenoabort.text().slice(0, sliceIndex).length, '102', 'adjust slicePoint for html tags in summaryText');
+  assert.equal(this.slicenoabort.text().slice(0, sliceIndex).length, '102', 'adjust slicePoint for html tags in summaryText');
 
-  equal(sliceSummaryText, expectedSummaryText, 'adjust slicePoint for html tags in summaryText when sliceOn has html');
+  assert.equal(sliceSummaryText, expectedSummaryText, 'adjust slicePoint for html tags in summaryText when sliceOn has html');
 });
 
 /* EVENT HANDLING */
-module('event handling', {
-  setup: function() {
+QUnit.module('event handling', {
+  beforeEach: function() {
     this.dd = $('dl.expander').find('dd').first().expander({collapseSpeed: 0});
   }
 });
 
-test('click events', function() {
+QUnit.test('click events', function(assert) {
   var dd = this.dd;
 
   dd.find('.read-more a').triggerHandler('click');
 
-  ok(dd.find('.read-more a').is(':hidden'), 'read-more link hides after being clicked');
-  ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
-  ok(dd.find('.read-less').is(':visible'), 'read-less is shown after clicking read-more link');
+  assert.ok(dd.find('.read-more a').is(':hidden'), 'read-more link hides after being clicked');
+  assert.ok(dd.find('.details').is(':visible'), 'details are shown after clicking read-more link');
+  assert.ok(dd.find('.read-less').is(':visible'), 'read-less is shown after clicking read-more link');
 
   dd.find('.read-less a').triggerHandler('click');
 
-  equal(dd.find('.read-less a:hidden').length, 1, 'read-less link hides after being clicked');
-  equal(dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
-  equal(dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
+  assert.equal(dd.find('.read-less a:hidden').length, 1, 'read-less link hides after being clicked');
+  assert.equal(dd.find('.details:hidden').length, 1, 'details are hidden after clicking read-less link');
+  assert.equal(dd.find('.read-more:visible').length, 1, 'read-more is shown after clicking read-less link');
 });
 
-test('destroy expander', function() {
-  expect(5);
+QUnit.test('destroy expander', function(assert) {
+  assert.expect(5);
   var dd = this.dd;
 
   dd.expander('destroy');
 
-  equal(dd.find('.read-more').length, 0, 'read-more element removed');
-  equal(dd.find('.read-less').length, 0, 'read-less element removed');
-  equal(dd.find('.details').length, 0, 'details tag removed');
-  ok((/^\s*Beatrice's Answer/).test(dd.text()), 'summary text preserved');
-  ok((/Much Ado About Nothing/).test(dd.text()), 'detail text preserved');
+  assert.equal(dd.find('.read-more').length, 0, 'read-more element removed');
+  assert.equal(dd.find('.read-less').length, 0, 'read-less element removed');
+  assert.equal(dd.find('.details').length, 0, 'details tag removed');
+  assert.ok((/^\s*Beatrice's Answer/).test(dd.text()), 'summary text preserved');
+  assert.ok((/Much Ado About Nothing/).test(dd.text()), 'detail text preserved');
 });
 
 /* MULTIPLE BLOCKS */
-module('multiple blocks', {
-  setup: function() {
+QUnit.module('multiple blocks', {
+  beforeEach: function() {
     this.ex = $('#hello').expander();
     this.anchor = $('#anchor-test').expander();
   }
 });
 
-test('basic element creation', function() {
-  equal(this.ex.find('div.details').length, 1, 'created detail');
-  equal(this.ex.find('div.summary').length, 1, 'created summary');
+QUnit.test('basic element creation', function(assert) {
+  assert.equal(this.ex.find('div.details').length, 1, 'created detail');
+  assert.equal(this.ex.find('div.summary').length, 1, 'created summary');
 });
 
-test('text slicing with word boundaries', function() {
+QUnit.test('text slicing with word boundaries', function(assert) {
   this.ex.find('.read-more').remove();
   var txt = $.trim(this.ex.find('div.summary').text());
 
-  equal(txt.length, 97, 'sliced summary text to proper length');
+  assert.equal(txt.length, 97, 'sliced summary text to proper length');
 });
 
-test('Read more link not nested in closing link', function() {
+QUnit.test('Read more link not nested in closing link', function(assert) {
 
   if ($('.read-more .more-link').length === 1) {
-    ok(false);
+    assert.ok(false);
   } else {
-    ok(true);
+    assert.ok(true);
   }
 });
 
-test('destroy expander', function() {
-  expect(6);
+QUnit.test('destroy expander', function(assert) {
+  assert.expect(6);
   this.ex.expander('destroy');
 
-  equal(this.ex.find('.read-more').length, 0, 'read-more element removed');
-  equal(this.ex.find('.read-less').length, 0, 'read-less element removed');
-  equal(this.ex.find('.details').length, 0, 'details tag removed');
-  equal(this.ex.find('.summary').length, 0, 'summary element removed');
-  ok((/^\s*Beatrice's Answer/).test(this.ex.text()), 'summary text preserved');
-  ok((/Much Ado About Nothing/).test(this.ex.text()), 'detail text preserved');
+  assert.equal(this.ex.find('.read-more').length, 0, 'read-more element removed');
+  assert.equal(this.ex.find('.read-less').length, 0, 'read-less element removed');
+  assert.equal(this.ex.find('.details').length, 0, 'details tag removed');
+  assert.equal(this.ex.find('.summary').length, 0, 'summary element removed');
+  assert.ok((/^\s*Beatrice's Answer/).test(this.ex.text()), 'summary text preserved');
+  assert.ok((/Much Ado About Nothing/).test(this.ex.text()), 'detail text preserved');
 });
 
 /* ODD HTML */
-module('odd html', {
-  setup: function() {
+QUnit.module('odd html', {
+  beforeEach: function() {
     this.zzz = $('#zzz').expander({widow: 0, preserveWords: false});
     this.endinghr = $('.long-description').expander({
       userCollapseText: '&and; view less &and;',
@@ -384,7 +386,7 @@ module('odd html', {
       preserveWords: true
     });
   },
-  teardown: function() {
+  afterEach: function() {
     this.endinghr.expander('destroy');
     this.sametag.expander('destroy');
     this.ampbr.expander('destroy');
@@ -395,7 +397,7 @@ module('odd html', {
   }
 });
 
-test('non-English characters', function() {
+QUnit.test('non-English characters', function(assert) {
   var chineseLength, txtLength, chinese;
   var nonEng = $('#non-eng').expander();
 
@@ -414,31 +416,31 @@ test('non-English characters', function() {
 
   chineseLength = $.trim(chinese.text()).length;
 
-  equal(txtLength, 97, 'sliced summary text to proper length, even with non-English characters');
-  equal(chineseLength, 100, 'sliced summary text to proper length with Chinese characters');
+  assert.equal(txtLength, 97, 'sliced summary text to proper length, even with non-English characters');
+  assert.equal(chineseLength, 100, 'sliced summary text to proper length with Chinese characters');
 });
 
-test('single long string, no child elements', function() {
-  equal(this.zzz.find('.details').length, 1, 'created detail');
+QUnit.test('single long string, no child elements', function(assert) {
+  assert.equal(this.zzz.find('.details').length, 1, 'created detail');
 
   this.zzz.find('.read-more, .details').remove();
 
-  equal($.trim(this.zzz.text()).length, 100, 'split at 100 characters');
+  assert.equal($.trim(this.zzz.text()).length, 100, 'split at 100 characters');
 });
 
-test('same tag', function() {
-  expect(2);
+QUnit.test('same tag', function(assert) {
+  assert.expect(2);
 
-  equal(this.sametag.find('b').length, 2, 'retains correct total &lt;b&gt;');
-  equal(this.sametag.find('.details').find('b').length, 1, 'details have correct total &lt;b&gt;');
+  assert.equal(this.sametag.find('b').length, 2, 'retains correct total &lt;b&gt;');
+  assert.equal(this.sametag.find('.details').find('b').length, 1, 'details have correct total &lt;b&gt;');
 });
 
-test('ampersands and line breaks', function() {
-  expect(3);
+QUnit.test('ampersands and line breaks', function(assert) {
+  assert.expect(3);
   var summ = '';
 
-  equal(this.ampbr.find('br').length, 4, 'retains correct total number of ampersands');
-  equal(this.ampbr.find('.details').length, 1, 'summary/detail have correct number of ampersands');
+  assert.equal(this.ampbr.find('br').length, 4, 'retains correct total number of ampersands');
+  assert.equal(this.ampbr.find('.details').length, 1, 'summary/detail have correct number of ampersands');
 
   this.ampbr.find('.details').remove();
   this.ampbr.find('.read-more').remove();
@@ -446,56 +448,56 @@ test('ampersands and line breaks', function() {
 
   summ = $.trim(this.ampbr.text());
 
-  equal(summ.slice(-4), 'Test', 'splits successfully on ampersands');
+  assert.equal(summ.slice(-4), 'Test', 'splits successfully on ampersands');
 });
 
-test('split html escapes', function() {
-  expect(1);
+QUnit.test('split html escapes', function(assert) {
+  assert.expect(1);
 
-  equal(this.htmlescape.text().charAt(97) !== '&', true, 'correctly shifts stray "nbsp;" out of detailText');
+  assert.equal(this.htmlescape.text().charAt(97) !== '&', true, 'correctly shifts stray "nbsp;" out of detailText');
 });
 
-test('preserve numbers as words', function() {
-  equal(this.preserveNumbers.find('.details').length, 1, 'created detail');
+QUnit.test('preserve numbers as words', function(assert) {
+  assert.equal(this.preserveNumbers.find('.details').length, 1, 'created detail');
 
   this.preserveNumbers.find('.read-more, .details').remove();
 
-  equal($.trim(this.preserveNumbers.text()).length, 27, 'split at 27 characters, preserving the long number');
+  assert.equal($.trim(this.preserveNumbers.text()).length, 27, 'split at 27 characters, preserving the long number');
 });
 
 /* PRESET ELEMENTS */
-module('Preset Elements', {
-  setup: function() {
+QUnit.module('Preset Elements', {
+  beforeEach: function() {
     this.li = $('#presets').children().expander();
   },
-  teardown: function() {
+  afterEach: function() {
     this.li.expander('destroy');
   }
 });
 
-test('shorter than slicePoint but more/less/detail preset', function() {
+QUnit.test('shorter than slicePoint but more/less/detail preset', function(assert) {
   var li = this.li.eq(0);
 
-  equal(li.find('span.details').length, 1, 'kept one detail');
+  assert.equal(li.find('span.details').length, 1, 'kept one detail');
 
-  equal(li.find('span.read-more').length, 1, 'kept one read-more');
-  ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
+  assert.equal(li.find('span.read-more').length, 1, 'kept one read-more');
+  assert.ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
 
-  equal(li.find('span.read-less').length, 1, 'created one read-less');
-  ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
+  assert.equal(li.find('span.read-less').length, 1, 'created one read-less');
+  assert.ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
 
 });
 
-test('multi-block with only detail preset', function() {
+QUnit.test('multi-block with only detail preset', function(assert) {
   var li = this.li.eq(1);
 
-  equal(li.find('.details').length, 1, 'kept one detail');
-  equal(li.find('div.summary').length, 1, 'created one summary');
+  assert.equal(li.find('.details').length, 1, 'kept one detail');
+  assert.equal(li.find('div.summary').length, 1, 'created one summary');
 
-  equal(li.find('span.read-more').length, 1, 'created one read-more');
-  ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
+  assert.equal(li.find('span.read-more').length, 1, 'created one read-more');
+  assert.ok(li.find('span.read-more').is(':visible'), 'read-more initially visible');
 
-  equal(li.find('span.read-less').length, 1, 'created one read-less');
-  ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
+  assert.equal(li.find('span.read-less').length, 1, 'created one read-less');
+  assert.ok(li.find('span.read-less').is(':hidden'), 'read-less initially hidden');
 
 });
