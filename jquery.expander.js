@@ -466,7 +466,7 @@
         txt = txt.replace(rAmpWordEnd, '');
       }
 
-      return txt.replace(rTrim, '');
+      return opts.normalizeWhitespace ? txt.replace(rTrim, '') : txt
     }
 
     function reCollapse(o, el) {
