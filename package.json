@@ -9,19 +9,20 @@
     "url": "https://github.com/kswedberg/jquery-expander.git"
   },
   "dependencies": {
-    "jquery": ">=1.7"
+    "jquery": ">=3.6.1"
   },
   "devDependencies": {
-    "eslint": "^8.7.0",
-    "eslint-config-kswedberg": "^4.1.1",
+    "eslint": "^8.23.0",
+    "eslint-config-kswedberg": "^5.1.1",
     "grunt": "^1.4.1",
-    "grunt-contrib-concat": "^2.0.0",
-    "grunt-contrib-qunit": "^5.1.1",
-    "grunt-contrib-uglify": "^5.0.1",
+    "grunt-contrib-concat": "^2.1.0",
+    "grunt-contrib-qunit": "^6.2.0",
+    "grunt-contrib-uglify": "^5.2.2",
     "grunt-contrib-watch": "^1.1.0",
     "grunt-eslint": "^24.0.0",
-    "grunt-shell": "^3.0.1",
-    "grunt-version": "^3.0.0"
+    "grunt-shell": "^4.0.0",
+    "grunt-version": "^3.0.0",
+    "qunit": "^2.19.1"
   },
   "keywords": [
     "jquery-plugin",
