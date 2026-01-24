@@ -932,14 +932,14 @@ grunt-shell@^4.0.0:
     strip-ansi "^6.0.1"
 
 grunt-version@^3.0.0:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/grunt-version/-/grunt-version-3.0.1.tgz#e19eba52b66aac629c766670f404f4a41ba0341f"
-  integrity sha512-GBGCQffBZVYlRAnZn5qJ+4E+u4hH0VfhYjQoLqPSfeTO1QuSoG3CR7p4dK3v/gHp3ct9kN2pZrOJnutsdbEUvA==
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/grunt-version/-/grunt-version-3.0.2.tgz#35f50dff2b78ed8c2e282df2bc271142c15a46b5"
+  integrity sha512-tD/RCuwRaHnKa7Mdh9Hh0lA+Ia1ossIw0R5kVQ2g64KHKB8zT7huBsdkoJ5WHgkUHC7DPGbR6v2K/N0CGVsHZg==
   dependencies:
-    grunt "^1.4.1"
-    semver "^7.5.4"
+    grunt "^1.6.1"
+    semver "^7.6.3"
 
-grunt@^1.4.1:
+grunt@^1.4.1, grunt@^1.6.1:
   version "1.6.1"
   resolved "https://registry.yarnpkg.com/grunt/-/grunt-1.6.1.tgz#0b4dd1524f26676dcf45d8f636b8d9061a8ede16"
   integrity sha512-/ABUy3gYWu5iBmrUSRBP97JLpQUm0GgVveDCp6t3yRNIoltIYw7rEj3g5y1o2PGPR2vfTRGa7WC/LZHLTXnEzA==
@@ -1584,9 +1584,9 @@ queue-microtask@^1.2.2:
   integrity sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==
 
 qunit@^2.19.1:
-  version "2.24.3"
-  resolved "https://registry.yarnpkg.com/qunit/-/qunit-2.24.3.tgz#7db9a60d9bf902dad2271ee2386a672f22c97d2a"
-  integrity sha512-JTHwSfHf2Cw8TqusZo2tT4F9d+XA/pp/veoxUDiPNHtB1Wc1VPctiHHIv6HA3vrXNOBu9LSzFM7YU2OV9Gz4vQ==
+  version "2.25.0"
+  resolved "https://registry.yarnpkg.com/qunit/-/qunit-2.25.0.tgz#a9bc86543971f378a0af64e81292fbef6c12e1b8"
+  integrity sha512-MONPKgjavgTqArCwZOEz8nEMbA19zNXIp5ZOW9rPYj5cbgQp0fiI36c9dPTSzTRRzx+KcfB5eggYB/ENqxi0+w==
   dependencies:
     commander "7.2.0"
     node-watch "0.7.3"
@@ -1672,7 +1672,7 @@ safe-json-parse@~1.0.1:
   resolved "https://registry.yarnpkg.com/safer-buffer/-/safer-buffer-2.1.2.tgz#44fa161b0187b9549dd84bb91802f9bd8385cd6a"
   integrity sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==
 
-semver@^7.5.4:
+semver@^7.6.3:
   version "7.7.3"
   resolved "https://registry.yarnpkg.com/semver/-/semver-7.7.3.tgz#4b5f4143d007633a8dc671cd0a6ef9147b8bb946"
   integrity sha512-SdsKMrI9TdgjdweUSR9MweHA4EJ8YxHn8DFaDisvhVlUOe4BF1tLD7GAj0lIqWVl+dPb/rExr0Btby5loQm20Q==
