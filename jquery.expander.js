@@ -162,7 +162,7 @@
           $.data(this, 'expander', o);
           // determine which callback functions are defined
           $.each(['onSlice', 'beforeExpand', 'afterExpand', 'onCollapse', 'afterCollapse'], function(index, val) {
-            defined[val] = $.isFunction(o[val]);
+            defined[val] = typeof o[val] === 'function';
           });
 
           // back up if we're in the middle of a tag or word
@@ -466,7 +466,7 @@
         txt = txt.replace(rAmpWordEnd, '');
       }
 
-      return opts.normalizeWhitespace ? txt.replace(rTrim, '') : txt
+      return opts.normalizeWhitespace ? txt.replace(rTrim, '') : txt;
     }
 
     function reCollapse(o, el) {
@@ -489,7 +489,7 @@
         delayedCollapse = setTimeout(function() {
           reCollapse(option, $collapseEl);
 
-          if ($.isFunction(option.onCollapse)) {
+          if (typeof option.onCollapse === 'function') {
             option.onCollapse.call(thisEl, false);
           }
         }, option.collapseTimer);
