@@ -17,7 +17,7 @@
   }
 })(function($) {
   $.expander = {
-    version: '2.0.2',
+    version: '2.0.3',
     defaults: {
       // the number of characters at which the contents will be sliced into two parts.
       slicePoint: 100,
