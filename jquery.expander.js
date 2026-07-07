@@ -447,7 +447,11 @@
 
       if (o.showWordCount) {
 
-        o.wordCountText = o.wordCountText.replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '').replace(/&(?:amp|nbsp);/g, '').replace(/(?:^\s+|\s+$)/, '').match(/\w+/g).length);
+        o.wordCountText = o.wordCountText
+        .replace(/\{\{count\}\}/, detailText.replace(rOpenCloseTag, '')
+        .replace(/&(?:amp|nbsp);/g, '')
+        .replace(/(?:^\s+|\s+$)/, '')
+        .match(/\w+/g).length);
 
       } else {
         o.wordCountText = '';
@@ -474,8 +478,11 @@
         var prevMore = el.prev('span.' + o.moreClass).show();
 
         if (!prevMore.length) {
-          el.parent().children('div.' + o.summaryClass).show()
-          .find('span.' + o.moreClass).show();
+          el.parent()
+          .children('div.' + o.summaryClass)
+          .show()
+          .find('span.' + o.moreClass)
+          .show();
         }
 
         if (o.afterCollapse) {

@@ -1,5 +1,4 @@
-    // @ts-nocheck
-/* global QUnit:false */
+// @ts-nocheck
 
 /* SINGLE BLOCK BASICS */
 QUnit.module('single block', {
@@ -291,7 +290,8 @@ QUnit.test('sliceOn', function(assert) {
 /* EVENT HANDLING */
 QUnit.module('event handling', {
   beforeEach: function() {
-    this.dd = $('dl.expander').find('dd').first().expander({collapseSpeed: 0});
+    this.dd = $('dl.expander').find('dd').first()
+    .expander({collapseSpeed: 0});
   }
 });
 
